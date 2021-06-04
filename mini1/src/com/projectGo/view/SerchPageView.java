@@ -32,7 +32,7 @@ public class SerchPageView {
 		ArrayList<Store> printList;
 		for (Store s : new StoreSort().recommendStore(mainList)) {
 
-			System.out.println(s.getStoreName() + "     " + s.getStoreIntoduce() + "      " + s.getDeliveryTip());
+			System.out.println(s.getStoreName() + "     " + s.getStoreIntroduce() + "      " + s.getDeliveryTip());
 
 		}
 

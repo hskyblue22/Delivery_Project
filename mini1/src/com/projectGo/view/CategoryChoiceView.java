@@ -22,7 +22,7 @@ public class CategoryChoiceView {
 		Scanner sc = new Scanner(System.in);
 
 		System.out.println(
-				topStore.getStoreName() + "     " + topStore.getStoreIntoduce() + "      " + topStore.getDeliveryTip());
+				topStore.getStoreName() + "     " + topStore.getStoreIntroduce() + "      " + topStore.getDeliveryTip());
 
 		System.out.println();
 		System.out.println("===카테고리 선택===");
