@@ -14,14 +14,14 @@ public class Basket implements Serializable {
 	private String storeName;
 	private String storeAddress;
 	private int deliveryTip;
-	private HashMap<String, Object> menuList;   //병합 후 Object -> Menu로 바꾸기
-//  HashMap<menuName, Menu>
+	private HashMap<String, Menu> menuList;
+
 //  String menuName, String menuPic, int menuPrice, int quantity
 
 	
 	public Basket() {}
 
-	public Basket(String userId, String storeName, String storeAddress, int deliveryTip, HashMap<String, Object> menuList) {
+	public Basket(String userId, String storeName, String storeAddress, int deliveryTip, HashMap<String, Menu> menuList) {
 		super();
 		this.userId = userId;
 		this.storeName = storeName;
@@ -63,14 +63,16 @@ public class Basket implements Serializable {
 		this.deliveryTip = deliveryTip;
 	}
 	
-	public HashMap<String, Object> getMenuList() {
+
+	public HashMap<String, Menu> getMenuList() {
 		return menuList;
 	}
 
-	public void setMenuList(HashMap<String, Object> menuList) {
+	public void setMenuList(HashMap<String, Menu> menuList) {
 		this.menuList = menuList;
 	}
 
+	
 	@Override
 	public String toString() {
 		return "Basket [userId=" + userId + ", storeName=" + storeName + ", storeAddress=" + storeAddress
