@@ -1,6 +1,7 @@
 package com.projectGo.model.vo;
 
 import java.io.Serializable;
+import java.util.HashMap;
 
 public class Store implements Serializable{
 	
@@ -14,7 +15,7 @@ public class Store implements Serializable{
 	
 	private String storeName;
 	private String storeIntroduce;
-	private Menu storeMenu;
+	private HashMap<String, Menu> storeMenu;
 	private double aveStar;
 	private int category;
 	private int deliveryTip;
@@ -23,11 +24,20 @@ public class Store implements Serializable{
 		
 	
 
+	public Store(String storeName, String storeIntroduce, double aveStar, int category, int deliveryTip, HashMap<String, Menu> storeMenu) {
+	      super();
+	      this.storeName = storeName;
+	      this.storeIntroduce = storeIntroduce;
+	      this.aveStar = aveStar;
+	      this.category = category;
+	      this.deliveryTip = deliveryTip;
+	      this.storeMenu = storeMenu;
+	      
+	   }
 
 
 
-
-	public Menu getStoreMenu() {
+	public HashMap<String, Menu> getStoreMenu() {
 		return storeMenu;
 	}
 
@@ -35,7 +45,7 @@ public class Store implements Serializable{
 
 
 
-	public void setStoreMenu(Menu storeMenu) {
+	public void setStoreMenu(HashMap<String, Menu> storeMenu) {
 		this.storeMenu = storeMenu;
 	}
 

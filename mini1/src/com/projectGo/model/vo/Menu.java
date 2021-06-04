@@ -17,11 +17,30 @@ public class Menu implements Serializable{
 	public Menu() {
 		// TODO Auto-generated constructor stub
 	}
+	
+	public Menu(String menuPic, int menuPrice, int quantity) {
+	      super();
+	      this.menuPic = menuPic;
+	      this.menuPrice = menuPrice;
+	      this.quantity = quantity;
+	   }
 
-	public Menu(String menuName, int menuPrice) {
+	
+	
+	   public Menu(String menuPic, int menuPrice) {
+		      super();
+		      this.menuPic = menuPic;
+		      this.menuPrice = menuPrice;
+		   }
+	   
+	   
+
+	public Menu(String menuName, String menuPic, int menuPrice, int quantity) {
 		super();
 		this.menuName = menuName;
+		this.menuPic = menuPic;
 		this.menuPrice = menuPrice;
+		this.quantity = quantity;
 	}
 
 	public String getMenuName() {
