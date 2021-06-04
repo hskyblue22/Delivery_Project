@@ -1,7 +1,14 @@
 package com.projectGo.controller;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+
+import com.projectGo.model.dao.OrderListDao;
+import com.projectGo.model.vo.Order;
+
 public class OrderListController {
 
+//	public static boolean orderCheck = false;  //주문취소 확인변수
 	private OrderListDao old = new OrderListDao();	
 	
 	public OrderListController() {
@@ -25,17 +32,18 @@ public class OrderListController {
 		}
 	}
 
-	public void deleteList() {
+	public void deleteOrder() {
 
 		int deletenum = 1;  //클릭이벤트
 		
-		Order order = old.displayBoard(deletenum);
+		Order order = old.displayAllList(deletenum);
 		
 		if(order != null) {
 			
 			//삭제메시지	
-			old.deleteOrder(deletenum);
+			old.deleteList(deletenum);
 			System.out.println("삭제되었습니다.");
+		}
 	}
 
 
