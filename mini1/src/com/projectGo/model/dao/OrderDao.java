@@ -4,6 +4,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
+import java.util.Calendar;
 import java.util.HashMap;
 
 import com.projectGo.model.vo.Menu;
@@ -58,6 +59,13 @@ public class OrderDao {
 		order.setPayment(totalPayment);
 		
 	}
+	
+	
+	public void setDate() {
+		
+		order.setOrderedDate(Calendar.getInstance());
+		
+	}
 
 
 	public void orderOutput() {
@@ -74,6 +82,9 @@ public class OrderDao {
 			e.printStackTrace();
 		}
 	}
+
+
+	
 	
 	
 }

@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 import com.projectGo.controller.OrderController;
 
-public class OrderMenu {
+public class OrderView {
 
 	private Scanner sc = new Scanner(System.in);
 	private OrderController ordCont = new OrderController();
@@ -56,8 +56,9 @@ public class OrderMenu {
 		String payment = sc.nextLine();
 		
 		if(payment.equals("ok")) {
-			completeOrder();
+			ordCont.setDate();
 			ordCont.orderOutPut();
+			completeOrder();
 		}
 		
 		
@@ -80,7 +81,7 @@ public class OrderMenu {
 		
 		
 		//주문내역 확인 버튼 누르면
-		new OrderListView();
+//		new OrderListView();
 		
 		/*홈으로 돌아가기
 		Home home = new Home();

@@ -1,8 +1,7 @@
 package com.projectGo.model.vo;
 
 import java.io.Serializable;
-import java.util.Date;
-import java.util.HashMap;
+import java.util.Calendar;
 
 public class Order extends Basket implements Serializable{
 
@@ -13,7 +12,7 @@ public class Order extends Basket implements Serializable{
 	private int totalCharge;  //보류
 	private int payment;
 	private String request;
-	private Date orderedDate;
+	private Calendar orderedDate;
 	private String userAddress;
 	
 	public Order() {}
@@ -46,11 +45,11 @@ public class Order extends Basket implements Serializable{
 		this.request = request;
 	}
 
-	public Date getOrderedDate() {
+	public Calendar getOrderedDate() {
 		return orderedDate;
 	}
 
-	public void setOrderedDate(Date orderedDate) {
+	public void setOrderedDate(Calendar orderedDate) {
 		this.orderedDate = orderedDate;
 	}
 
