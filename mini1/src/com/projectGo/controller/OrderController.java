@@ -74,4 +74,9 @@ public class OrderController {
 	}
 
 
+	public void setDate() {
+		ordDao.setDate();
+	}
+
+
 }
