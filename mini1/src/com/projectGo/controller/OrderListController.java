@@ -9,24 +9,26 @@ import com.projectGo.model.vo.Order;
 public class OrderListController {
 
 //	public static boolean orderCheck = false;  //주문취소 확인변수
-	private OrderListDao old = new OrderListDao();	
+	private OrderListDao old = new OrderListDao();
+	private ArrayList<Order> olist;
 	
 	public OrderListController() {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public void displayAllList(){
+	public ArrayList<Order> displayAllList(){
 		
-		ArrayList<Order> olist = old.displayAllList();
+		olist = old.displayAllList();
+		return olist;
 		
-		Iterator it = olist.iterator();
-		while(it.hasNext()) {
-			System.out.println(it.next());
-		}
+//		Iterator it = olist.iterator();
+//		while(it.hasNext()) {
+//			System.out.println(it.next());
+//		}
 	}
 
 	public void printList() {
-		ArrayList<Order> olist = old.displayAllList();
+		
 		for(int i=0; i<olist.size(); i++) {
 			System.out.println(olist.get(i));
 		}
@@ -36,9 +38,7 @@ public class OrderListController {
 
 		int deletenum = 1;  //클릭이벤트
 		
-		Order order = old.displayAllList(deletenum);
-		
-		if(order != null) {
+		if(olist != null) {
 			
 			//삭제메시지	
 			old.deleteList(deletenum);

@@ -1,6 +1,9 @@
 package com.projectGo.view;
 
 import java.awt.Color;
+import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -8,60 +11,101 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 
-public class OrderListView extends MouseAdapter{
+import com.projectGo.controller.OrderListController;
 
-//	OrderListController olc = new OrderListController();
+public class OrderListView extends MouseAdapter {
+	public JFrame frame;
+	public JPanel backgroundPanel;
+	public JButton backBtn;
+	private String menuPic;
+	private OrderListController olc;
+	private String userID;
 	
 	public OrderListView() {
-		// TODO Auto-generated constructor stub
-		JFrame frame = new JFrame("한끼고");
+		//메인프레임
+//		frame = MainFrame.mainFrame;
+		frame.getContentPane().removeAll();
+		frame.validate();
+		frame.repaint();
 
-		frame.setBackground(Color.white);  //안됨
-		frame.setLayout(null);
-		
-		//orderlist 패널 -> panel1
-		JPanel panel = new JPanel();
-		panel.setBackground(Color.white);
-		
-		frame.add(panel);
-		panel.setBounds(10, 10, 300, 50);
-		
-		
-		JButton bt = new JButton("이전");
-		JLabel label = new JLabel("주문내역");
-		
-		
-		panel.add(bt);
-		panel.add(label);
-		
-		bt.addMouseListener(this);
-		
-		label.setBounds(100, 0, 200, 200);
-		bt.setLocation(0, 20);
-		frame.setResizable(false);
-		frame.setSize(550, 800);
-		frame.setLocationRelativeTo(null);  //중앙에서 창 뜨도록
-		
-		frame.setVisible(true);
-//		frame.dispose();  //프레임만 종료됨 프로그램은 계속 진행 -> 버튼눌러서 호출하면 적어주기
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //나중에 지우기
+		init();
+
 	}
 	
+	public void init() {
+		
+		//title(제목, 이전버튼)
+		JLabel headLabel = new JLabel("주문내역");
+		headLabel.setHorizontalAlignment(JLabel.CENTER);
+		headLabel.setFont(new Font("굴림",Font.PLAIN, 30));
+		headLabel.setBounds(140, 10, 250, 60);
+		frame.getContentPane().add(headLabel);
+		
+		//이전버튼
+		backBtn = new JButton("이  전");
+		backBtn.setBounds(15,20,80,40);
+		backBtn.setBackground(Color.orange); 
+		backBtn.setForeground(Color.white);  
+	    frame.getContentPane().add(backBtn);  
+	    
+	    backBtn.addMouseListener(this);
+	    
+		//전체 패널:panel -> gridbaglayout
+		GridBagLayout gbl = new GridBagLayout();
+		GridBagConstraints c = new GridBagConstraints();
+		
+		JPanel panel = new JPanel();
+		panel.setBackground(Color.white);
+		panel.setLayout(gbl);
+		
+		//scrollpane -> panel포함
+		JScrollPane scrollPane = new JScrollPane(panel, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		scrollPane.setBounds(0, 80, 530, 675);
+		frame.getContentPane().add(scrollPane);
+		
+		//주문목록 패널 : orderPanel
+		JPanel orderPanel = new JPanel();
+		GridBagLayout gbl_orderPanel = new GridBagLayout();
+		
+		orderPanel.setLayout(gbl_orderPanel);
+		orderPanel.setBackground(Color.white);
+
+		
+		c.gridx = 0;
+		c.gridy = 10;
+		c.gridwidth = 530;
+		c.gridheight = 150;
+		c.fill = GridBagConstraints.BOTH;
+		gbl.setConstraints(orderPanel, c);
+		panel.add(orderPanel);
+		
+
+
+		frame.validate();
+		frame.repaint();
+
+	}
 	
 
+	//이전 버튼 클릭 -> 프레임 이벤트
 	@Override
 	public void mousePressed(MouseEvent e) {
 		// TODO Auto-generated method stub
-		//이전버튼 클릭 -> 프레임닫히게
-//		frame.dispose();  //왜 안되는거지...? 확인-1
+		
+		frame.getContentPane().removeAll();
+		frame.validate();
+		frame.repaint();
 	}
+	
 	
 	//화면뜰때
 	//사용자id확인한 orderlist(arraylist)들고와야함
 	//
-	olc.printList();
-	
-	//주문취소- 삭제->리스트다시프린트
-	olc.deleteList();
+//	olc.printList();
+//	
+//	//주문취소- 삭제->리스트다시프린트
+//	olc.deleteList();
 }
