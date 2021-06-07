@@ -1,23 +1,28 @@
 package com.projectGo.model.vo;
 
-public class Member {//회원 정보
-	private String nick;
-	private String email;
-	private String pwd;
-	private String registration;
-	private String phone;
-	
-	public Member() {
-		
-	}
+public class Member { //회원 정보
+	private int idx;
+	private String nick, pwd, birth, phone, address, email;
 
-	public Member(String nick, String email, String pwd, String registration, String phone) {
-		super();
+	public Member() {	
+	}
+	
+	public Member(int idx, String nick, String email, String pwd, String birth, String phone, String address) {
+		this.idx = idx;
 		this.nick = nick;
 		this.email = email;
 		this.pwd = pwd;
-		this.registration = registration;
+		this.birth = birth;
 		this.phone = phone;
+		this.address = address;
+	}
+
+	public void setIdx(int idx) {
+		this.idx = idx;
+	}
+
+	public int getIdx() {
+		return idx;
 	}
 
 	public String getNick() {
@@ -44,22 +49,36 @@ public class Member {//회원 정보
 		this.pwd = pwd;
 	}
 
-	public String getRegistration() {
-		return registration;
+	public String getBirth() {
+		return birth;
 	}
 
-	public void setRegistration(String registration) {
-		this.registration = registration;
+	public void setBirth(String birth) {
+		this.birth = birth;
 	}
 
 	public String getPhone() {
 		return phone;
 	}
-
+	
 	public void setPhone(String phone) {
 		this.phone = phone;
 	}
 	
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	@Override
+	public String toString() {
+		return "Member [idx=" + idx + ", nick=" + nick + ", pwd=" + pwd + ", birth=" + birth + ", phone=" + phone
+				+ ", address=" + address + ", email=" + email + "]";
+	}
 	
 	
+		
 }
