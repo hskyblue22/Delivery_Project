@@ -31,6 +31,7 @@ public class BasketDao {
 	}
 
 	public Basket getBasket() {
+		
 		return basket;
 	}
 
@@ -55,8 +56,7 @@ public class BasketDao {
 	//메뉴명 받아 수량 변경
 	public void modifyQuantity(String name, int modifyQuantity) {
 		
-		Menu val = menuList.get(name);
-		val.setQuantity(modifyQuantity);
+		menuList.get(name).setQuantity(modifyQuantity);
 		
 	}
 
