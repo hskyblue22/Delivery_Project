@@ -25,39 +25,30 @@ import javax.swing.JTextField;
 
 import com.projectGo.controller.SerchPage;
 import com.projectGo.controller.StoreSort;
+import com.projectGo.model.dao.DaoTemp;
 import com.projectGo.model.dao.StoreLoad;
+import com.projectGo.model.vo.Member;
 import com.projectGo.model.vo.Store;
 
 public class SerchPageView extends MainFrame {
 
-	ArrayList<String> temp = new ArrayList<String>();
-	{
-		temp.add("짬뽕");
-		temp.add("가게1");
-		temp.add("bbq 명동");
-		temp.add("메뉴1");
-		temp.add("황금 올리브");
+	
 
-	}
-	ArrayList<String> temp2 = new ArrayList<String>();
-	{
-		temp2.add("1");
-		temp2.add("2");
-		temp2.add("2");
-		temp2.add("1");
-		temp2.add("1");
-	}
-
+	Member member;
 	ArrayList<String> preSerchNum;
 	ArrayList<String> preSerchList;
 	ArrayList<Store> mainList, recommendList;
 	Scanner sc = new Scanner(System.in);
 	JFrame frame;
 	String resultName;
+	DaoTemp dt;
 
 	public void serchMain() {
-		preSerchList = temp;
-		preSerchNum = temp2;
+		String userName = "user02";
+		dt = new DaoTemp();
+		member = dt.memberLoad(userName);
+		preSerchList = member.getPreSerchList();
+		preSerchNum = member.getPreSerchNum();
 		resultName = "";
 		mainList = new StoreLoad().storeLoad();
 		recommendList = new StoreSort().recommendStore(mainList);
@@ -266,10 +257,37 @@ public class SerchPageView extends MainFrame {
 					return;
 
 				} else if (serchChoiceBox.getSelectedIndex() == 1) {
+					ArrayList<String> temp1 = new ArrayList<String>();
+					ArrayList<String> temp2 = new ArrayList<String>();
+					preSerchNum.add(0, "1");
+					preSerchList.add(0, textField.getText());
+					if (preSerchNum.size() > 5) {
+
+						temp1.addAll(preSerchNum.subList(0, 5));
+						preSerchNum = temp1;
+						temp2.addAll(preSerchList.subList(0, 5));
+						preSerchList = temp2;
+
+					}
+
+					dt.memberSave(preSerchList, preSerchNum);
 					new ChoiceResult().choiceResultMain("'" + textField.getText() + "' 검색결과",
 							new SerchPage().serchMenu(mainList, textField.getText()), 1);
 
 				} else {
+					preSerchNum.add(0, "2");
+					preSerchList.add(0, textField.getText());
+					if (preSerchNum.size() > 5) {
+
+						ArrayList<String> temp1 = new ArrayList<String>();
+						ArrayList<String> temp2 = new ArrayList<String>();
+						temp1.addAll(preSerchNum.subList(0, 5));
+						preSerchNum = temp1;
+						temp2.addAll(preSerchList.subList(0, 5));
+						preSerchList = temp2;
+
+					}
+					dt.memberSave(preSerchList, preSerchNum);
 					new ChoiceResult().choiceResultMain("'" + textField.getText() + "' 검색결과",
 							new SerchPage().serchStoreName(mainList, textField.getText()), 1);
 				}
@@ -290,6 +308,11 @@ public class SerchPageView extends MainFrame {
 		preNameLabel.setOpaque(true);
 		preNameLabel.setPreferredSize(new Dimension(80, 40));
 		preSerchPanel.add(preNameLabel);
+		if(preSerchList == null) {
+			
+			preSerchList = new ArrayList<String>();
+			preSerchNum = new ArrayList<String>();
+		}
 		for (int i = 0; i < preSerchList.size(); i++) {
 
 			JLabel preSerchLabel = new JLabel("[" + preSerchList.get(i) + "]");
