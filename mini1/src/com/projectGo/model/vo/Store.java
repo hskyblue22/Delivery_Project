@@ -34,6 +34,24 @@ public class Store implements Serializable{
 	      this.storeMenu = storeMenu;
 	      
 	   }
+	
+	
+
+
+
+	public Store(String storeName, String storeIntroduce, int category, int deliveryTip,
+			int deliveryTime, HashMap<String, Menu> storeMenu) {
+		super();
+		this.storeName = storeName;
+		this.storeIntroduce = storeIntroduce;
+		this.category = category;
+		this.deliveryTip = deliveryTip;
+		this.deliveryTime = deliveryTime;
+		this.storeMenu = storeMenu;
+		
+	}
+
+
 
 
 

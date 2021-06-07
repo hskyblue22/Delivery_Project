@@ -11,7 +11,7 @@ public class SellerMenu {
 	SellerController stc = new SellerController();
 	MenuController mc = new MenuController();
 	
-	public void SellerMenu() {
+	public void SellerMain() {
 		
 		while(true) {
 			
@@ -29,7 +29,7 @@ public class SellerMenu {
 				addStore();
 				break;
 			case 2: 
-				//주문확인
+				checkOrder();
 				break;
 			case 3 : 
 				//개인정보조회
@@ -48,9 +48,16 @@ public class SellerMenu {
 		
 	}
 
+	private void checkOrder() {
+		 
+		
+		
+	}
+
 	private void addStore() {
 		
 		System.out.println("가게 이름: ");
+		sc.nextLine();
 		String storeName = sc.nextLine();
 		
 		System.out.println("가게 소개: ");
@@ -67,9 +74,9 @@ public class SellerMenu {
 		int deliveryTime = sc.nextInt();
 		sc.nextLine();
 		
-		//변수들 controller로 넘겨서 객체화 
-		
 		stc.StoreCreator(storeName, storeIntroduce, category, deliveryTip, deliveryTime);
+		
+		
 		
 		System.out.println("===등록완료, 메뉴등록===");
 		
@@ -83,6 +90,9 @@ public class SellerMenu {
 		
 		System.out.println("메뉴 가격: ");
 		int menuPrice = sc.nextInt();
+		sc.nextLine();
+		
+		stc.menuCreator(menuName, menuPic, menuPrice);
 		
 		System.out.println(" 계속 등록? ");
 		char check = sc.nextLine().charAt(0);
@@ -91,9 +101,11 @@ public class SellerMenu {
 			break;
 		}
 		
+		
+		
 		//변수들 controller로 넘겨서 객체화 
 		
-	
+		
 		}
 		
 	}
