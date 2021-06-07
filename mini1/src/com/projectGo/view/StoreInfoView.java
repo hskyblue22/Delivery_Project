@@ -33,7 +33,7 @@ public class StoreInfoView extends MainFrame {
 	private Store store;
 	private int count;
 	private HashMap<String, Menu> menulist;
-	private int quantity;
+	private int quantity; 
 	private String menuPic;
 	private int menuPrice;
 	private Basket basket;
@@ -75,7 +75,6 @@ public class StoreInfoView extends MainFrame {
 				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		scrollPane.setBounds(0, 316, 535, 400);
 		frame.getContentPane().add(scrollPane);
-
 		while (it.hasNext()) {
 			name = it.next();
 			JPanel menuPanel = new JPanel();
@@ -170,32 +169,29 @@ public class StoreInfoView extends MainFrame {
 					int choice;
 					menuPic = menuPicLabel.getText();
 					menuPrice = Integer.parseInt(menuPriceLabel.getText());
-					System.out.println(quantity);
+			
 
-					System.out.println(menuNameLabel.getText());
 
 					menulist.put(menuNameLabel.getText(), new Menu(menuPic, menuPrice, quantity));
-					Set<String> setMenu;
-					setMenu = menulist.keySet();
-					Iterator<String> it = setMenu.iterator();
-					while (it.hasNext()) {
-						String aaa = it.next();
-
-						System.out.println(menulist.get(aaa));
-
-					}
+//					Set<String> setMenu;
+//					setMenu = menulist.keySet();
+//					Iterator<String> it = setMenu.iterator();
+//					while (it.hasNext()) {
+//						String aaa = it.next();
+//
+//						System.out.println(menulist.get(aaa));
+//
+//					}
 					choice = JOptionPane.showConfirmDialog(null, "장바구니로 이동하시겠습니까?\n더 담으시려면 아니오", "장바구니 이동",
 							JOptionPane.YES_NO_OPTION);
 					if (choice == JOptionPane.YES_OPTION) {
 						basket = new Basket("userId", store.getStoreName(), store.getStoreAddress(),
 								store.getDeliveryTip(), menulist);
-						frame.dispose();
 						new BasketDao(basket);
 
 					}
 				}
 			});
-
 			gbc = new GridBagConstraints();
 			gbc.fill = GridBagConstraints.BOTH;
 			gbc.gridx = 0;
@@ -206,6 +202,7 @@ public class StoreInfoView extends MainFrame {
 			panel.add(menuPanel);
 
 			panel.updateUI();
+			
 
 		}
 
@@ -285,7 +282,6 @@ public class StoreInfoView extends MainFrame {
 
 				basket = new Basket("userId", store.getStoreName(), store.getStoreAddress(), store.getDeliveryTip(),
 						menulist);
-				frame.dispose();
 				new BasketDao(basket);
 
 			}

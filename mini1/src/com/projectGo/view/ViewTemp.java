@@ -34,7 +34,7 @@ public class ViewTemp extends MainFrame{
 				new SerchPageView().serchMain();
 				
 			}
-		});
+		}); 
 		backBtn_2.setBounds(314, 250, 100, 70);
 		frame.getContentPane().add(backBtn_2);
 		frame.validate();

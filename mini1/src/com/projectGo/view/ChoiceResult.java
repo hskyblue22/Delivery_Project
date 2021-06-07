@@ -58,7 +58,7 @@ public class ChoiceResult extends MainFrame {
 				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		scrollPane.setBounds(0, 225, 535, 510);
 		frame.getContentPane().add(scrollPane);
-
+ 
 		for (int i = 0; i < printList.size(); i++) {
 
 			JPanel menuPanel = new JPanel();
