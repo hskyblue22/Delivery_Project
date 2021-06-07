@@ -21,7 +21,7 @@ public class DaoTemp {
 		this.userName = userName;
 		member = new Member();
 		try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("member.txt"))) {
-			while (true) {
+			while (true) {  
 				memberList.add((Member) ois.readObject());
 
 			}

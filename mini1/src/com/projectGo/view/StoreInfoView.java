@@ -33,7 +33,7 @@ public class StoreInfoView extends MainFrame {
 	private Store store;
 	private int count;
 	private HashMap<String, Menu> menulist;
-	private int quantity;
+	private int quantity; 
 	private String menuPic;
 	private int menuPrice;
 	private Basket basket;

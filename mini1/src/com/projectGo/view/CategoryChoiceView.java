@@ -62,7 +62,7 @@ public class CategoryChoiceView extends MainFrame{
 		gbc_storeNameLabel.gridwidth = 2;
 		gbc_storeNameLabel.insets = new Insets(0, 0, 5, 5);
 		gbc_storeNameLabel.gridx = 1;
-		gbc_storeNameLabel.gridy = 1;
+		gbc_storeNameLabel.gridy = 1; 
 		menuPanel.add(storeNameLabel, gbc_storeNameLabel);
 		storeNameLabel.setOpaque(true);
 		storeNameLabel.setPreferredSize(new Dimension(70, 30));

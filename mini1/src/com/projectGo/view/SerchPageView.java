@@ -298,7 +298,7 @@ public class SerchPageView extends MainFrame {
 
 		JPanel preSerchPanel = new JPanel();
 
-		preSerchPanel.setBounds(15, 155, 505, 40);
+		preSerchPanel.setBounds(15, 155, 505, 40); 
 		preSerchPanel.setBackground(Color.WHITE);
 		frame.getContentPane().add(preSerchPanel);
 		preSerchPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
