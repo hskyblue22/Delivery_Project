@@ -1,84 +1,116 @@
 package com.projectGo.model.vo;
 
-public class Member { //회원 정보
-	private int idx;
-	private String nick, pwd, birth, phone, address, email;
+import java.io.Serializable;
+import java.util.ArrayList;
 
-	public Member() {	
-	}
-	
-	public Member(int idx, String nick, String email, String pwd, String birth, String phone, String address) {
-		this.idx = idx;
-		this.nick = nick;
-		this.email = email;
-		this.pwd = pwd;
-		this.birth = birth;
-		this.phone = phone;
-		this.address = address;
-	}
+public class Member implements Serializable { // 회원 정보
 
-	public void setIdx(int idx) {
-		this.idx = idx;
-	}
+   /**
+    * 
+    */
+   private static final long serialVersionUID = 1L;
 
-	public int getIdx() {
-		return idx;
-	}
+   private int idx, point, type;
+   private String nick, pwd, phone, address, email;
+   private ArrayList<String> preSerchNum;
+   private ArrayList<String> preSerchList;
 
-	public String getNick() {
-		return nick;
-	}
+   public Member() {
+   }
 
-	public void setNick(String nick) {
-		this.nick = nick;
-	}
+   public Member(int idx, String nick, String email, String pwd, String phone, String address, int point, int type) {
+      this.idx = idx;
+      this.nick = nick;
+      this.email = email;
+      this.pwd = pwd;
+      this.phone = phone;
+      this.address = address;
+      this.point = point;
+      this.type = type;
+      preSerchNum = new ArrayList<>();
+      preSerchList = new ArrayList<>();
+   }
 
-	public String getEmail() {
-		return email;
-	}
+   public int getIdx() {
+      return idx;
+   }
 
-	public void setEmail(String email) {
-		this.email = email;
-	}
+   public void setIdx(int idx) {
+      this.idx = idx;
+   }
 
-	public String getPwd() {
-		return pwd;
-	}
+   public String getNick() {
+      return nick;
+   }
 
-	public void setPwd(String pwd) {
-		this.pwd = pwd;
-	}
+   public void setNick(String nick) {
+      this.nick = nick;
+   }
 
-	public String getBirth() {
-		return birth;
-	}
+   public String getEmail() {
+      return email;
+   }
 
-	public void setBirth(String birth) {
-		this.birth = birth;
-	}
+   public void setEmail(String email) {
+      this.email = email;
+   }
 
-	public String getPhone() {
-		return phone;
-	}
-	
-	public void setPhone(String phone) {
-		this.phone = phone;
-	}
-	
-	public void setAddress(String address) {
-		this.address = address;
-	}
+   public String getPwd() {
+      return pwd.toString();
+   }
 
-	public String getAddress() {
-		return address;
-	}
+   public void setPwd(String pwd) {
+      this.pwd = pwd;
+   }
 
-	@Override
-	public String toString() {
-		return "Member [idx=" + idx + ", nick=" + nick + ", pwd=" + pwd + ", birth=" + birth + ", phone=" + phone
-				+ ", address=" + address + ", email=" + email + "]";
-	}
-	
-	
-		
+   public String getPhone() {
+      return phone;
+   }
+
+   public void setPhone(String phone) {
+      this.phone = phone;
+   }
+
+   public String getAddress() {
+      return address;
+   }
+
+   public void setAddress(String address) {
+      this.address = address;
+   }
+
+   public int getPoint() {
+      return point;
+   }
+
+   public int getType() {
+      return type;
+   }
+
+   public void setType(int type) {
+      this.type = type;
+   }
+
+   public ArrayList<String> getPreSerchNum() {
+      return preSerchNum;
+   }
+
+   public void setPreSerchNum(ArrayList<String> preSerchNum) {
+      this.preSerchNum = preSerchNum;
+   }
+
+   public ArrayList<String> getPreSerchList() {
+      return preSerchList;
+   }
+
+   public void setPreSerchList(ArrayList<String> preSerchList) {
+      this.preSerchList = preSerchList;
+   }
+
+   @Override
+   public String toString() {
+      return "Member [idx=" + idx + ", point=" + point + ", type=" + type + ", nick=" + nick + ", pwd=" + pwd
+            + ", phone=" + phone + ", address=" + address + ", email=" + email + ", preSerchNum=" + preSerchNum
+            + ", preSerchList=" + preSerchList + "]";
+   }
 }
