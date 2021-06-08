@@ -46,6 +46,8 @@ public class StoreDao {
 				store.add((Store) ois.readObject());
 
 			}
+			
+			
 
 		} catch (EOFException e) {
 			// TODO: handle exception
@@ -65,5 +67,52 @@ public class StoreDao {
 		
 		
 	}
+	
+	public void saveAveStar(String storeName, int reviewScore) {
+	      int aveStarNum;
+	      ArrayList<Store> list;
+	      double aveStar, dScore,dTemp,result;
+	      list = loadStore();
+	      for(int i = 0 ; i < list.size(); i ++) {
+	         
+	         if(list.get(i).getStoreName().equals(storeName)) {
+	            
+	            aveStarNum = list.get(i).getAveStarNum();
+	            aveStar = list.get(i).getAveStar();
+	            
+	            
+	            dScore = reviewScore*1.0;
+	            dTemp = ((aveStar*aveStarNum)+dScore)/(aveStarNum+1);
+	            result = Double.valueOf(String.format("%.1f", dTemp));
+	            list.get(i).setAveStar(result);
+	            list.get(i).setAveStarNum(aveStarNum+1);
+	            try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("store.txt"))) {
+
+	               for (int j = 0; j < list.size(); j++) {
+
+	                  oos.writeObject(list.get(j));
+
+	               }
+
+	            } catch (FileNotFoundException e) {
+
+	               e.printStackTrace();
+	            } catch (IOException e) {
+
+	               e.printStackTrace();
+	            }
+	            
+	            return;
+	            
+	         }
+	         
+	         
+	         
+	      }
+	      
+	      
+	      
+	      
+	   }
 
 }
