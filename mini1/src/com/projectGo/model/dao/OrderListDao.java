@@ -26,6 +26,7 @@ public class OrderListDao {
 			
 			totalorderList.addAll((ArrayList<Order>)ois.readObject());  //주문내역담긴 파일 전체 orderlist에 담기
 
+			// MainFrame.loginUserId 로 바꾸기 -> 06.08
 			String userID = m.getNick(); //Member에서 유저ID추출
 			
 			for(Order ol : totalorderList) {
@@ -48,6 +49,8 @@ public class OrderListDao {
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} catch(NullPointerException e) {  //갑자기 nullpointerexception나서 추가함
+			userOrderList = null;
 		}
 	}
 	
