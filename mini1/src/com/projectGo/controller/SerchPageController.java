@@ -9,7 +9,7 @@ import java.util.Set;
 import com.projectGo.model.comparator.AscDeliveryTip;
 import com.projectGo.model.vo.Store;
 
-public class SerchPage {
+public class SerchPageController {
 
 	
 
