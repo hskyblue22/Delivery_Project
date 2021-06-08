@@ -1,21 +1,27 @@
 package com.projectGo.controller;
 
 
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map.Entry;
 import java.util.Set;
 
 import com.projectGo.model.dao.BasketDao;
 import com.projectGo.model.vo.Menu;
-import com.projectGo.model.vo.Order;
 import com.projectGo.view.OrderView;
 
 public class BasketController {
 
 	private BasketDao basDao = new BasketDao();
-	private OrderView ordView = new OrderView();
 	
 	public BasketController() {}
+	
+	
+	//메뉴리스트 리턴
+	public HashMap<String, Menu> getMenuList() {
+		return basDao.getMenuList();              
+	}
+	
 	
 	// 장바구니메뉴조회
 	public Iterator<Entry<String, Menu>> selectedMenu() {
@@ -49,9 +55,11 @@ public class BasketController {
 	}
 
 	// 주문버튼 누르면 오더페이지로 넘어가면서 객체 전달
-	public Order order() {
-
-		return basDao.basketOrder();
+	public void order() {
+		
+		basDao.basketOrder();
+		new OrderView();
+		
 	}
 
 	// 리스트 크기 반환

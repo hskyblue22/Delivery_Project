@@ -8,9 +8,8 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Map.Entry;
 import java.util.Iterator;
-import java.util.Scanner;
+import java.util.Map.Entry;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -21,7 +20,6 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
 
 import com.projectGo.controller.BasketController;
-import com.projectGo.model.dao.BasketDao;
 import com.projectGo.model.vo.Menu;
 
 public class BasketView extends MainFrame{
@@ -59,6 +57,17 @@ public class BasketView extends MainFrame{
 		preButton.setBorderPainted(false); // 테두리 제거
 		preButton.setFocusPainted(false); // 텍스트 테두리 제거
 		frame.getContentPane().add(preButton);
+		
+		preButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+
+//				new StoreInfoView(store, resultName, printList, kinds, serchKinds, basCont.getMenuList());
+				
+			}
+		});
+		
 
 		if (basCont.listIsEmpty()) {
 
@@ -317,9 +326,10 @@ public class BasketView extends MainFrame{
 				}
 			});
 			
-			
 		}
 		
+		frame.validate();
+		frame.repaint();
 	}
 
 }
