@@ -34,16 +34,11 @@ public class OrderListController {
 		}
 	}
 
-	public void deleteOrder() {
+	public void deleteOrder(int index) {
 
-		int deletenum = 1;  //클릭이벤트
+		old.deleteList(index);
+		System.out.println("삭제되었습니다.");
 		
-		if(olist != null) {
-			
-			//삭제메시지	
-			old.deleteList(deletenum);
-			System.out.println("삭제되었습니다.");
-		}
 	}
 
 
