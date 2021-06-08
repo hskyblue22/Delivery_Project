@@ -9,7 +9,7 @@ import javax.swing.JFrame;
 public class ViewTemp extends MainFrame{
 	private JFrame frame;
 	public ViewTemp()  {
-		
+		MainFrame.loginUserId = "user01";
 		frame = MainFrame.mainFrame;
 		frame.getContentPane().removeAll();
 		frame.validate();

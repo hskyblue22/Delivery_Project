@@ -33,7 +33,7 @@ public class StoreInfoView extends MainFrame {
 	private Store store;
 	private int count;
 	private HashMap<String, Menu> menulist;
-	private int quantity; 
+	private int quantity;
 	private String menuPic;
 	private int menuPrice;
 	private Basket basket;
@@ -43,18 +43,75 @@ public class StoreInfoView extends MainFrame {
 	private int kinds;
 	private int serchKinds;
 	private Image image;
+	private int pre = 0;
 
-	public StoreInfoView(Store store, String resultName, ArrayList<Store> printList, int kinds, int serchKinds) {
+	public StoreInfoView() {
 
+	}
+
+	
+	public HashMap<String, Menu> getMenulist() {
+		return menulist;
+	}
+
+	public void setMenulist(HashMap<String, Menu> menulist) {
+		this.menulist = menulist;
+	}
+
+	public Store getStore() {
+		return store;
+	}
+
+	public void setStore(Store store) {
+		this.store = store;
+	}
+
+	public ArrayList<Store> getPrintList() {
+		return printList;
+	}
+
+	public void setPrintList(ArrayList<Store> printList) {
+		this.printList = printList;
+	}
+
+	public String getResultName() {
+		return resultName;
+	}
+
+	public void setResultName(String resultName) {
+		this.resultName = resultName;
+	}
+
+	public int getKinds() {
+		return kinds;
+	}
+
+	public void setKinds(int kinds) {
+		this.kinds = kinds;
+	}
+
+	public int getSerchKinds() {
+		return serchKinds;
+	}
+
+	public void setSerchKinds(int serchKinds) {
+		this.serchKinds = serchKinds;
+	}
+	public void storeInfoViewMainPre(Store store, String resultName, ArrayList<Store> printList, int kinds, int serchKinds, HashMap<String, Menu> menulist) {
+	
+		this.pre = 1;
+		this.menulist = menulist;
+		storeInfoViewMain(store, resultName, printList, kinds, serchKinds);
+	}
+	
+
+	public void storeInfoViewMain(Store store, String resultName, ArrayList<Store> printList, int kinds,
+			int serchKinds) {
 		this.store = store;
 		this.printList = printList;
 		this.resultName = resultName;
 		this.kinds = kinds;
 		this.serchKinds = serchKinds;
-		start();
-	}
-
-	public void start() {
 		frame = MainFrame.mainFrame;
 		frame.getContentPane().removeAll();
 		frame.validate();
@@ -63,7 +120,10 @@ public class StoreInfoView extends MainFrame {
 		String name;
 		menuName = store.getStoreMenu().keySet();
 		Iterator<String> it = menuName.iterator();
-		menulist = new HashMap<String, Menu>();
+		if(pre == 0) {
+			menulist = new HashMap<String, Menu>();
+		}
+		
 		count = 0;
 
 		GridBagLayout gbl = new GridBagLayout();
@@ -89,7 +149,6 @@ public class StoreInfoView extends MainFrame {
 			menuPanel.setBounds(-13, 130, 535, 96);
 			frame.getContentPane().add(menuPanel);
 
-			
 			image = new ImageIcon(store.getStoreMenu().get(name).getMenuPic()).getImage().getScaledInstance(70, 70, 0);
 			JLabel menuPicLabel = new JLabel(new ImageIcon(image));
 			GridBagConstraints gbc_menuPicLabel = new GridBagConstraints();
@@ -169,19 +228,9 @@ public class StoreInfoView extends MainFrame {
 					int choice;
 					menuPic = menuPicLabel.getText();
 					menuPrice = Integer.parseInt(menuPriceLabel.getText());
-			
-
 
 					menulist.put(menuNameLabel.getText(), new Menu(menuPic, menuPrice, quantity));
-//					Set<String> setMenu;
-//					setMenu = menulist.keySet();
-//					Iterator<String> it = setMenu.iterator();
-//					while (it.hasNext()) {
-//						String aaa = it.next();
-//
-//						System.out.println(menulist.get(aaa));
-//
-//					}
+
 					choice = JOptionPane.showConfirmDialog(null, "장바구니로 이동하시겠습니까?\n더 담으시려면 아니오", "장바구니 이동",
 							JOptionPane.YES_NO_OPTION);
 					if (choice == JOptionPane.YES_OPTION) {
@@ -202,7 +251,6 @@ public class StoreInfoView extends MainFrame {
 			panel.add(menuPanel);
 
 			panel.updateUI();
-			
 
 		}
 
@@ -306,7 +354,7 @@ public class StoreInfoView extends MainFrame {
 
 				} else {
 
-					new ChoiceResult().choiceResultMain(resultName, printList, serchKinds);
+					new ChoiceResultView().choiceResultViewMain(resultName, printList, serchKinds);
 
 				}
 
