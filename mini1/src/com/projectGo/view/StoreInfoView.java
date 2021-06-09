@@ -46,7 +46,7 @@ public class StoreInfoView extends MainFrame {
 	private int pre = 0;
 
 	public StoreInfoView() {
-
+		
 	}
 
 	
@@ -195,7 +195,7 @@ public class StoreInfoView extends MainFrame {
 			quantityComboBox_1.setToolTipText("afsasf");
 
 			JButton basketButton_1 = new JButton("<HTML><center>장바구니에<br>담기</center></HTML>");
-			basketButton_1.setBackground(new Color(255, 128, 0));
+			basketButton_1.setBackground(Color.ORANGE);
 			basketButton_1.setForeground(Color.white);
 			GridBagConstraints gbc_basketButton_1 = new GridBagConstraints();
 			gbc_basketButton_1.fill = GridBagConstraints.BOTH;
@@ -231,12 +231,13 @@ public class StoreInfoView extends MainFrame {
 
 					menulist.put(menuNameLabel.getText(), new Menu(menuPic, menuPrice, quantity));
 
-					choice = JOptionPane.showConfirmDialog(null, "장바구니로 이동하시겠습니까?\n더 담으시려면 아니오", "장바구니 이동",
+					choice = JOptionPane.showConfirmDialog(basketButton_1, "장바구니로 이동하시겠습니까?\n더 담으시려면 아니오", "장바구니 이동",
 							JOptionPane.YES_NO_OPTION);
+					
 					if (choice == JOptionPane.YES_OPTION) {
 						basket = new Basket("userId", store.getStoreName(), store.getStoreAddress(),
 								store.getDeliveryTip(), menulist);
-						new BasketDao(basket);
+						new BasketView().initialize(basket);
 
 					}
 				}
@@ -320,7 +321,7 @@ public class StoreInfoView extends MainFrame {
 
 		JButton basketMoveBtn = new JButton("장 바 구 니");
 		basketMoveBtn.setBounds(0, 715, 535, 50);
-		basketMoveBtn.setBackground(new Color(255, 128, 0));
+		basketMoveBtn.setBackground(Color.ORANGE);
 		basketMoveBtn.setForeground(Color.white);
 		basketMoveBtn.setFont(new Font("맑은 고딕", Font.BOLD, 20));
 		basketMoveBtn.addActionListener(new ActionListener() {
@@ -330,7 +331,7 @@ public class StoreInfoView extends MainFrame {
 
 				basket = new Basket("userId", store.getStoreName(), store.getStoreAddress(), store.getDeliveryTip(),
 						menulist);
-				new BasketDao(basket);
+				new BasketView().initialize(basket);
 
 			}
 		});
@@ -338,7 +339,7 @@ public class StoreInfoView extends MainFrame {
 
 		JButton backBtn = new JButton("이  전");
 		backBtn.setBounds(15, 20, 80, 40);
-		backBtn.setBackground(new Color(255, 128, 0));
+		backBtn.setBackground(Color.ORANGE);
 		backBtn.setForeground(Color.white);
 		backBtn.addActionListener(new ActionListener() {
 
@@ -364,13 +365,13 @@ public class StoreInfoView extends MainFrame {
 
 		JButton homeBtn = new JButton("홈으로");
 		homeBtn.setBounds(440, 20, 80, 40);
-		homeBtn.setBackground(new Color(255, 128, 0));
+		homeBtn.setBackground(Color.ORANGE);
 		homeBtn.setForeground(Color.white);
 		homeBtn.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				new ViewTemp();
+				new HomeView();
 
 			}
 		});

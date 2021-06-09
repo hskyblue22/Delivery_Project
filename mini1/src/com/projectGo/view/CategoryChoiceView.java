@@ -154,13 +154,13 @@ public class CategoryChoiceView extends MainFrame{
 
 		JButton backBtn = new JButton("이  전");
 		backBtn.setBounds(15, 20, 80, 40);
-		backBtn.setBackground(new Color(255, 128, 0));
+		backBtn.setBackground(Color.ORANGE);
 		backBtn.setForeground(Color.white);
 		backBtn.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				new ViewTemp();
+				new HomeView();
 				
 			}
 		});
