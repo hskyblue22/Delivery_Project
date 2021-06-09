@@ -1,16 +1,47 @@
 package com.projectGo.controller;
 
+import java.util.Calendar;
 import java.util.Iterator;
-import java.util.Set;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import com.projectGo.model.dao.OrderDao;
+import com.projectGo.model.vo.Basket;
 import com.projectGo.model.vo.Menu;
+import com.projectGo.model.vo.Order;
 
 public class OrderController {
 
+	private Order order;
 	private OrderDao ordDao = new OrderDao();
 	
+	
+	public OrderController(Order order) {
+		this.order = order;
+	}
+	
+	//이전으로 눌렸을 때 이전 데이터 전달
+	public Basket getBasket() {
+		
+		return new Basket(order.getUserId(), order.getStoreName(), order.getStoreAddress(), order.getDeliveryTip(), order.getMenuList());
+	}
+	
+	
+	// 총 주문 금액 리턴
+	public int getTotalCharge() {
+
+		Set<Entry<String, Menu>> menuSet = order.getMenuList().entrySet(); // NullPointerException
+		Iterator<Entry<String, Menu>> iterMenu = menuSet.iterator();
+
+		int totalCharge = 0;
+
+		while (iterMenu.hasNext()) {
+			Entry<String, Menu> entry = iterMenu.next();
+			totalCharge += (entry.getValue().getMenuPrice() * entry.getValue().getQuantity());
+		}
+
+		return totalCharge;
+	}
 	
 	//order객체에 주소리턴 
 	public String getUserAddress() {
@@ -23,7 +54,7 @@ public class OrderController {
 	//요청사항 저장
 	public void setRequest(String request) {
 		
-		ordDao.setRequest(request);
+		order.setRequest(request);
 		
 	}
 	
@@ -47,46 +78,31 @@ public class OrderController {
 		
 		int point = getPoint() + savePoint;
 		/* user객체 받아와서 .setUsedPoint(point)*/
-	}
-	
-
-	//총 주문 금액 리턴
-	public int getTotalCharge() {
 		
-		Set<Entry<String, Menu>> menuSet = ordDao.getMenuList().entrySet(); //NullPointerException
-		Iterator<Entry<String, Menu>> iterMenu = menuSet.iterator();
-		
-		int totalCharge = 0;
-		
-		while(iterMenu.hasNext()) {
-			Entry<String, Menu> entry = iterMenu.next();
-			totalCharge += (entry.getValue().getMenuPrice() * entry.getValue().getQuantity());
-		}
-		
-		return totalCharge;
+		//적립 후 마이페이지에 조회시 변경된 포인트 보기
 	}
 
 	
 	//배달팁 리턴
 	public int getDeliveryTip() {
 
-		return ordDao.getDeliveryTip();
+		return order.getDeliveryTip();
 	}
 	
 	
 	//총 결제 금액 저장
 	public void setTotalPayment(int totalPayment) {
 	
-		ordDao.setPayment(totalPayment);
+		order.setPayment(totalPayment);
 	}
 
 
 	//order객체 저장 output
 	public void orderOutPut() {
 		
-		ordDao.setUserAddress(getUserAddress()); //멤버 주소 저장
-		ordDao.setDate();
-		ordDao.orderOutput();
+		order.setUserAddress(getUserAddress()); //멤버 주소 저장
+		order.setOrderedDate(Calendar.getInstance());
+		ordDao.orderOutput(order);
 	}
 
 

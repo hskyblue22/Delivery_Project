@@ -17,6 +17,7 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 import com.projectGo.controller.OrderController;
+import com.projectGo.model.vo.Order;
 
 public class OrderView extends MainFrame{
 	
@@ -26,12 +27,16 @@ public class OrderView extends MainFrame{
 	private JLabel usedPointLab;
 	private JLabel totalPaymentLab;
 	
-	private OrderController ordCont = new OrderController();
+
+	private OrderController ordCont;
 	private int usePoint;
-	private int totalPayment = ordCont.getTotalCharge() + ordCont.getDeliveryTip();
+	private int totalPayment;
 
 	
-	public OrderView() {
+	public OrderView(Order order) {
+		
+		ordCont = new OrderController(order);
+		totalPayment = ordCont.getTotalCharge() + ordCont.getDeliveryTip();
 		frame = MainFrame.mainFrame;
 		frame.getContentPane().removeAll();
 		frame.validate();
@@ -64,8 +69,9 @@ public class OrderView extends MainFrame{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				//이전으로 화면 전환 되었을 때, 초기 값이 아닌 변경된 데이터로 저장가능??
-				new BasketView();
+				new BasketView(ordCont.getBasket());
 			}
+			
 		});
 		
 		
@@ -102,6 +108,7 @@ public class OrderView extends MainFrame{
 		requestPanel.add(reqTextField);
 		reqTextField.setColumns(10);
 		
+		
 		//요청사항 전달
 		reqTextField.addActionListener(new ActionListener() {
 			
@@ -129,27 +136,12 @@ public class OrderView extends MainFrame{
 		usePointLab.setBounds(40, 63, 108, 31);
 		pointPanel.add(usePointLab);
 		
-		
+
 		pointTextField = new JTextField();
 		pointTextField.setHorizontalAlignment(SwingConstants.RIGHT);
 		pointTextField.setBounds(264, 64, 222, 31);
 		pointPanel.add(pointTextField);
 		pointTextField.setColumns(10);
-		
-//		pointTextField.addActionListener(new ActionListener() {
-//			
-//			@Override
-//			public void actionPerformed(ActionEvent e) {
-//
-//				point = Integer.parseInt(pointTextField.getText());
-//				usedPointLab.setText("포인트 사용     : -" +  point);
-//				totalPaymentLab.setText("총 결제 금액 : " + String.valueOf(totalPayment - point));
-//				
-//  			ordCont.setPoint(point);
-//				ordCont.setTotalPayment(totalPayment);
-//
-//			}
-//		});
 		
 		
 		pointTextField.addKeyListener(new KeyListener(){
@@ -157,12 +149,14 @@ public class OrderView extends MainFrame{
 		
 			@Override
 			public void keyReleased(KeyEvent e) {
+				//포인트 없을 때 사용할 포인트가 없습니다. 팝업?
+				
 				usePoint = Integer.parseInt(pointTextField.getText());
 				usedPointLab.setText("포인트 사용     : -" +  usePoint);
 				
 				totalPaymentLab.setText("총 결제 금액 : " + (totalPayment - usePoint));
 				
-//				ordCont.setPoint(point);
+//				ordCont.setPoint(point); 보유 포인트  - usePoint
 		
 			}
 			
@@ -217,7 +211,6 @@ public class OrderView extends MainFrame{
 		totalPaymentLab.setFont(new Font("굴림", Font.PLAIN, 17));
 		totalPaymentLab.setBounds(40, 140, 456, 33);
 		paymentPanel.add(totalPaymentLab);
-		
 		
 
 		JButton paymentButton = new JButton("결제하기");
@@ -279,6 +272,7 @@ public class OrderView extends MainFrame{
 		lblNewLabel_2.setBounds(130, 113, 150, 35);
 		panel.add(lblNewLabel_2);
 		
+		
 //		포인트 적립
 //		int savePoint = totalPayment * (/*user객체 받아서 불러오기 getUser().getPointRatio*/);
 //		ordCont.savePoint(savePoint);
@@ -290,6 +284,7 @@ public class OrderView extends MainFrame{
 		btnNewButton.setBorderPainted(false); //테두리 제거
 		btnNewButton.setFocusPainted(false); //텍스트 테두리 제거
 		frame.getContentPane().add(btnNewButton);
+		
 		
 		JButton homeButton = new JButton("홈으로 돌아가기");
 		homeButton.setForeground(Color.WHITE);

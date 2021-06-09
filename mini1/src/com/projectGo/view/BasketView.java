@@ -20,24 +20,29 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
 
 import com.projectGo.controller.BasketController;
+import com.projectGo.model.vo.Basket;
 import com.projectGo.model.vo.Menu;
+import com.projectGo.model.vo.Order;
 
 public class BasketView extends MainFrame{
 	
 	private JFrame frame;
 	
-	private BasketController basCont = new BasketController();
+	BasketController basCont;
 	private int quantity;
 	private int menuPrice;
 	
-	public BasketView() {
+	
+	public BasketView(Basket basket) {     //view로 전달받아 controller로 전달
+
+		basCont = new BasketController(basket);
 		frame = MainFrame.mainFrame;
 		frame.getContentPane().removeAll();
 		frame.validate();
 		frame.repaint();
 		initialize();
 	}
-	
+
 	
 	private void initialize() {
 
@@ -48,8 +53,8 @@ public class BasketView extends MainFrame{
 		mainLabel.setBounds(150, 10, 250, 60);
 		frame.getContentPane().add(mainLabel);
 
-		// 이전버튼 누르면 음식점 상세 페이지로
-		JButton preButton = new JButton("이전");
+		
+		JButton preButton = new JButton("홈으로");
 		preButton.setBounds(15, 20, 80, 40);
 		preButton.setSize(80, 40);
 		preButton.setBackground(Color.orange);
@@ -62,9 +67,8 @@ public class BasketView extends MainFrame{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-
-//				new StoreInfoView(store, resultName, printList, kinds, serchKinds, basCont.getMenuList());
-				
+				//홈에서 다시 메뉴로 돌아왔을 때 데이터 유지
+//				new HomeView(basCont.getBasket());
 			}
 		});
 		
@@ -173,12 +177,22 @@ public class BasketView extends MainFrame{
 		});
 		
 		
+		// 메뉴 추가 버튼 누르면 음식점 상세 페이지로
+		JButton addMenuButton = new JButton("메뉴추가하기");
+		addMenuButton.setBackground(Color.WHITE);
+		addMenuButton.setBounds(0, 631, 535, 60);
+		addMenuButton.setFocusPainted(false); //텍스트 테두리 제거
+		frame.getContentPane().add(addMenuButton);
 		
-		JButton btnNewButton_2_1 = new JButton("메뉴추가하기");
-		btnNewButton_2_1.setBackground(Color.WHITE);
-		btnNewButton_2_1.setBounds(0, 631, 535, 60);
-		btnNewButton_2_1.setFocusPainted(false); //텍스트 테두리 제거
-		frame.getContentPane().add(btnNewButton_2_1);
+		addMenuButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+//				new StoreInfoView().storeInfoViewMainPre(store, resultName, printList, kinds, serchKinds, menulist);
+				
+			}
+		});
 		
 		
 		int i = 0;
@@ -279,7 +293,6 @@ public class BasketView extends MainFrame{
 				
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					
 					String menu = menu_1.getToolTipText();
 					
 					int minusQuantity = basCont.getMenuQuantity(menu) - 1;
