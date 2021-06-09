@@ -2,19 +2,26 @@ package com.projectGo.view;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
 
 import com.projectGo.controller.ReviewListController;
+import com.projectGo.model.vo.Review;
 
 public class ReviewListView {
 
@@ -23,7 +30,7 @@ public class ReviewListView {
 	private JPanel panel;
 	public JButton backBtn;
 	private ReviewListController rlc = new ReviewListController();
-//	private ArrayList<Order> userOrderList;	
+	private ArrayList<Review> userReview;	
 	
 	private String userID;
 	private String storeName;
@@ -38,7 +45,9 @@ public class ReviewListView {
 	}
 
 	private void init() {
-		// TODO Auto-generated method stub
+		
+		userReview = rlc.userAllList();
+		
 		// 메인프레임
 		frame = MainFrame.mainFrame;
 		frame.getContentPane().removeAll();
@@ -70,7 +79,6 @@ public class ReviewListView {
 		backBtn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				//new ViewTemp();
 				//마이페이지 뷰로
 			}
 		});
@@ -91,23 +99,191 @@ public class ReviewListView {
 		panel.setLayout(gbl_panel);	
 		
 		
-//		 if(userOrderList == null) {  //주문내역 빈 경우
-//		    	listEmpty();
-//		    	
-//		    }else {             //주문내역이 있는 경우
-//		    	makeList();
-//		    }
+		 if(userReview == null) {  //리뷰파일이 빈 경우
+		    	listEmpty();
+		    	
+		 }else {             //리뷰파일에 내용있는 경우
+		 
+			 for (int i = 0; i < userReview.size(); i++) {  
+
+					// 각 리뷰작성된 패널
+					JPanel panel_1 = new JPanel();
+					panel_1.setBackground(Color.WHITE);
+					GridBagConstraints gbc_panel_1 = new GridBagConstraints();
+					gbc_panel_1.insets = new Insets(0, 0, 5, 0);
+					gbc_panel_1.gridx = 0;
+					gbc_panel_1.gridy = i;
+					panel_1.setBorder(new LineBorder(Color.LIGHT_GRAY,2));
+					panel.add(panel_1, gbc_panel_1);
+
+					GridBagLayout gbl_panel_1 = new GridBagLayout();
+					gbl_panel_1.columnWidths = new int[] { 97, 97, 97, 97, 97, 0 };
+					gbl_panel_1.rowHeights = new int[] { 30, 30, 30, 30, 30, 30, 0 };
+					gbl_panel_1.columnWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
+					gbl_panel_1.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
+					panel_1.setLayout(gbl_panel_1);
+
+					// 패널번호 --> 파일에서 삭제할 때 index로 넘기기
+					panel_1.setToolTipText(String.valueOf(i)); // 패널번호 = userOrderList인덱스
+					int panelIndex = Integer.parseInt(panel_1.getToolTipText());
+
+					// 주문날짜 "2021.06.01"
+					JLabel lblNewLabel = new JLabel(date);
+					lblNewLabel.setFont(new Font("굴림", Font.PLAIN, 15));
+					GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
+					gbc_lblNewLabel.fill = GridBagConstraints.BOTH;
+					gbc_lblNewLabel.insets = new Insets(0, 0, 5, 5);
+					gbc_lblNewLabel.gridx = 0;
+					gbc_lblNewLabel.gridy = 0;
+					panel_1.add(lblNewLabel, gbc_lblNewLabel);
+					
+					JLabel lblNewLabel_1 = new JLabel("평점 : " + score);
+					lblNewLabel_1.setFont(new Font("굴림", Font.PLAIN, 15));
+					GridBagConstraints gbc_lblNewLabel_1 = new GridBagConstraints();
+					gbc_lblNewLabel_1.fill = GridBagConstraints.BOTH;
+					gbc_lblNewLabel_1.insets = new Insets(0, 0, 5, 5);
+					gbc_lblNewLabel_1.gridx = 1;
+					gbc_lblNewLabel_1.gridy = 0;
+					panel_1.add(lblNewLabel_1, gbc_lblNewLabel_1);
+								
+					// 식당이름
+					JLabel lblNewLabel_3 = new JLabel(storeName /*storeName*/);
+					GridBagConstraints gbc_lblNewLabel_3 = new GridBagConstraints();
+					gbc_lblNewLabel_3.fill = GridBagConstraints.BOTH;
+					gbc_lblNewLabel_3.insets = new Insets(0, 0, 5, 5);
+					gbc_lblNewLabel_3.gridx = 0;
+					gbc_lblNewLabel_3.gridy = 1;
+					panel_1.add(lblNewLabel_3, gbc_lblNewLabel_3);
+					
+					
+					//"메뉴이름   메뉴가격"
+					for(int k=0; k < menus.length; k++) { 
+						JLabel lblNewLabel_3_1 = new JLabel(menus[k]);
+						GridBagConstraints gbc_lblNewLabel_3_1 = new GridBagConstraints();
+						gbc_lblNewLabel_3_1.gridwidth = 2;
+						gbc_lblNewLabel_3_1.fill = GridBagConstraints.BOTH;
+						gbc_lblNewLabel_3_1.insets = new Insets(0, 0, 5, 5);
+						gbc_lblNewLabel_3_1.gridx = 0;
+						gbc_lblNewLabel_3_1.gridy = 2 + k;
+						panel_1.add(lblNewLabel_3_1, gbc_lblNewLabel_3_1);
+					} 
+					
+								
+//					JLabel lblNewLabel_3_1 = new JLabel("메뉴1이름 메뉴1가격");
+//					GridBagConstraints gbc_lblNewLabel_3_1 = new GridBagConstraints();
+//					gbc_lblNewLabel_3_1.gridwidth = 2;
+//					gbc_lblNewLabel_3_1.fill = GridBagConstraints.BOTH;
+//					gbc_lblNewLabel_3_1.insets = new Insets(0, 0, 5, 5);
+//					gbc_lblNewLabel_3_1.gridx = 0;
+//					gbc_lblNewLabel_3_1.gridy = 2;
+//					panel_1.add(lblNewLabel_3_1, gbc_lblNewLabel_3_1);
+//
 //			
-//			frame.validate();
-//			frame.repaint();	
-		
-	}
+//					JLabel lblNewLabel_3_2 = new JLabel("메뉴2이름 메뉴2가격");
+//					GridBagConstraints gbc_lblNewLabel_3_2 = new GridBagConstraints();
+//					gbc_lblNewLabel_3_2.gridwidth = 2;
+//					gbc_lblNewLabel_3_2.fill = GridBagConstraints.BOTH;
+//					gbc_lblNewLabel_3_2.insets = new Insets(0, 0, 5, 5);
+//					gbc_lblNewLabel_3_2.gridx = 0;
+//					gbc_lblNewLabel_3_2.gridy = 3;
+//					panel_1.add(lblNewLabel_3_2, gbc_lblNewLabel_3_2);
+//					
+//
+//					JLabel lblNewLabel_3_3 = new JLabel("메뉴3이름 메뉴3가격");
+//					GridBagConstraints gbc_lblNewLabel_3_3 = new GridBagConstraints();
+//					gbc_lblNewLabel_3_3.gridwidth = 2;
+//					gbc_lblNewLabel_3_3.fill = GridBagConstraints.BOTH;
+//					gbc_lblNewLabel_3_3.insets = new Insets(0, 0, 5, 5);
+//					gbc_lblNewLabel_3_3.gridx = 0;
+//					gbc_lblNewLabel_3_3.gridy = 4;
+//					panel_1.add(lblNewLabel_3_3, gbc_lblNewLabel_3_3);
+				
+				
+					String str = "안녕하세요 리뷰입니다 안녕하세요 리뷰입니다 리뷰입니다 리뷰입니다 리뷰입니다 리뷰입니다  안녕하세요 리뷰입니다 리뷰입니다 리뷰입니다 리뷰입니다 리뷰입니다";
+					JTextArea area = new JTextArea(str);
+					GridBagConstraints gbc_lblNewLabel_3_4 = new GridBagConstraints();
+					gbc_lblNewLabel_3_4.gridwidth = 5;
+					gbc_lblNewLabel_3_4.gridheight = 3;
+					gbc_lblNewLabel_3_4.fill = GridBagConstraints.BOTH;
+					gbc_lblNewLabel_3_4.insets = new Insets(0, 0, 5, 5);
+					gbc_lblNewLabel_3_4.gridx = 0;
+					gbc_lblNewLabel_3_4.gridy = 5;
+					area.setLineWrap(true);
+					area.setBackground(new Color(230, 230, 250));
+					area.setFont(new Font("굴림", Font.PLAIN, 15)); 
+					panel_1.add(area, gbc_lblNewLabel_3_4);
+					
+					
+					JButton btnNewButton = new JButton("리뷰수정");
+					GridBagConstraints gbc_btnNewButton2 = new GridBagConstraints();
+					gbc_btnNewButton2.fill = GridBagConstraints.BOTH;
+					gbc_btnNewButton2.insets = new Insets(0, 0, 5, 5);
+					gbc_btnNewButton2.gridx = 3;
+					gbc_btnNewButton2.gridy = 8;
+					btnNewButton.setBackground(Color.orange);
+					btnNewButton.setForeground(Color.white);
+					panel_1.add(btnNewButton, gbc_btnNewButton2);
+					//리뷰작성창 띄우기
+					//작성완료 ==> 해당리뷰 삭제하고 다시 저장
+					btnNewButton.addActionListener(new ActionListener() {
+
+						@Override
+						public void actionPerformed(ActionEvent e) {
+							
+							int result = JOptionPane.showConfirmDialog(null, "리뷰를 수정하시겠습니까?", "리뷰내역 삭제",
+									JOptionPane.YES_NO_OPTION);
+							if (result == JOptionPane.YES_OPTION) {
+								new WriteReview(date, storeName, menus, userID );
+							}
+						}
+					});
+
+					
+					JButton btnNewButton_2 = new JButton("리뷰삭제"); // 리뷰 뷰 띄우기, 리뷰 객체 전달
+					GridBagConstraints gbc_btnNewButton3 = new GridBagConstraints();
+					gbc_btnNewButton3.fill = GridBagConstraints.BOTH;
+					gbc_btnNewButton3.insets = new Insets(0, 0, 5, 0);
+					gbc_btnNewButton3.gridx = 4;
+					gbc_btnNewButton3.gridy = 8;
+					btnNewButton_2.setBackground(Color.orange);
+					btnNewButton_2.setForeground(Color.white);
+					panel_1.add(btnNewButton_2, gbc_btnNewButton3);
+					
+					btnNewButton_2.addActionListener(new ActionListener() {
+
+						@Override
+						public void actionPerformed(ActionEvent e) {
+							
+							int result = JOptionPane.showConfirmDialog(null, "리뷰를 삭제하시겠습니까?", "리뷰내역 삭제",
+									JOptionPane.YES_NO_OPTION);
+							if (result == JOptionPane.YES_OPTION) {
+								// 리뷰 삭제 & 리뷰파일에 다시 저장
+								rlc.deleteReview(panelIndex);
+								// 화면 다시 만들기(새로 저장한 내역 다시 스크롤판에 나타내기)
+								init();
+							}
+							
+						}
+						
+					});
+				}
+		 }
 	
+		frame.validate();
+		frame.repaint();
+	}
+
 	public static void main(String[] args) throws FileNotFoundException {
 		// TODO Auto-generated method stub
 
 		new ReviewListView();
 	}
-
 	
+	private void listEmpty() {
+		// TODO Auto-generated method stub
+		JLabel empty = new JLabel("작성한 리뷰가 없습니다.");
+		empty.setFont(new Font("굴림", Font.PLAIN, 20));
+		panel.add(empty);
+	}
+
 }

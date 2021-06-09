@@ -7,6 +7,7 @@ import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
@@ -20,7 +21,7 @@ import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
-import com.projectGo.controller.OrderListController;
+import com.projectGo.controller.ReviewListController;
 import com.projectGo.model.dao.ReviewListDao;
 import com.projectGo.model.vo.Review;
 
@@ -29,7 +30,7 @@ public class WriteReview implements ActionListener {
 	private JPanel contentPane;
 	public JFrame frame;
 	public JButton backBtn;
-	private OrderListController olc;
+	private ReviewListController rlc;
 	private Image image;
 	
 	private String userID;
@@ -216,12 +217,23 @@ public class WriteReview implements ActionListener {
 					}
 					
 				} else {
-					//홈으로
 //					new StoreDao().saveAveStar(storeName, reviewScore);  ==> 리뷰평점 업뎃
+					
+					//같은 리뷰가 있다면 ==> 인덱스/ 같은리뷰없으면 1
+					int index = new ReviewListDao().searchReview(date, userID, storeName, menus);
 					review = new Review(date, userID, storeName, menus, reviewScore, reviewContents);
-					new ReviewListDao(review);  //리뷰 파일에 저장
-					JOptionPane.showMessageDialog(null,"리뷰가 등록되었습니다!\n홈으로 돌아갑니다");
-					new ViewTemp();
+					
+					if(index==1) {  //1. 리뷰 처음 작성	
+						rlc.writeReview(review);
+						JOptionPane.showMessageDialog(null,"리뷰가 등록되었습니다!\n홈으로 돌아갑니다");
+						new HomeView();
+						
+					} else {  //2. 리뷰 수정
+						rlc.modifyReview(review, index);
+						JOptionPane.showMessageDialog(null,"리뷰가 수정되었습니다!\n홈으로 돌아갑니다");
+						new HomeView();
+					}
+					
 				}
 			}
 		});
