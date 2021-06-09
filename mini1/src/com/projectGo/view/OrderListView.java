@@ -26,8 +26,10 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
 
 import com.projectGo.controller.OrderListController;
+import com.projectGo.model.dao.ReviewListDao;
 import com.projectGo.model.vo.Menu;
 import com.projectGo.model.vo.Order;
 
@@ -85,7 +87,7 @@ public class OrderListView extends MouseAdapter {
 	    backBtn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				new ViewTemp();
+				new HomeView();
 			}
 		});
 	    
@@ -129,6 +131,7 @@ public class OrderListView extends MouseAdapter {
 			gbc_panel_1.insets = new Insets(0, 0, 5, 0);
 			gbc_panel_1.gridx = 0;
 			gbc_panel_1.gridy = i;
+			panel_1.setBorder(new LineBorder(Color.LIGHT_GRAY,2));
 			panel.add(panel_1, gbc_panel_1);
 			
 			GridBagLayout gbl_panel_1 = new GridBagLayout();
@@ -145,7 +148,7 @@ public class OrderListView extends MouseAdapter {
 			//날짜, 식당명, 총금액
 			date = StringFromCalendar(userOrderList.get(i).getOrderedDate());
 	    	storeName = userOrderList.get(i).getStoreName();
-	    	int totalPay = userOrderList.get(i).getTotalCharge();
+	    	int totalPay = userOrderList.get(i).getPayment();
 	    	
 	    	//음식사진, 메뉴별 [이름 + 수량]
 	    	HashMap<String, Menu> menuMap = userOrderList.get(i).getMenuList();
@@ -272,7 +275,7 @@ public class OrderListView extends MouseAdapter {
 						remove(); 
 						// 주문내역 삭제 
 						olc.deleteOrder(panelIndex);
-						// 삭제된 주문내역 파일에 저장 --> (나중에)변수추가해서 해야할듯...
+						// 삭제된 주문내역 파일에 저장 --> (나중에)변수추가해서 해야할듯... ==> 리뷰는 다른 파일에 저장하기때문에 괜찮음
 						olc.saveListFile();
 						// 화면 다시 만들기(새로 저장한 내역 다시 스크롤판에 나타내기)
 						init();
@@ -323,19 +326,30 @@ public class OrderListView extends MouseAdapter {
 			btnNewButton_2.setForeground(Color.white);
 			panel_1.add(btnNewButton_2, gbc_btnNewButton3);
 			
-
+			userID = MainFrame.loginUserId;
+			
+			//'배달완료'일때만 리뷰쓰기 가능 
 			if(lblNewLabel_1.getText().equals("배달완료")) {
 				btnNewButton_2.addActionListener(new ActionListener() {
-					
+					//리뷰리스트에서 중복확인
+					//ReviewListDao -> search메소드 -> 파일내용중복확인 -> 그 값이 false이면 리뷰창 안 띄움
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						userID = userOrderList.get(0).getUserId();
-						new WriteReview(date, storeName, menus, userID );
+						
+						//같은 리뷰가 있다면 ==> 인덱스 / 같은리뷰없으면 1
+						if(new ReviewListDao().searchReview(date, userID, storeName, menus)==1) {
+							new WriteReview(date, storeName, menus, userID );
+						} else {
+							JOptionPane.showMessageDialog(null,"이전에 리뷰를 작성하였습니다./n "
+									+ "리뷰수정은 My리뷰에서 하세요","주의",JOptionPane.WARNING_MESSAGE);
+						}
 					}
 				});
 			}
 			
 	    }
+		frame.validate();
+		frame.repaint();		
 	}
 	
 	private void listEmpty() {
