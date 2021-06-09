@@ -17,8 +17,9 @@ public class MainFrame extends JFrame {
 		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		mainFrame.getContentPane().setLayout(null);
 		mainFrame.setVisible(true);
-		loginUserId = "tempUser01";
+		loginUserId = "user01";
 
 	}
 
 }
+ 

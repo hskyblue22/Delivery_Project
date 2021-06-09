@@ -10,18 +10,20 @@ import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
 import com.projectGo.model.vo.Member;
+import com.projectGo.view.MainFrame;
 
 public class DaoTemp {
 
-	private ArrayList<Member> memberList = new ArrayList<Member>();
+	private ArrayList<Member> memberList;
 	Member member;
 	String userName;
 
 	public Member memberLoad(String userName) {
+		memberList = new ArrayList<Member>();
 		this.userName = userName;
 		member = new Member();
 		try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("member.txt"))) {
-			while (true) {  
+			while (true) {
 				memberList.add((Member) ois.readObject());
 
 			}
@@ -47,25 +49,24 @@ public class DaoTemp {
 
 			}
 
-		}
+		} 
 
 		return member;
 
 	}
 
 	public void memberSave(ArrayList<String> preSerchList, ArrayList<String> preSerchNum) {
-
+		member = memberLoad(MainFrame.loginUserId);
 		for (int i = 0; i < memberList.size(); i++) {
 
 			if (memberList.get(i).getNick().equals(userName)) {
-
-				memberList.get(i).setPreSerchList(preSerchList);;
+				memberList.get(i).setPreSerchList(preSerchList);
 				memberList.get(i).setPreSerchNum(preSerchNum);
 
 			}
 
 		}
-		
+
 		try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("member.txt"))) {
 
 			for (int i = 0; i < memberList.size(); i++) {

@@ -49,7 +49,7 @@ public class ChoiceResultView extends MainFrame {
 		frame.getContentPane().add(scrollPane);
 
 		for (int i = 0; i < printList.size(); i++) {
-
+ 
 			JPanel menuPanel = new JPanel();
 			menuPanel.setBackground(Color.WHITE);
 			GridBagLayout gbl_menuPanel = new GridBagLayout();
@@ -200,7 +200,7 @@ public class ChoiceResultView extends MainFrame {
 
 		JButton backBtn = new JButton("이  전");
 		backBtn.setBounds(15, 20, 80, 40);
-		backBtn.setBackground(new Color(255, 128, 0));
+		backBtn.setBackground(Color.ORANGE);
 		backBtn.setForeground(Color.white);
 		backBtn.addActionListener(new ActionListener() {
 
@@ -222,13 +222,13 @@ public class ChoiceResultView extends MainFrame {
 
 		JButton homeBtn = new JButton("홈으로");
 		homeBtn.setBounds(440, 20, 80, 40);
-		homeBtn.setBackground(new Color(255, 128, 0));
+		homeBtn.setBackground(Color.ORANGE);
 		homeBtn.setForeground(Color.white);
 		homeBtn.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				new ViewTemp();
+				new HomeView();
 
 			}
 		});

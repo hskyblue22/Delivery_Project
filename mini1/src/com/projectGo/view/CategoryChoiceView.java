@@ -54,7 +54,7 @@ public class CategoryChoiceView extends MainFrame{
 				0.0, 0.0 };
 		gbl_menuPanel.rowHeights = new int[] { 15, 35, 15 };
 		gbl_menuPanel.columnWidths = new int[] { 35, 0, 35, 35, 35, 35, 35, 35, 35, 35, 35, 35, 35, 35, 35 };
-
+ 
 		menuPanel.setLayout(gbl_menuPanel);
 		menuPanel.setBounds(0, 681, 535, 70);
 		frame.getContentPane().add(menuPanel);
@@ -154,13 +154,13 @@ public class CategoryChoiceView extends MainFrame{
 
 		JButton backBtn = new JButton("이  전");
 		backBtn.setBounds(15, 20, 80, 40);
-		backBtn.setBackground(new Color(255, 128, 0));
+		backBtn.setBackground(Color.ORANGE);
 		backBtn.setForeground(Color.white);
 		backBtn.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				new ViewTemp();
+				new HomeView();
 				
 			}
 		});

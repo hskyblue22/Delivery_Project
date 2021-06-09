@@ -32,8 +32,6 @@ import com.projectGo.model.vo.Store;
 
 public class SerchPageView extends MainFrame {
 
-	
-
 	Member member;
 	ArrayList<String> preSerchNum;
 	ArrayList<String> preSerchList;
@@ -42,14 +40,10 @@ public class SerchPageView extends MainFrame {
 	JFrame frame;
 	String resultName;
 	DaoTemp dt;
-	
-	
 
 	public SerchPageView() {
-		
+
 	}
-
-
 
 	public void serchMain() {
 		String userName = MainFrame.loginUserId;
@@ -74,7 +68,7 @@ public class SerchPageView extends MainFrame {
 				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		scrollPane.setBounds(0, 293, 535, 442);
 		frame.getContentPane().add(scrollPane);
-
+ 
 		for (int i = 0; i < recommendList.size(); i++) {
 
 			JPanel menuPanel = new JPanel();
@@ -229,13 +223,13 @@ public class SerchPageView extends MainFrame {
 
 		JButton backBtn = new JButton("이  전");
 		backBtn.setBounds(15, 20, 80, 40);
-		backBtn.setBackground(new Color(255, 128, 0));
+		backBtn.setBackground(Color.ORANGE);
 		backBtn.setForeground(Color.white);
 		backBtn.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				new ViewTemp();
+				new HomeView();
 
 			}
 		});
@@ -253,7 +247,7 @@ public class SerchPageView extends MainFrame {
 
 		JButton serchBtn = new JButton("검  색");
 		serchBtn.setBounds(450, 105, 70, 40);
-		serchBtn.setBackground(new Color(255, 128, 0));
+		serchBtn.setBackground(Color.ORANGE);
 		serchBtn.setForeground(Color.white);
 		serchBtn.addActionListener(new ActionListener() {
 
@@ -265,37 +259,15 @@ public class SerchPageView extends MainFrame {
 					return;
 
 				} else if (serchChoiceBox.getSelectedIndex() == 1) {
-					ArrayList<String> temp1 = new ArrayList<String>();
-					ArrayList<String> temp2 = new ArrayList<String>();
-					preSerchNum.add(0, "1");
-					preSerchList.add(0, textField.getText());
-					if (preSerchNum.size() > 5) {
+					new SerchPageController().serchKeywordSave(member, textField.getText(), "1");
 
-						temp1.addAll(preSerchNum.subList(0, 5));
-						preSerchNum = temp1;
-						temp2.addAll(preSerchList.subList(0, 5));
-						preSerchList = temp2;
-
-					}
-
-					dt.memberSave(preSerchList, preSerchNum);
 					new ChoiceResultView().choiceResultViewMain("'" + textField.getText() + "' 검색결과",
 							new SerchPageController().serchMenu(mainList, textField.getText()), 1);
 
 				} else {
-					preSerchNum.add(0, "2");
-					preSerchList.add(0, textField.getText());
-					if (preSerchNum.size() > 5) {
+					
+					new SerchPageController().serchKeywordSave(member, textField.getText(), "2");
 
-						ArrayList<String> temp1 = new ArrayList<String>();
-						ArrayList<String> temp2 = new ArrayList<String>();
-						temp1.addAll(preSerchNum.subList(0, 5));
-						preSerchNum = temp1;
-						temp2.addAll(preSerchList.subList(0, 5));
-						preSerchList = temp2;
-
-					}
-					dt.memberSave(preSerchList, preSerchNum);
 					new ChoiceResultView().choiceResultViewMain("'" + textField.getText() + "' 검색결과",
 							new SerchPageController().serchStoreName(mainList, textField.getText()), 1);
 				}
@@ -306,7 +278,7 @@ public class SerchPageView extends MainFrame {
 
 		JPanel preSerchPanel = new JPanel();
 
-		preSerchPanel.setBounds(15, 155, 505, 40); 
+		preSerchPanel.setBounds(15, 155, 505, 40);
 		preSerchPanel.setBackground(Color.WHITE);
 		frame.getContentPane().add(preSerchPanel);
 		preSerchPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
@@ -316,8 +288,8 @@ public class SerchPageView extends MainFrame {
 		preNameLabel.setOpaque(true);
 		preNameLabel.setPreferredSize(new Dimension(80, 40));
 		preSerchPanel.add(preNameLabel);
-		if(preSerchList == null) {
-			
+		if (preSerchList == null) {
+
 			preSerchList = new ArrayList<String>();
 			preSerchNum = new ArrayList<String>();
 		}

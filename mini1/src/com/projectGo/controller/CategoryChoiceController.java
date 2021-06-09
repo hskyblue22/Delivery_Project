@@ -19,7 +19,7 @@ public class CategoryChoiceController {
 				temp.add(list.get(i));
 
 			}
-
+ 
 		}
 		Collections.sort(temp, new AscDeliveryTip());
 		
