@@ -10,10 +10,10 @@ public class RunTemp {
   		
 //  		BasketDao bd = new BasketDao();
 //  		bd.fileInput();
-//  		
 //	 		bd.fileOutput();
-  		
-  		
+      
+
+
 //  		HashMap<String, Menu> m2 = new HashMap<String, Menu>();
 //		m2.put("스테이크", new Menu("메뉴사진자리1", 55000, 1));
 //		m2.put("오일파스타", new Menu("메뉴사진자리2", 20000, 2));
@@ -44,7 +44,6 @@ public class RunTemp {
   		
 		//new HomeView();
 
-  	
 
     }
 

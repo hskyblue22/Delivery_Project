@@ -69,7 +69,7 @@ public class Order extends Basket implements Serializable{
 
 	@Override
 	public String toString() {
-		return "Order [payment=" + payment + ", request=" + request + ", orderedDate=" + orderedDate + ", userAddress="
+		return super.toString() + "Order [payment=" + payment + ", request=" + request + ", orderedDate=" + orderedDate + ", userAddress="
 				+ userAddress + ", orderState=" + orderState + "]";
 	}
 	

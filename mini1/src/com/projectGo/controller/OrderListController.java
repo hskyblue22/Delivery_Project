@@ -27,18 +27,16 @@ public class OrderListController {
 //		}
 	}
 
-	public void printList() {
-		
-		for(int i=0; i<olist.size(); i++) {
-			System.out.println(olist.get(i));
-		}
-	}
+//	public void printList() {
+//		
+//		for(int i=0; i<olist.size(); i++) {
+//			System.out.println(olist.get(i));
+//		}
+//	}
 
 	public void deleteOrder(int index) {
 
-		old.deleteList(index);
-		System.out.println("삭제되었습니다.");
-		
+		old.deleteList(index);	
 	}
 
 
