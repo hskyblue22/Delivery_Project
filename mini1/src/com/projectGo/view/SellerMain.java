@@ -1,47 +1,123 @@
 package com.projectGo.view;
 
-import java.awt.BorderLayout;
-import java.awt.GridLayout;
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import com.projectGo.controller.SellerController;
+
 public class SellerMain extends MainFrame {
+	JFrame frame;
+	SellerController sc = new SellerController();
 
 	public SellerMain() {
-		/*
-		 * this.setLayout(new GridLayout(550, 800)); 
-		 * JPanel p1 = new JPanel(); JButton
-		 * bt1 = new JButton("가게 등록"); JButton bt2 = new JButton("주문 조회"); JButton bt3 =
-		 * new JButton("회원 정보");
-		 * 
-		 * p1.add(bt1); p1.add(bt2); p1.add(bt3);
-		 * 
-		 * this.add(p1);
-		 */
 
+
+
+
+		frame = MainFrame.mainFrame;
+		frame.getContentPane().removeAll();
+		frame.validate();
+		frame.repaint();
 		JPanel panel = new JPanel();
-		this.getContentPane().add(panel, BorderLayout.CENTER);
-
-		JButton btnNewButton_1 = new JButton("가게 등록");
-		btnNewButton_1.addActionListener(new ActionListener() {
+		frame.getContentPane().add(panel);
+		panel.setBounds(0, 0, 550, 800);
+		
+		
+		JButton bt1 = new JButton("가게 등록");
+		JButton bt2 = new JButton("주문 조회");
+		JButton bt3 = new JButton("회원 정보");
+		
+		JButton bt4 = new JButton("가게 수정");
+		
+		bt1.setBounds(100, 260, 150, 100);
+		bt2.setBounds(300, 260, 150, 100);
+		bt3.setBounds(200, 400, 150, 100);
+		bt4.setBounds(100, 260, 150, 100);
+		
+		bt1.setBackground(Color.orange);
+		bt2.setBackground(Color.orange);
+		bt3.setBackground(Color.orange);
+		bt4.setBackground(Color.orange);
+		
+		bt1.setForeground(Color.white);
+		bt2.setForeground(Color.white);
+		bt3.setForeground(Color.white);
+		bt4.setForeground(Color.white);
+		
+		bt1.setFont(new Font("굴림", Font.BOLD, 15));
+		bt2.setFont(new Font("굴림", Font.BOLD, 15));
+		bt3.setFont(new Font("굴림", Font.BOLD, 15));
+		bt4.setFont(new Font("굴림", Font.BOLD, 15));
+		
+		bt1.setBorderPainted(false); 
+		bt1.setFocusPainted(false);
+		bt2.setBorderPainted(false); 
+		bt3.setFocusPainted(false);
+		bt3.setBorderPainted(false); 
+		bt3.setFocusPainted(false);
+		
+		bt4.setBorderPainted(false); 
+		bt4.setFocusPainted(false);
+		
+		
+		bt1.addActionListener(new ActionListener() {
+			
+			@Override
 			public void actionPerformed(ActionEvent e) {
+				new StoreAddView();
+				
 			}
 		});
-		panel.add(btnNewButton_1);
-
-		JButton btnNewButton = new JButton("주문 조회");
-		panel.add(btnNewButton);
-
-		JButton btnNewButton_2 = new JButton("개인정보 조회");
-		panel.add(btnNewButton_2);
 		
-		this.add(panel);
+		bt2.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				new MenuAddView();
+				
+			}
+		});
+		
+		bt3.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				new MemberInfoFrame();
+				
+			}
+		});
+		
 
-		this.validate();
-		this.repaint();
+		bt4.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				new StoreModifyView();
+				
+			}
+		});
+		
+		
+
+
+		if (sc.checkStore() == true) {
+			panel.add(bt4);
+		} else {
+			panel.add(bt1);
+		}
+		
+		
+		panel.add(bt2);
+		panel.add(bt3);
+		
+		
+		
 
 	}
 

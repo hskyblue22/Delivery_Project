@@ -1,7 +1,6 @@
 package com.projectGo.run;
 
-import com.projectGo.model.dao.BasketDao;
-import com.projectGo.view.BasketView;
+import com.projectGo.view.SellerMain;
 
 public class RunTemp {
   
@@ -37,9 +36,13 @@ public class RunTemp {
 //
 //		}
 		
-  		new BasketDao();
-		new BasketView(); 
-		
+  		//new BasketDao();
+		//new BasketView(); 
+  		
+  		new SellerMain();
+  		//new WriteReview();
+  		
+		//new HomeView();
 
   	
 
