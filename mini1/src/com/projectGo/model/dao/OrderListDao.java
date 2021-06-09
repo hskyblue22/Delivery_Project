@@ -21,6 +21,7 @@ public class OrderListDao {
 	private ArrayList<Order> otherOrderList = new ArrayList<Order>();
 	private Member m;
 	
+	
 	public OrderListDao() {
 		
 		try(ObjectInputStream ois = new ObjectInputStream(new FileInputStream("order_list.txt"))){
@@ -98,6 +99,24 @@ public class OrderListDao {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+
+
+	public ArrayList<Order> totalOrderList() {
+		
+		try(ObjectInputStream ois = new ObjectInputStream(new FileInputStream("order_list.txt"))){
+		totalorderList.addAll((ArrayList<Order>)ois.readObject()); 
+		}catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		 
+		return totalorderList;
 	}
 	
 }
