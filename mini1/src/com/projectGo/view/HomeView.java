@@ -48,7 +48,7 @@ public class HomeView extends MainFrame {
 			}
 		});
 		frame.getContentPane().add(categoryButton);
-
+ 
 		JButton searchButton = new JButton("검색");
 		searchButton.setFont(new Font("굴림", Font.BOLD, 15));
 		searchButton.setForeground(Color.WHITE);

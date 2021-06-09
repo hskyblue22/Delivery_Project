@@ -28,7 +28,7 @@ public class SerchPageController {
 		Collections.sort(temp, new AscDeliveryTip());
 
 		return temp;
-
+ 
 	}
 
 	public ArrayList<Store> serchMenu(ArrayList<Store> list, String keyWord) {

@@ -49,7 +49,7 @@ public class ChoiceResultView extends MainFrame {
 		frame.getContentPane().add(scrollPane);
 
 		for (int i = 0; i < printList.size(); i++) {
-
+ 
 			JPanel menuPanel = new JPanel();
 			menuPanel.setBackground(Color.WHITE);
 			GridBagLayout gbl_menuPanel = new GridBagLayout();

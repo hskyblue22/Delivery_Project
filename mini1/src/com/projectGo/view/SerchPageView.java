@@ -68,7 +68,7 @@ public class SerchPageView extends MainFrame {
 				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		scrollPane.setBounds(0, 293, 535, 442);
 		frame.getContentPane().add(scrollPane);
-
+ 
 		for (int i = 0; i < recommendList.size(); i++) {
 
 			JPanel menuPanel = new JPanel();

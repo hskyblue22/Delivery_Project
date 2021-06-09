@@ -69,7 +69,7 @@ public class StoreInfoView extends MainFrame {
 	public ArrayList<Store> getPrintList() {
 		return printList;
 	}
-
+ 
 	public void setPrintList(ArrayList<Store> printList) {
 		this.printList = printList;
 	}

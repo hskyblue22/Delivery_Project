@@ -18,7 +18,7 @@ public class StoreSortController {
 		for (int i = 0; i < 10; i++) {
 
 			temp.add(new ArrayList<Store>());
-
+ 
 		}
 
 		for (int i = 0; i < list.size(); i++) {
