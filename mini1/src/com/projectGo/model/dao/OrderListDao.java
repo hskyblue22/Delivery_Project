@@ -15,77 +15,57 @@ import com.projectGo.view.MainFrame;
 
 public class OrderListDao {
 	
-	
-	private ArrayList<Order> totalorderList = new ArrayList<Order>();
-	private ArrayList<Order> userOrderList = new ArrayList<Order>();
-	private ArrayList<Order> otherOrderList = new ArrayList<Order>();
+	private ArrayList<Order> totalorderList;
+	private ArrayList<Order> userOrderList;
+	private ArrayList<Order> otherOrderList;
 	private String userID;
 	
 	public OrderListDao() {
 		
-		try(ObjectInputStream ois = new ObjectInputStream(new FileInputStream("order_list.txt"))){
-			
-			userID = MainFrame.loginUserId;
+	}
+	
+	public void loadOrderList() {
+		
+		totalorderList = new ArrayList<Order>();  //위에 해놓으면 부를때마다 생성하기때문에 불러올때 생성해주자
+		userOrderList = new ArrayList<Order>();
+		otherOrderList = new ArrayList<Order>();
+		
+		try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("order_list.txt"))) {
+
+			// userID = MainFrame.loginID;
+			userID = "temp1";
 //			totalorderList.addAll((ArrayList<Order>)ois.readObject());  //주문내역담긴 파일 전체 orderlist에 담기
-			
-			while(true) {
-				
+
+			while (true) {
+
 				Order o;
-				while( (o = (Order)ois.readObject()) != null ) {
+				while ((o = (Order) ois.readObject()) != null) {
 					totalorderList.add(o);
-					
-					for(Order ol : totalorderList) {
-						if(ol.getBasket().getUserId().equals(userID)) {
-							userOrderList.add(ol);
-						}else {
-							otherOrderList.add(ol);
-						}
-					}
+
+					if (o.getBasket().getUserId().equals(userID)) {  //여기서 for문 안된다!!
+						userOrderList.add(o);
+					} else
+						otherOrderList.add(o);
 				}
-				
-				//totalorderList.add((Order)ois.readObject());
 
 			}
-			
-//			while (true) {
-//	            
-//	            totalorderList.add((Order) ois.readObject());
-//	            
-////	            
-//	            for(Order ol : totalorderList) {
-//	               if(ol.getBasket().getUserId().equals(userID)) {  //userid와 orderList에 있는 userid비교
-//	                  userOrderList.add(ol);  //아이디 같으면 새로운 orderList에 담기
-//	               }else {
-//	                  //otherOrderList.add(ol);
-//	                  userOrderList.add(ol);
-//	               }
-//	            }
-//	            
-//	         }
-			
-		}catch(EOFException e) {
+
+
+		} catch (EOFException e) {
 			return;
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			userOrderList = null;
+			return;
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} catch(NullPointerException e) {  //갑자기 nullpointerexception나서 추가함
-			userOrderList = null;
+		} catch (NullPointerException e) { // 갑자기 nullpointerexception나서 추가함
+			return;
 		}
 	}
 	
-//	public void userOtherList() {
-//
-//		for(Order ol : totalorderList) {
-//			System.out.println(ol.toString());
-//			System.out.println(ol.getBasket().getUserId());
-//		}
-//	}
 	
 	public ArrayList<Order> getOrderList() {
 		return userOrderList;
@@ -99,6 +79,7 @@ public class OrderListDao {
 	
 	public ArrayList<Order> displayAllList(){
 		//주문내역 list 를 전체 리턴
+		loadOrderList();
 		return userOrderList;
 	}
 	
