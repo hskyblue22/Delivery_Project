@@ -29,6 +29,13 @@ public class ReviewListController {
 	public void writeReview(Review review) {
 		
 		redao.writeReview(review);
+		
+//		if( redao.userAllList() == null) {
+//			
+//			redao.firstWriteReview(review);
+//		}else {
+//			redao.writeReview(review);
+//		}
 	}
 	
 	public void deleteReview(int index) {
@@ -38,11 +45,11 @@ public class ReviewListController {
 	}
 
 	
-
-	public void saveListFile() {
-		// BoardDao의 saveListFile()의 메소드 호출
-		redao.saveListFile();
-	}
+//
+//	public void saveListFile() {
+//		// BoardDao의 saveListFile()의 메소드 호출
+//		redao.saveListFile();
+//	}
 
 
 	public void modifyReview(Review review, int index) {

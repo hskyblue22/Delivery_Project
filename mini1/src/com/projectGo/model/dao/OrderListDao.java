@@ -19,25 +19,49 @@ public class OrderListDao {
 	private ArrayList<Order> totalorderList = new ArrayList<Order>();
 	private ArrayList<Order> userOrderList = new ArrayList<Order>();
 	private ArrayList<Order> otherOrderList = new ArrayList<Order>();
-	private Member m;
-	
+	private String userID;
 	
 	public OrderListDao() {
 		
 		try(ObjectInputStream ois = new ObjectInputStream(new FileInputStream("order_list.txt"))){
 			
-			totalorderList.addAll((ArrayList<Order>)ois.readObject());  //주문내역담긴 파일 전체 orderlist에 담기
-
-			String userID = MainFrame.loginUserId;
+			userID = MainFrame.loginUserId;
+//			totalorderList.addAll((ArrayList<Order>)ois.readObject());  //주문내역담긴 파일 전체 orderlist에 담기
 			
-			for(Order ol : totalorderList) {
-				if(ol.getUserId().equals(userID)) {  //userid와 orderList에 있는 userid비교
-					userOrderList.add(ol);  //아이디 같으면 새로운 orderList에 담기
-				}else {
-					otherOrderList.add(ol);
+			while(true) {
+				
+				Order o;
+				while( (o = (Order)ois.readObject()) != null ) {
+					totalorderList.add(o);
+					
+					for(Order ol : totalorderList) {
+						if(ol.getBasket().getUserId().equals(userID)) {
+							userOrderList.add(ol);
+						}else {
+							otherOrderList.add(ol);
+						}
+					}
 				}
+				
+				//totalorderList.add((Order)ois.readObject());
+
 			}
 			
+//			while (true) {
+//	            
+//	            totalorderList.add((Order) ois.readObject());
+//	            
+////	            
+//	            for(Order ol : totalorderList) {
+//	               if(ol.getBasket().getUserId().equals(userID)) {  //userid와 orderList에 있는 userid비교
+//	                  userOrderList.add(ol);  //아이디 같으면 새로운 orderList에 담기
+//	               }else {
+//	                  //otherOrderList.add(ol);
+//	                  userOrderList.add(ol);
+//	               }
+//	            }
+//	            
+//	         }
 			
 		}catch(EOFException e) {
 			return;
@@ -55,17 +79,17 @@ public class OrderListDao {
 		}
 	}
 	
+//	public void userOtherList() {
+//
+//		for(Order ol : totalorderList) {
+//			System.out.println(ol.toString());
+//			System.out.println(ol.getBasket().getUserId());
+//		}
+//	}
 	
 	public ArrayList<Order> getOrderList() {
 		return userOrderList;
 	}
-
-
-
-	public void setOrderList(ArrayList<Order> orderList) {
-		this.userOrderList = userOrderList;
-	}
-
 
 
 	public void writeOrder(Order order) {
@@ -86,10 +110,14 @@ public class OrderListDao {
 	public void saveListFile() {
 		//"order_list.txt" 저장하기
 		try(ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("order_list.txt"))) {
-			
-			//다시 저장
-			oos.writeObject(userOrderList);  
-			oos.writeObject(otherOrderList);
+
+			//객체로 변환해서 하나하나 저장해야한다.
+			for(int i=0; i<userOrderList.size(); i++) {
+				oos.writeObject(userOrderList.get(i));
+			}
+			for(int i=0; i<otherOrderList.size(); i++) {
+				oos.writeObject(otherOrderList.get(i));
+			}
 			
 			
 		} catch (FileNotFoundException e) {

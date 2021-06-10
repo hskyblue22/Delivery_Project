@@ -16,6 +16,10 @@ public class OrderListController {
 		// TODO Auto-generated constructor stub
 	}
 	
+//	public void userOtherList() {
+//		old.userOtherList();
+//	}
+	
 	public ArrayList<Order> displayAllList(){
 		
 		olist = old.displayAllList();

@@ -92,7 +92,8 @@ public class OrderListView extends MouseAdapter {
 		});
 	    
 		// 스크롤판, 전체패널
-		JScrollPane scrollPane = new JScrollPane();
+		JScrollPane scrollPane = new JScrollPane(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		scrollPane.setBounds(12, 110, 512, 640);
 		contentPane.add(scrollPane);
 
@@ -107,7 +108,7 @@ public class OrderListView extends MouseAdapter {
 		panel.setLayout(gbl_panel);
 	  	
 	    
-	    if(userOrderList == null) {  //주문내역 빈 경우
+	    if(userOrderList == null) {  //이 부분 수정해야함!!_06.09
 	    	listEmpty();
 	    	
 	    }else {             //주문내역이 있는 경우
@@ -147,32 +148,28 @@ public class OrderListView extends MouseAdapter {
 	    	
 			//날짜, 식당명, 총금액
 			date = StringFromCalendar(userOrderList.get(i).getOrderedDate());
-	    	storeName = userOrderList.get(i).getStoreName();
+	    	storeName = userOrderList.get(i).getBasket().getStoreName();
 	    	int totalPay = userOrderList.get(i).getPayment();
 	    	
 	    	//음식사진, 메뉴별 [이름 + 수량]
-	    	HashMap<String, Menu> menuMap = userOrderList.get(i).getMenuList();
-	    	Set<Entry<String,Menu> > entryMenu = menuMap.entrySet();
-	    	Iterator<Entry<String,Menu>> mi =entryMenu.iterator();
+	    	HashMap<String, Menu> menuMap = userOrderList.get(i).getBasket().getMenuList();
+//	    	Set<Entry<String,Menu> > entryMenu = menuMap.entrySet();  //지워야함
+//	    	Iterator<Entry<String,Menu>> mii =entryMenu.iterator();   //지워야 함
 	    	
-	    	
-	    	String menuAndQuantity = "";
+	    	Set<String> menunames = menuMap.keySet();
+	    	Iterator<String> mi = menunames.iterator();
 	    	int menuIndex = 0;
-	    	menus = new String[entryMenu.size()];  //리뷰 넘겨주기
+	    	menus = new String[menunames.size()];
 	    	
 	    	while(mi.hasNext()) {
 	    		
-	    		menuPic = mi.next().getValue().getMenuPic();
-	    		image = new ImageIcon(menuPic).getImage().getScaledInstance(50,50,0);
-				
+	    		String key = mi.next();
 	    		
-	    		String key = mi.next().getKey();
-	    		int quantity = mi.next().getValue().getQuantity();
+	    		menuPic = menuMap.get(key).getMenuPic();
+	    		String menu = key +"    "+ menuMap.get(key).getQuantity()+"개";
+	    		menus[menuIndex] = menu;
 	    		
-	    		menuAndQuantity = key + "   "+ quantity + "개";
-	    		menus[menuIndex] = menuAndQuantity;
-	    		
-	    		JLabel lblNewLabel_3_1 = new JLabel(menuAndQuantity);
+	    		JLabel lblNewLabel_3_1 = new JLabel(menu);
 				GridBagConstraints gbc_lblNewLabel_3_1 = new GridBagConstraints();
 				gbc_lblNewLabel_3_1.gridwidth = 2;
 				gbc_lblNewLabel_3_1.fill = GridBagConstraints.BOTH;
@@ -180,25 +177,36 @@ public class OrderListView extends MouseAdapter {
 				gbc_lblNewLabel_3_1.gridx = 1;
 				gbc_lblNewLabel_3_1.gridy = 2 + (menuIndex++);
 				panel_1.add(lblNewLabel_3_1, gbc_lblNewLabel_3_1);
+	    	
 	    	}
+	    	
+	    	
+//	    	String menuAndQuantity = "";
+//	    	int menuIndex = 0;
+//	    	menus = new String[entryMenu.size()];  //리뷰 넘겨주기
+//	    	
+//	    	while(mi.hasNext()) {
+//	    		
+//	    		menuPic = mi.next().getValue().getMenuPic();
+//	    		image = new ImageIcon(menuPic).getImage().getScaledInstance(50,50,0);
+//				
+//	    		
+//	    		String key = mi.next().getKey();
+//	    		int quantity = mi.next().getValue().getQuantity();
+//	    		
+//	    		menuAndQuantity = key + "   "+ quantity + "개";
+//	    		menus[menuIndex] = menuAndQuantity;
+//	    		
+//	    		JLabel lblNewLabel_3_1 = new JLabel(menuAndQuantity);
+//				GridBagConstraints gbc_lblNewLabel_3_1 = new GridBagConstraints();
+//				gbc_lblNewLabel_3_1.gridwidth = 2;
+//				gbc_lblNewLabel_3_1.fill = GridBagConstraints.BOTH;
+//				gbc_lblNewLabel_3_1.insets = new Insets(0, 0, 5, 5);
+//				gbc_lblNewLabel_3_1.gridx = 1;
+//				gbc_lblNewLabel_3_1.gridy = 2 + (menuIndex++);
+//				panel_1.add(lblNewLabel_3_1, gbc_lblNewLabel_3_1);
+//	    	}
 
-//			JLabel lblNewLabel_3_1_1 = new JLabel("메뉴2이름 메뉴2이름");
-//			GridBagConstraints gbc_lblNewLabel_3_1_1 = new GridBagConstraints();
-//			gbc_lblNewLabel_3_1_1.fill = GridBagConstraints.BOTH;
-//			gbc_lblNewLabel_3_1_1.gridwidth = 2;
-//			gbc_lblNewLabel_3_1_1.insets = new Insets(0, 0, 5, 5);
-//			gbc_lblNewLabel_3_1_1.gridx = 1;
-//			gbc_lblNewLabel_3_1_1.gridy = 3;
-//			panel_1.add(lblNewLabel_3_1_1, gbc_lblNewLabel_3_1_1);
-//
-//			JLabel lblNewLabel_3_1_2 = new JLabel("메뉴3이름 메뉴3이름");
-//			GridBagConstraints gbc_lblNewLabel_3_1_2 = new GridBagConstraints();
-//			gbc_lblNewLabel_3_1_2.fill = GridBagConstraints.BOTH;
-//			gbc_lblNewLabel_3_1_2.gridwidth = 2;
-//			gbc_lblNewLabel_3_1_2.insets = new Insets(0, 0, 5, 5);
-//			gbc_lblNewLabel_3_1_2.gridx = 1;
-//			gbc_lblNewLabel_3_1_2.gridy = 4;
-//			panel_1.add(lblNewLabel_3_1_2, gbc_lblNewLabel_3_1_2);
 			
 			
 			//주문날짜
@@ -213,9 +221,9 @@ public class OrderListView extends MouseAdapter {
 
 			//주문완료,배달완료
 			String condition = "주문완료";
-//			if(userOrderList.get(panelIndex).getorderState) {
-//				condition = "배달완료";
-//			}
+			if(userOrderList.get(panelIndex).isOrderState()) {  //나중에 바꿔야 함!!
+				condition = "배달완료";
+			}
 			JLabel lblNewLabel_1 = new JLabel(condition);
 			lblNewLabel_1.setFont(new Font("굴림", Font.PLAIN, 15));
 			GridBagConstraints gbc_lblNewLabel_1 = new GridBagConstraints();
@@ -226,6 +234,7 @@ public class OrderListView extends MouseAdapter {
 			panel_1.add(lblNewLabel_1, gbc_lblNewLabel_1);
 			
 			//메뉴사진 - 마지막메뉴사진
+			image = new ImageIcon(menuPic).getImage().getScaledInstance(50, 50, 0);
 			JLabel lblNewLabel_2 = new JLabel(new ImageIcon(image));
 			GridBagConstraints gbc_lblNewLabel_2 = new GridBagConstraints();
 			gbc_lblNewLabel_2.fill = GridBagConstraints.BOTH;
@@ -244,7 +253,7 @@ public class OrderListView extends MouseAdapter {
 			panel_1.add(lblNewLabel_3, gbc_lblNewLabel_3);
 
 			//총 결제금액
-			JLabel label_18 = new JLabel("총 결제금액 : "+totalPay);
+			JLabel label_18 = new JLabel("총 결제금액 : "+totalPay +"원");
 			GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
 			gbc_btnNewButton.fill = GridBagConstraints.BOTH;
 			gbc_btnNewButton.gridwidth = 2;
@@ -268,7 +277,7 @@ public class OrderListView extends MouseAdapter {
 
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					int result = JOptionPane.showConfirmDialog(null, "주문내역을 삭제하시겠습니까?", "주문내역 삭제",
+					int result = JOptionPane.showConfirmDialog(btnNewButton_1, "주문내역을 삭제하시겠습니까?", "주문내역 삭제",
 							JOptionPane.YES_NO_OPTION);
 					if (result == JOptionPane.YES_OPTION) {
 						//화면 삭제
@@ -293,27 +302,31 @@ public class OrderListView extends MouseAdapter {
 			btnNewButton.setForeground(Color.white);
 			panel_1.add(btnNewButton, gbc_btnNewButton2);
 			
-			//배달완료일때만 주문취소가능
-			if(lblNewLabel_1.getText().equals("배달완료")) {
-				btnNewButton_1.addActionListener(new ActionListener() {
-
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						int result = JOptionPane.showConfirmDialog(null, "주문을 취소하시겠습니까?", "주문취소",
+			
+			btnNewButton.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					
+					if(lblNewLabel_1.getText().equals("주문완료")) {
+						int result = JOptionPane.showConfirmDialog(btnNewButton_1, "주문을 취소하시겠습니까?", "주문취소",
 								JOptionPane.YES_NO_OPTION);
 						if (result == JOptionPane.YES_OPTION) {
-							//화면 삭제
-							remove(); 
-							// 주문내역 삭제 
+							// 화면 삭제
+							remove();
+							// 주문내역 삭제
 							olc.deleteOrder(panelIndex);
 							// 삭제된 주문내역 파일에 저장
 							olc.saveListFile();
 							// 화면 다시 만들기(새로 저장한 내역 다시 스크롤판에 나타내기)
 							init();
 						}
+					} else {
+						JOptionPane.showMessageDialog(btnNewButton_1,
+								"배달이 완료되어 주문을 취소할 수 없습니다.","주의",JOptionPane.WARNING_MESSAGE);
+						btnNewButton.setEnabled(false);
 					}
-				});
-			}
+				}
+			});
 			
 
 			JButton btnNewButton_2 = new JButton("리뷰작성"); // 리뷰 뷰 띄우기, 리뷰 객체 전달
@@ -326,28 +339,35 @@ public class OrderListView extends MouseAdapter {
 			btnNewButton_2.setForeground(Color.white);
 			panel_1.add(btnNewButton_2, gbc_btnNewButton3);
 			
-			userID = MainFrame.loginUserId;
+			userID = MainFrame.loginUserId;	
 			
-			//'배달완료'일때만 리뷰쓰기 가능 
-			if(lblNewLabel_1.getText().equals("배달완료")) {
-				btnNewButton_2.addActionListener(new ActionListener() {
-					//리뷰리스트에서 중복확인
-					//ReviewListDao -> search메소드 -> 파일내용중복확인 -> 그 값이 false이면 리뷰창 안 띄움
-					@Override
-					public void actionPerformed(ActionEvent e) {
+			btnNewButton_2.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					
+					if(lblNewLabel_1.getText().equals("배달완료")) {
+						int result = JOptionPane.showConfirmDialog(btnNewButton_1, "리뷰를 작성하시겠습니까?", "리뷰작성",
+								JOptionPane.YES_NO_OPTION);
 						
+//						new WriteReview(date, storeName, menus, userID );
+						
+						//리뷰리스트에서 중복확인
+						//ReviewListDao -> search메소드 -> 파일내용중복확인 -> 그 값이 false이면 리뷰창 안 띄움
 						//같은 리뷰가 있다면 ==> 인덱스 / 같은리뷰없으면 1
-						if(new ReviewListDao().searchReview(date, userID, storeName, menus)==1) {
+						if(new ReviewListDao().searchReview(date, userID, storeName, menus) == -1) {
 							new WriteReview(date, storeName, menus, userID );
 						} else {
-							JOptionPane.showMessageDialog(null,"이전에 리뷰를 작성하였습니다./n "
-									+ "리뷰수정은 My리뷰에서 하세요","주의",JOptionPane.WARNING_MESSAGE);
+							JOptionPane.showMessageDialog(btnNewButton_1,"이전에 리뷰를 작성하였습니다.\n 리뷰수정은 My리뷰에서 하세요",
+									"주의",JOptionPane.WARNING_MESSAGE);
+							btnNewButton_2.setEnabled(false);
 						}
-					}
-				});
-			}
+						
+					} 
+				}
+			});
 			
 	    }
+		
 		frame.validate();
 		frame.repaint();		
 	}
