@@ -22,7 +22,6 @@ import javax.swing.SwingConstants;
 import com.projectGo.controller.BasketController;
 import com.projectGo.model.vo.Basket;
 import com.projectGo.model.vo.Menu;
-import com.projectGo.model.vo.Order;
 
 public class BasketView extends MainFrame{
 	
