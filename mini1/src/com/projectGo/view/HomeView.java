@@ -22,12 +22,12 @@ public class HomeView extends MainFrame {
 		frame.validate();
 		frame.repaint();
 
-		Image rogo = new ImageIcon("images/hankkiGo.PNG").getImage().getScaledInstance(200, 200, 0);
+		Image rogo = new ImageIcon("").getImage().getScaledInstance(200, 200, 0);
 		JLabel label1 = new JLabel(new ImageIcon(rogo));
 		label1.setBounds(167, 122, 200, 200);
 		frame.getContentPane().add(label1);
 
-		Image logout = new ImageIcon("images/logout.PNG").getImage().getScaledInstance(50, 50, 0);
+		Image logout = new ImageIcon("").getImage().getScaledInstance(50, 50, 0);
 		JLabel lable2 = new JLabel(new ImageIcon(logout));
 		lable2.setBounds(452, 22, 50, 50);
 		frame.getContentPane().add(lable2);

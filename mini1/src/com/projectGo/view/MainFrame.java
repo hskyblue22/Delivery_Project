@@ -4,10 +4,13 @@ import java.awt.Color;
 
 import javax.swing.JFrame;
 
+import com.projectGo.model.vo.Member;
+
 public class MainFrame extends JFrame {
 
 	public static JFrame mainFrame;
 	public static String loginUserId;
+	public static Member member;
 
 	static {
 		mainFrame = new JFrame();
