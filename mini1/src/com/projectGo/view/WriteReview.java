@@ -7,7 +7,6 @@ import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
 
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
@@ -23,6 +22,7 @@ import javax.swing.border.EmptyBorder;
 
 import com.projectGo.controller.ReviewListController;
 import com.projectGo.model.dao.ReviewListDao;
+import com.projectGo.model.dao.StoreDao;
 import com.projectGo.model.vo.Review;
 
 public class WriteReview implements ActionListener {
@@ -35,11 +35,11 @@ public class WriteReview implements ActionListener {
 	
 	private String userID;
 	private String date;
-	private String storeName = "식당이름**";
+	private String storeName;
 	private String[] menus;
 	
-	private int reviewScore = 0;
-	private String reviewContents;
+	private int reviewScore = -1;
+	private String reviewContents = "리뷰를 입력해주세요:)";
 	
 	private Review review;
 	
@@ -52,14 +52,28 @@ public class WriteReview implements ActionListener {
 	public WriteReview() {
 		init();
 	}
+
+	public WriteReview(String date2, String storeName2, String[] menus2, String userID2) {
+		this.date = date2;
+		this.storeName = storeName2;
+		this.menus = menus2;
+		this.userID = userID2;
+		
+		init();
+	}
 	
-	public WriteReview(String date, String storeName, String[] menus, String userID) {
+	public WriteReview(String date, String storeName, String[] menus, String userID, String contents, int score) {
 		this.date = date;
 		this.storeName = storeName;
 		this.menus = menus;
 		this.userID = userID;
+		this.reviewContents = contents;
+		this.reviewScore = score;
+		
+		init();
 	}
 	
+
 	public void init() {
 		
 		frame = MainFrame.mainFrame;
@@ -97,7 +111,6 @@ public class WriteReview implements ActionListener {
 				}
 			}
 		});
-		
 		image = new ImageIcon("사진주소").getImage().getScaledInstance(50,50,0);
 		JLabel lblNewLabel_1 = new JLabel(new ImageIcon(image));
 		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
@@ -105,7 +118,6 @@ public class WriteReview implements ActionListener {
 		lblNewLabel_1.setBounds(15, 70, 86, 82);
 		contentPane.add(lblNewLabel_1);
 		
-		//userID = MainFrame.loginUserID;
 		JLabel lblNewLabel_2 = new JLabel(userID);
 		lblNewLabel_2.setFont(new Font("굴림", Font.PLAIN, 17));
 		lblNewLabel_2.setBackground(Color.LIGHT_GRAY);
@@ -117,24 +129,12 @@ public class WriteReview implements ActionListener {
 		lblNewLabel_3.setBounds(25, 152, 213, 34);
 		contentPane.add(lblNewLabel_3);
 		
-
-//		for(int i=0; i< menus.length; i++) {
-//			JLabel lblNewLabel_3_1 = new JLabel(menus[i]);
-//			lblNewLabel_3_1.setFont(new Font("굴림", Font.PLAIN, 16));
-//			lblNewLabel_3_1.setBounds(25, 189+i*33 , 213, 34);
-//			contentPane.add(lblNewLabel_3_1);
-//		}
-		
-		JLabel lblNewLabel_3_2 = new JLabel("메뉴2이름");
-		lblNewLabel_3_2.setFont(new Font("굴림", Font.PLAIN, 16));
-		lblNewLabel_3_2.setBounds(25, 222, 213, 34);
-		contentPane.add(lblNewLabel_3_2);
-		
-		JLabel lblNewLabel_3_3 = new JLabel("메뉴3이름");
-		lblNewLabel_3_3.setFont(new Font("굴림", Font.PLAIN, 16));
-		lblNewLabel_3_3.setBounds(25, 255, 213, 34);
-		contentPane.add(lblNewLabel_3_3);
-		
+		for(int i=0; i < menus.length; i++) {
+			JLabel lblNewLabel_3_1 = new JLabel(menus[i]);
+			lblNewLabel_3_1.setFont(new Font("굴림", Font.PLAIN, 16));
+			lblNewLabel_3_1.setBounds(25, 189+i*33 , 213, 34);
+			contentPane.add(lblNewLabel_3_1);
+		}		
 
 		JPanel panel = new JPanel();
 		panel.setBounds(19, 297, 488, 38);
@@ -151,7 +151,6 @@ public class WriteReview implements ActionListener {
 		jb4 = new JRadioButton("4점");
 		jb4.setFont(new Font("굴림", Font.PLAIN, 16));
 		jb5 = new JRadioButton("5점");
-		jb5.setSelected(true);
 		jb5.setFont(new Font("굴림", Font.PLAIN, 16));
 		
 		bg.add(jb1);
@@ -159,7 +158,7 @@ public class WriteReview implements ActionListener {
 		bg.add(jb3);
 		bg.add(jb4);
 		bg.add(jb5);
-		
+
 		panel.add(jb1);
 		panel.add(jb2);
 		panel.add(jb3);
@@ -175,7 +174,7 @@ public class WriteReview implements ActionListener {
 		
 		JTextArea reviewContArea = new JTextArea();
 		reviewContArea.setWrapStyleWord(true);
-		reviewContArea.setText("리뷰를 입력해주세요");
+		reviewContArea.setText(reviewContents);
 		reviewContArea.setToolTipText("");
 		reviewContArea.setLineWrap(true);
 		reviewContArea.setFont(new Font("Monospaced", Font.PLAIN, 16));
@@ -205,29 +204,35 @@ public class WriteReview implements ActionListener {
 
 				reviewContents = reviewContArea.getText();
 			    int reviewContentsL = reviewContents.length();
-			    System.out.println(reviewContentsL);
 				
-				if(reviewScore == 0 || reviewContentsL >= 100) {
-					if(reviewScore == 0 && reviewContentsL >= 100) {
+				if(reviewScore == -1 || reviewContentsL >= 100 || reviewContentsL < 10) {
+					if(reviewScore == -1 && ( reviewContentsL >= 100 || reviewContentsL < 10)) {
 						warningMessage("리뷰점수 및 리뷰글자수를 확인하세요");						
-					}else if(reviewContentsL >= 100) {
-						warningMessage("리뷰는 100자 미만으로 작성하세요");
+					}else if(reviewContentsL >= 100 || reviewContentsL < 10) {
+						warningMessage("리뷰는 10자 이상 100자 미만으로 작성하세요");
 					}else {
 						warningMessage("리뷰점수를 선택해주세요");
 					}
 					
 				} else {
-//					new StoreDao().saveAveStar(storeName, reviewScore);  ==> 리뷰평점 업뎃
+//					new StoreDao().saveAveStar(storeName, reviewScore);  //==> 리뷰평점 업뎃
 					
-					//같은 리뷰가 있다면 ==> 인덱스/ 같은리뷰없으면 1
+					//같은 리뷰가 있다면 ==> 인덱스/ 같은리뷰없으면 -1 (1은 인덱스로도 나올 수 있으니 안돼!)
 					int index = new ReviewListDao().searchReview(date, userID, storeName, menus);
 					review = new Review(date, userID, storeName, menus, reviewScore, reviewContents);
 					
-					if(index==1) {  //1. 리뷰 처음 작성	
+					rlc = new ReviewListController();
+					
+					if(index== -1) {  //1. 리뷰 처음 작성	
+//						if(rlc.userAllList() == null) {
+//							System.out.println("널이지롱");
+//						}else {
+//							System.out.println(rlc.userAllList().size());
+//							System.out.println(rlc.totalAllList().size());
+//						}
 						rlc.writeReview(review);
 						JOptionPane.showMessageDialog(null,"리뷰가 등록되었습니다!\n홈으로 돌아갑니다");
-						new HomeView();
-						
+						new HomeView();	
 					} else {  //2. 리뷰 수정
 						rlc.modifyReview(review, index);
 						JOptionPane.showMessageDialog(null,"리뷰가 수정되었습니다!\n홈으로 돌아갑니다");
@@ -242,12 +247,6 @@ public class WriteReview implements ActionListener {
 		frame.repaint();
 	}
 
-	
-	public static void main(String[] args) throws FileNotFoundException {
-		// TODO Auto-generated method stub
-
-		new WriteReview();
-	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {

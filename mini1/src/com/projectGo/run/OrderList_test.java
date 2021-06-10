@@ -2,6 +2,7 @@ package com.projectGo.run;
 
 import java.io.FileNotFoundException;
 
+import com.projectGo.model.vo.Order;
 import com.projectGo.view.OrderListView;
 
 public class OrderList_test {
