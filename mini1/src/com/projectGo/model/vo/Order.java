@@ -4,12 +4,13 @@ import java.io.Serializable;
 import java.util.Calendar;
 import java.util.HashMap;
 
-public class Order extends Basket implements Serializable{
+public class Order implements Serializable{
 
 /**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	private Basket basket;
 	private int payment;
 	private String request;
 	private Calendar orderedDate;
@@ -19,13 +20,8 @@ public class Order extends Basket implements Serializable{
 	public Order() {}
 
 	public Order(Basket basket) {
-		super(basket.getUserId(), basket.getStoreName(), basket.getStoreAddress(), basket.getDeliveryTip(), basket.getMenuList());
+		this.basket = basket;
 	}
-	
-	public Order(String userId, String storeName, String storeAddress, int deliveryTip, HashMap<String, Menu> menuList) {
-		super(userId, storeName, storeAddress, deliveryTip, menuList);
-	}
-	
 
 	public int getPayment() {
 		return payment;
@@ -67,11 +63,19 @@ public class Order extends Basket implements Serializable{
 		this.orderState = orderState;
 	}
 
+	public Basket getBasket() {
+		return basket;
+	}
+
+	public void setBasket(Basket basket) {
+		this.basket = basket;
+	}
+
 	@Override
 	public String toString() {
-		return super.toString() + "Order [payment=" + payment + ", request=" + request + ", orderedDate=" + orderedDate + ", userAddress="
-				+ userAddress + ", orderState=" + orderState + "]";
+		return "Order [basket=" + basket + ", payment=" + payment + ", request=" + request + ", orderedDate="
+				+ orderedDate + ", userAddress=" + userAddress + ", orderState=" + orderState + "]";
 	}
-	
+
 	
 }

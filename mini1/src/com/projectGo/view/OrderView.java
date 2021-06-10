@@ -5,13 +5,14 @@ import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
@@ -37,6 +38,8 @@ public class OrderView extends MainFrame{
 		
 		ordCont = new OrderController(order);
 		totalPayment = ordCont.getTotalCharge() + ordCont.getDeliveryTip();
+//		totalPayment = ordCont.getTotalCharge() + ordCont.getDeliveryTip() - usePoint;
+		
 		frame = MainFrame.mainFrame;
 		frame.getContentPane().removeAll();
 		frame.validate();
@@ -81,12 +84,12 @@ public class OrderView extends MainFrame{
 		deliveryInfo.setBounds(15, 80, 250, 60);
 		frame.getContentPane().add(deliveryInfo);
 		
-		JLabel addressLab = new JLabel("주소");
+		JLabel addressLab = new JLabel("주소 : " + ordCont.getUserAddress());
 		addressLab.setFont(new Font("굴림", Font.PLAIN, 17));
 		addressLab.setBounds(15, 135, 368, 40);
 		frame.getContentPane().add(addressLab);
 		
-		JLabel phoneNumLab = new JLabel("연락처");
+		JLabel phoneNumLab = new JLabel("연락처 : " + ordCont.getUserPhone());
 		phoneNumLab.setBounds(15, 168, 368, 40);
 		phoneNumLab.setFont(new Font("굴림", Font.PLAIN, 17));
 		frame.getContentPane().add(phoneNumLab);
@@ -126,10 +129,13 @@ public class OrderView extends MainFrame{
 		frame.getContentPane().add(pointPanel);
 		pointPanel.setLayout(null);
 		
-		JLabel pointLab = new JLabel("보유포인트 : ");
+		
+		//포인트 불러오기
+		JLabel pointLab = new JLabel("보유포인트 : " + ordCont.getPoint());
 		pointLab.setFont(new Font("굴림", Font.PLAIN, 17));
-		pointLab.setBounds(40, 22, 119, 31);
+		pointLab.setBounds(40, 22, 200, 31);
 		pointPanel.add(pointLab);
+		
 		
 		JLabel usePointLab = new JLabel("사용할 금액 : ");
 		usePointLab.setFont(new Font("굴림", Font.PLAIN, 17));
@@ -144,37 +150,40 @@ public class OrderView extends MainFrame{
 		pointTextField.setColumns(10);
 		
 		
-		pointTextField.addKeyListener(new KeyListener(){
-			
-		
+		pointTextField.addKeyListener(new KeyAdapter() {
+
 			@Override
 			public void keyReleased(KeyEvent e) {
-				//포인트 없을 때 사용할 포인트가 없습니다. 팝업?
-				
+
+				// 포인트 없을 때 팝업
+				if (ordCont.getPoint() == 0) {
+					JOptionPane.showMessageDialog(null, "사용 가능한 포인트가 없습니다.");
+					return;
+				}
+
+				if (pointTextField.getText().equals("")) {
+					return;
+				}
+
+				// 숫자가 아닌 다른값을 입력했을때?
+				char c = e.getKeyChar();
+
+				if (!((Character.isDigit(c)))) {
+					JOptionPane.showMessageDialog(null, "다시 입력해 주세요. \n숫자만 입력할 수 있습니다.");
+					pointTextField.setText("");
+					usedPointLab.setText("포인트 사용     : ");
+					return;
+				}
+
 				usePoint = Integer.parseInt(pointTextField.getText());
-				usedPointLab.setText("포인트 사용     : -" +  usePoint);
-				
+
+				usedPointLab.setText("포인트 사용     : -" + usePoint);
 				totalPaymentLab.setText("총 결제 금액 : " + (totalPayment - usePoint));
-				
-//				ordCont.setPoint(point); 보유 포인트  - usePoint
-		
-			}
-			
-			//작성한 내용을 다지우고나서도 지우면 에러 발생
-			//포인트 금액을 작성하고 지우면 나머지 한글자가 남음
 
-			@Override
-			public void keyTyped(KeyEvent e) {
-				// TODO Auto-generated method stub
-				
+				ordCont.setPoint(usePoint); // 보유 포인트 - usePoint
+
 			}
 
-			@Override
-			public void keyPressed(KeyEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-		
 		});
 		
 		
@@ -229,9 +238,13 @@ public class OrderView extends MainFrame{
 				//포인트 사용하지 않았을 경우 결제 금액?? 포인트 사용하고 결제하기 누르면??
 				
 				ordCont.setTotalPayment(totalPayment - usePoint);
-				System.out.println(totalPayment - usePoint);
+//				System.out.println(totalPayment - usePoint);
 				
+				//유저 정보에서 포인트 적립률 가져오기??
+				ordCont.savePoint((int)((totalPayment -usePoint) * 0.01));
 				ordCont.orderOutPut();
+				
+				
 				frame.getContentPane().removeAll();
 				frame.validate();
 				frame.repaint();
@@ -267,15 +280,14 @@ public class OrderView extends MainFrame{
 		lblNewLabel_1.setBounds(130, 82, 161, 35);
 		panel.add(lblNewLabel_1);
 		
+		
+//		포인트 적립
+//		int savePoint = totalPayment * (/*user객체 받아서 불러오기 getUser().getPointRatio*/);
+		
 		JLabel lblNewLabel_2 = new JLabel("적립 포인트 : " + (int)((totalPayment -usePoint) * 0.01)); 
 		lblNewLabel_2.setFont(new Font("굴림", Font.PLAIN, 15));
 		lblNewLabel_2.setBounds(130, 113, 150, 35);
 		panel.add(lblNewLabel_2);
-		
-		
-//		포인트 적립
-//		int savePoint = totalPayment * (/*user객체 받아서 불러오기 getUser().getPointRatio*/);
-//		ordCont.savePoint(savePoint);
 		
 		
 		JButton btnNewButton = new JButton("주문 내역 보기");
@@ -284,6 +296,16 @@ public class OrderView extends MainFrame{
 		btnNewButton.setBorderPainted(false); //테두리 제거
 		btnNewButton.setFocusPainted(false); //텍스트 테두리 제거
 		frame.getContentPane().add(btnNewButton);
+		
+		
+		btnNewButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+
+//				new  OrderListView();
+			}
+		});
 		
 		
 		JButton homeButton = new JButton("홈으로 돌아가기");
@@ -298,7 +320,9 @@ public class OrderView extends MainFrame{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				new HomeView();
+				//로그인 정보 유지??? 홈 생성자 -> 로그인 유저 정보 인풋, 홈으로 가도 유저정보 볼 수 있도록
+//				new HomeView(MainFrame.loginUserId??/);
+//				ordCont.getBasket().getUserId()
 			}
 		});
 		
