@@ -43,18 +43,75 @@ public class StoreInfoView extends MainFrame {
 	private int kinds;
 	private int serchKinds;
 	private Image image;
+	private int pre = 0;
 
-	public StoreInfoView(Store store, String resultName, ArrayList<Store> printList, int kinds, int serchKinds) {
+	public StoreInfoView() {
+		
+	}
 
+	
+	public HashMap<String, Menu> getMenulist() {
+		return menulist;
+	}
+
+	public void setMenulist(HashMap<String, Menu> menulist) {
+		this.menulist = menulist;
+	}
+
+	public Store getStore() {
+		return store;
+	}
+
+	public void setStore(Store store) {
+		this.store = store;
+	}
+
+	public ArrayList<Store> getPrintList() {
+		return printList;
+	}
+ 
+	public void setPrintList(ArrayList<Store> printList) {
+		this.printList = printList;
+	}
+
+	public String getResultName() {
+		return resultName;
+	}
+
+	public void setResultName(String resultName) {
+		this.resultName = resultName;
+	}
+
+	public int getKinds() {
+		return kinds;
+	}
+
+	public void setKinds(int kinds) {
+		this.kinds = kinds;
+	}
+
+	public int getSerchKinds() {
+		return serchKinds;
+	}
+
+	public void setSerchKinds(int serchKinds) {
+		this.serchKinds = serchKinds;
+	}
+	public void storeInfoViewMainPre(Store store, String resultName, ArrayList<Store> printList, int kinds, int serchKinds, HashMap<String, Menu> menulist) {
+	
+		this.pre = 1;
+		this.menulist = menulist;
+		storeInfoViewMain(store, resultName, printList, kinds, serchKinds);
+	}
+	
+
+	public void storeInfoViewMain(Store store, String resultName, ArrayList<Store> printList, int kinds,
+			int serchKinds) {
 		this.store = store;
 		this.printList = printList;
 		this.resultName = resultName;
 		this.kinds = kinds;
 		this.serchKinds = serchKinds;
-		start();
-	}
-
-	public void start() {
 		frame = MainFrame.mainFrame;
 		frame.getContentPane().removeAll();
 		frame.validate();
@@ -63,7 +120,10 @@ public class StoreInfoView extends MainFrame {
 		String name;
 		menuName = store.getStoreMenu().keySet();
 		Iterator<String> it = menuName.iterator();
-		menulist = new HashMap<String, Menu>();
+		if(pre == 0) {
+			menulist = new HashMap<String, Menu>();
+		}
+		
 		count = 0;
 
 		GridBagLayout gbl = new GridBagLayout();
@@ -75,7 +135,6 @@ public class StoreInfoView extends MainFrame {
 				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		scrollPane.setBounds(0, 316, 535, 400);
 		frame.getContentPane().add(scrollPane);
-
 		while (it.hasNext()) {
 			name = it.next();
 			JPanel menuPanel = new JPanel();
@@ -90,7 +149,6 @@ public class StoreInfoView extends MainFrame {
 			menuPanel.setBounds(-13, 130, 535, 96);
 			frame.getContentPane().add(menuPanel);
 
-			
 			image = new ImageIcon(store.getStoreMenu().get(name).getMenuPic()).getImage().getScaledInstance(70, 70, 0);
 			JLabel menuPicLabel = new JLabel(new ImageIcon(image));
 			GridBagConstraints gbc_menuPicLabel = new GridBagConstraints();
@@ -137,7 +195,7 @@ public class StoreInfoView extends MainFrame {
 			quantityComboBox_1.setToolTipText("afsasf");
 
 			JButton basketButton_1 = new JButton("<HTML><center>장바구니에<br>담기</center></HTML>");
-			basketButton_1.setBackground(new Color(255, 128, 0));
+			basketButton_1.setBackground(Color.ORANGE);
 			basketButton_1.setForeground(Color.white);
 			GridBagConstraints gbc_basketButton_1 = new GridBagConstraints();
 			gbc_basketButton_1.fill = GridBagConstraints.BOTH;
@@ -170,32 +228,20 @@ public class StoreInfoView extends MainFrame {
 					int choice;
 					menuPic = menuPicLabel.getText();
 					menuPrice = Integer.parseInt(menuPriceLabel.getText());
-					System.out.println(quantity);
-
-					System.out.println(menuNameLabel.getText());
 
 					menulist.put(menuNameLabel.getText(), new Menu(menuPic, menuPrice, quantity));
-					Set<String> setMenu;
-					setMenu = menulist.keySet();
-					Iterator<String> it = setMenu.iterator();
-					while (it.hasNext()) {
-						String aaa = it.next();
 
-						System.out.println(menulist.get(aaa));
-
-					}
-					choice = JOptionPane.showConfirmDialog(null, "장바구니로 이동하시겠습니까?\n더 담으시려면 아니오", "장바구니 이동",
+					choice = JOptionPane.showConfirmDialog(basketButton_1, "장바구니로 이동하시겠습니까?\n더 담으시려면 아니오", "장바구니 이동",
 							JOptionPane.YES_NO_OPTION);
+					
 					if (choice == JOptionPane.YES_OPTION) {
 						basket = new Basket("userId", store.getStoreName(), store.getStoreAddress(),
 								store.getDeliveryTip(), menulist);
-						frame.dispose();
-						new BasketDao(basket);
+						new BasketView().initialize(basket);
 
 					}
 				}
 			});
-
 			gbc = new GridBagConstraints();
 			gbc.fill = GridBagConstraints.BOTH;
 			gbc.gridx = 0;
@@ -275,7 +321,7 @@ public class StoreInfoView extends MainFrame {
 
 		JButton basketMoveBtn = new JButton("장 바 구 니");
 		basketMoveBtn.setBounds(0, 715, 535, 50);
-		basketMoveBtn.setBackground(new Color(255, 128, 0));
+		basketMoveBtn.setBackground(Color.ORANGE);
 		basketMoveBtn.setForeground(Color.white);
 		basketMoveBtn.setFont(new Font("맑은 고딕", Font.BOLD, 20));
 		basketMoveBtn.addActionListener(new ActionListener() {
@@ -285,8 +331,7 @@ public class StoreInfoView extends MainFrame {
 
 				basket = new Basket("userId", store.getStoreName(), store.getStoreAddress(), store.getDeliveryTip(),
 						menulist);
-				frame.dispose();
-				new BasketDao(basket);
+				new BasketView().initialize(basket);
 
 			}
 		});
@@ -294,7 +339,7 @@ public class StoreInfoView extends MainFrame {
 
 		JButton backBtn = new JButton("이  전");
 		backBtn.setBounds(15, 20, 80, 40);
-		backBtn.setBackground(new Color(255, 128, 0));
+		backBtn.setBackground(Color.ORANGE);
 		backBtn.setForeground(Color.white);
 		backBtn.addActionListener(new ActionListener() {
 
@@ -310,7 +355,7 @@ public class StoreInfoView extends MainFrame {
 
 				} else {
 
-					new ChoiceResult().choiceResultMain(resultName, printList, serchKinds);
+					new ChoiceResultView().choiceResultViewMain(resultName, printList, serchKinds);
 
 				}
 
@@ -320,13 +365,13 @@ public class StoreInfoView extends MainFrame {
 
 		JButton homeBtn = new JButton("홈으로");
 		homeBtn.setBounds(440, 20, 80, 40);
-		homeBtn.setBackground(new Color(255, 128, 0));
+		homeBtn.setBackground(Color.ORANGE);
 		homeBtn.setForeground(Color.white);
 		homeBtn.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				new ViewTemp();
+				new HomeView();
 
 			}
 		});

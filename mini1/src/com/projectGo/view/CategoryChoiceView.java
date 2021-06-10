@@ -13,7 +13,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -22,9 +21,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
-import com.projectGo.controller.CategoryChoice;
-import com.projectGo.controller.StoreSort;
-import com.projectGo.model.dao.StoreLoad;
+import com.projectGo.controller.CategoryChoiceController;
+import com.projectGo.controller.StoreSortController;
+import com.projectGo.model.dao.StoreDao;
 import com.projectGo.model.vo.Store;
 
 public class CategoryChoiceView extends MainFrame{
@@ -34,10 +33,15 @@ public class CategoryChoiceView extends MainFrame{
 	private JFrame frame;
 	private Image image;
 	private Store topStore;
+	
+	public CategoryChoiceView() {
+		
+	}
+
 	public void categoryMain() {
 
-		mainList = new StoreLoad().storeLoad();
-		topStore = new StoreSort().topStore(mainList);
+		mainList = new StoreDao().loadStore();
+		topStore = new StoreSortController().topStore(mainList);
 		frame = MainFrame.mainFrame;
 		frame.getContentPane().removeAll();
 		frame.validate();
@@ -50,7 +54,7 @@ public class CategoryChoiceView extends MainFrame{
 				0.0, 0.0 };
 		gbl_menuPanel.rowHeights = new int[] { 15, 35, 15 };
 		gbl_menuPanel.columnWidths = new int[] { 35, 0, 35, 35, 35, 35, 35, 35, 35, 35, 35, 35, 35, 35, 35 };
-
+ 
 		menuPanel.setLayout(gbl_menuPanel);
 		menuPanel.setBounds(0, 681, 535, 70);
 		frame.getContentPane().add(menuPanel);
@@ -62,7 +66,7 @@ public class CategoryChoiceView extends MainFrame{
 		gbc_storeNameLabel.gridwidth = 2;
 		gbc_storeNameLabel.insets = new Insets(0, 0, 5, 5);
 		gbc_storeNameLabel.gridx = 1;
-		gbc_storeNameLabel.gridy = 1;
+		gbc_storeNameLabel.gridy = 1; 
 		menuPanel.add(storeNameLabel, gbc_storeNameLabel);
 		storeNameLabel.setOpaque(true);
 		storeNameLabel.setPreferredSize(new Dimension(70, 30));
@@ -71,7 +75,7 @@ public class CategoryChoiceView extends MainFrame{
 
 			@Override
 			public void mousePressed(MouseEvent e) {
-				new StoreInfoView(topStore, "", null, 2, 0);
+				new StoreInfoView().storeInfoViewMain(topStore, "", null, 2, 0);
 			}
 
 			@Override
@@ -95,7 +99,7 @@ public class CategoryChoiceView extends MainFrame{
 
 			@Override
 			public void mousePressed(MouseEvent e) {
-				new StoreInfoView(topStore, "", null, 2, 0);
+				new StoreInfoView().storeInfoViewMain(topStore, "", null, 2, 0);;
 			}
 
 			@Override
@@ -150,13 +154,13 @@ public class CategoryChoiceView extends MainFrame{
 
 		JButton backBtn = new JButton("이  전");
 		backBtn.setBounds(15, 20, 80, 40);
-		backBtn.setBackground(new Color(255, 128, 0));
+		backBtn.setBackground(Color.ORANGE);
 		backBtn.setForeground(Color.white);
 		backBtn.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				new ViewTemp();
+				new HomeView();
 				
 			}
 		});
@@ -170,8 +174,8 @@ public class CategoryChoiceView extends MainFrame{
 
 			@Override
 			public void mousePressed(MouseEvent e) {
-				printList = new CategoryChoice().categorySelect(mainList, 1);
-				new ChoiceResult().choiceResultMain("한    식", printList, 2);
+				printList = new CategoryChoiceController().categorySelect(mainList, 1);
+				new ChoiceResultView().choiceResultViewMain("한    식", printList, 2);
 			}
 
 			@Override
@@ -190,8 +194,8 @@ public class CategoryChoiceView extends MainFrame{
 
 			@Override
 			public void mousePressed(MouseEvent e) {
-				printList = new CategoryChoice().categorySelect(mainList, 3);
-				new ChoiceResult().choiceResultMain("중    식", printList, 2);
+				printList = new CategoryChoiceController().categorySelect(mainList, 3);
+				new ChoiceResultView().choiceResultViewMain("중    식", printList, 2);
 			}
 
 			@Override
@@ -210,8 +214,8 @@ public class CategoryChoiceView extends MainFrame{
 
 			@Override
 			public void mousePressed(MouseEvent e) {
-				printList = new CategoryChoice().categorySelect(mainList, 2);
-				new ChoiceResult().choiceResultMain("일    식", printList, 2);
+				printList = new CategoryChoiceController().categorySelect(mainList, 2);
+				new ChoiceResultView().choiceResultViewMain("일    식", printList, 2);
 			}
 
 			@Override
@@ -230,8 +234,8 @@ public class CategoryChoiceView extends MainFrame{
 
 			@Override
 			public void mousePressed(MouseEvent e) {
-				printList = new CategoryChoice().categorySelect(mainList, 7);
-				new ChoiceResult().choiceResultMain("치    킨", printList, 2);
+				printList = new CategoryChoiceController().categorySelect(mainList, 7);
+				new ChoiceResultView().choiceResultViewMain("치    킨", printList, 2);
 			}
 
 			@Override
@@ -250,8 +254,8 @@ public class CategoryChoiceView extends MainFrame{
 
 			@Override
 			public void mousePressed(MouseEvent e) {
-				printList = new CategoryChoice().categorySelect(mainList, 8);
-				new ChoiceResult().choiceResultMain("디 저 트", printList, 2);
+				printList = new CategoryChoiceController().categorySelect(mainList, 8);
+				new ChoiceResultView().choiceResultViewMain("디 저 트", printList, 2);
 			}
 
 			@Override
@@ -273,8 +277,8 @@ public class CategoryChoiceView extends MainFrame{
 
 			@Override
 			public void mousePressed(MouseEvent e) {
-				printList = new CategoryChoice().categorySelect(mainList, 9);
-				new ChoiceResult().choiceResultMain("패스트푸드", printList, 2);
+				printList = new CategoryChoiceController().categorySelect(mainList, 9);
+				new ChoiceResultView().choiceResultViewMain("패스트푸드", printList, 2);
 			}
 
 			@Override
@@ -293,8 +297,8 @@ public class CategoryChoiceView extends MainFrame{
 
 			@Override
 			public void mousePressed(MouseEvent e) {
-				printList = new CategoryChoice().categorySelect(mainList, 4);
-				new ChoiceResult().choiceResultMain("양    식", printList, 2);
+				printList = new CategoryChoiceController().categorySelect(mainList, 4);
+				new ChoiceResultView().choiceResultViewMain("양    식", printList, 2);
 			}
 
 			@Override
@@ -313,8 +317,8 @@ public class CategoryChoiceView extends MainFrame{
 
 			@Override
 			public void mousePressed(MouseEvent e) {
-				printList = new CategoryChoice().categorySelect(mainList, 5);
-				new ChoiceResult().choiceResultMain("분    식", printList, 2);
+				printList = new CategoryChoiceController().categorySelect(mainList, 5);
+				new ChoiceResultView().choiceResultViewMain("분    식", printList, 2);
 			}
 
 			@Override
@@ -333,8 +337,8 @@ public class CategoryChoiceView extends MainFrame{
 
 			@Override
 			public void mousePressed(MouseEvent e) {
-				printList = new CategoryChoice().categorySelect(mainList, 6);
-				new ChoiceResult().choiceResultMain("피    자", printList, 2);
+				printList = new CategoryChoiceController().categorySelect(mainList, 6);
+				new ChoiceResultView().choiceResultViewMain("피    자", printList, 2);
 			}
 
 			@Override

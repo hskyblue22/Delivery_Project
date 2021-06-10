@@ -8,7 +8,7 @@ import com.projectGo.model.comparator.DscAveStar;
 import com.projectGo.model.vo.Store;
 
 
-public class StoreSort {
+public class StoreSortController {
 	
 	public ArrayList<Store> recommendStore(ArrayList<Store> list) {
 
@@ -18,7 +18,7 @@ public class StoreSort {
 		for (int i = 0; i < 10; i++) {
 
 			temp.add(new ArrayList<Store>());
-
+ 
 		}
 
 		for (int i = 0; i < list.size(); i++) {

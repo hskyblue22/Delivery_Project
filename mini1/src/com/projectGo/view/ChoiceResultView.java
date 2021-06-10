@@ -11,7 +11,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
@@ -22,26 +21,16 @@ import javax.swing.JScrollPane;
 
 import com.projectGo.model.vo.Store;
 
-public class ChoiceResult extends MainFrame {
+public class ChoiceResultView extends MainFrame {
 	private JFrame frame;
 	private ArrayList<Store> printList;
 	private int kinds;
-	
-	
-	
 
-	public ChoiceResult() {
-		super();
+	public ChoiceResultView() {
+
 	}
 
-
-
-
-
-
-
-
-	public void choiceResultMain(String resultName, ArrayList<Store> printList, int kinds) {
+	public void choiceResultViewMain(String resultName, ArrayList<Store> printList, int kinds) {
 
 		frame = MainFrame.mainFrame;
 
@@ -60,7 +49,7 @@ public class ChoiceResult extends MainFrame {
 		frame.getContentPane().add(scrollPane);
 
 		for (int i = 0; i < printList.size(); i++) {
-
+ 
 			JPanel menuPanel = new JPanel();
 			menuPanel.setBackground(Color.WHITE);
 			GridBagLayout gbl_menuPanel = new GridBagLayout();
@@ -91,7 +80,7 @@ public class ChoiceResult extends MainFrame {
 				@Override
 				public void mousePressed(MouseEvent e) {
 					int num = Integer.parseInt(hiddenLabel.getText());
-					new StoreInfoView(printList.get(num), resultName, printList, 3, kinds);
+					new StoreInfoView().storeInfoViewMain(printList.get(num), resultName, printList, 3, kinds);
 
 				}
 
@@ -117,7 +106,7 @@ public class ChoiceResult extends MainFrame {
 				@Override
 				public void mousePressed(MouseEvent e) {
 					int num = Integer.parseInt(hiddenLabel.getText());
-					new StoreInfoView(printList.get(num), resultName, printList, 3, kinds);
+					new StoreInfoView().storeInfoViewMain(printList.get(num), resultName, printList, 3, kinds);
 				}
 
 				@Override
@@ -211,43 +200,42 @@ public class ChoiceResult extends MainFrame {
 
 		JButton backBtn = new JButton("이  전");
 		backBtn.setBounds(15, 20, 80, 40);
-		backBtn.setBackground(new Color(255, 128, 0));
+		backBtn.setBackground(Color.ORANGE);
 		backBtn.setForeground(Color.white);
 		backBtn.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if(kinds == 1) {
-					
+				if (kinds == 1) {
+
 					new SerchPageView().serchMain();
-					
-				}else {
-					
+
+				} else {
+
 					new CategoryChoiceView().categoryMain();
-					
+
 				}
-				
+
 			}
 		});
 		frame.getContentPane().add(backBtn);
 
 		JButton homeBtn = new JButton("홈으로");
 		homeBtn.setBounds(440, 20, 80, 40);
-		homeBtn.setBackground(new Color(255, 128, 0));
+		homeBtn.setBackground(Color.ORANGE);
 		homeBtn.setForeground(Color.white);
 		homeBtn.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				new ViewTemp();
-				
+				new HomeView();
+
 			}
 		});
 		frame.getContentPane().add(homeBtn);
 		frame.validate();
 		frame.repaint();
-		
-		
+
 	}
 
 }

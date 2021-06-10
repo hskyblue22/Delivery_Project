@@ -7,6 +7,7 @@ import javax.swing.JFrame;
 public class MainFrame extends JFrame {
 
 	public static JFrame mainFrame;
+	public static String loginUserId;
 
 	static {
 		mainFrame = new JFrame();
@@ -16,7 +17,9 @@ public class MainFrame extends JFrame {
 		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		mainFrame.getContentPane().setLayout(null);
 		mainFrame.setVisible(true);
+		loginUserId = "user01";
 
 	}
 
 }
+ 

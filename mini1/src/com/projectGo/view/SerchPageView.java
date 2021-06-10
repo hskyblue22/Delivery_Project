@@ -23,44 +23,37 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
-import com.projectGo.controller.SerchPage;
-import com.projectGo.controller.StoreSort;
-import com.projectGo.model.dao.StoreLoad;
+import com.projectGo.controller.SerchPageController;
+import com.projectGo.controller.StoreSortController;
+import com.projectGo.model.dao.DaoTemp;
+import com.projectGo.model.dao.StoreDao;
+import com.projectGo.model.vo.Member;
 import com.projectGo.model.vo.Store;
 
 public class SerchPageView extends MainFrame {
 
-	ArrayList<String> temp = new ArrayList<String>();
-	{
-		temp.add("짬뽕");
-		temp.add("가게1");
-		temp.add("bbq 명동");
-		temp.add("메뉴1");
-		temp.add("황금 올리브");
-
-	}
-	ArrayList<String> temp2 = new ArrayList<String>();
-	{
-		temp2.add("1");
-		temp2.add("2");
-		temp2.add("2");
-		temp2.add("1");
-		temp2.add("1");
-	}
-
+	Member member;
 	ArrayList<String> preSerchNum;
 	ArrayList<String> preSerchList;
 	ArrayList<Store> mainList, recommendList;
 	Scanner sc = new Scanner(System.in);
 	JFrame frame;
 	String resultName;
+	DaoTemp dt;
+
+	public SerchPageView() {
+
+	}
 
 	public void serchMain() {
-		preSerchList = temp;
-		preSerchNum = temp2;
+		String userName = MainFrame.loginUserId;
+		dt = new DaoTemp();
+		member = dt.memberLoad(userName);
+		preSerchList = member.getPreSerchList();
+		preSerchNum = member.getPreSerchNum();
 		resultName = "";
-		mainList = new StoreLoad().storeLoad();
-		recommendList = new StoreSort().recommendStore(mainList);
+		mainList = new StoreDao().loadStore();
+		recommendList = new StoreSortController().recommendStore(mainList);
 
 		frame = MainFrame.mainFrame;
 		frame.getContentPane().removeAll();
@@ -75,7 +68,7 @@ public class SerchPageView extends MainFrame {
 				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		scrollPane.setBounds(0, 293, 535, 442);
 		frame.getContentPane().add(scrollPane);
-
+ 
 		for (int i = 0; i < recommendList.size(); i++) {
 
 			JPanel menuPanel = new JPanel();
@@ -108,7 +101,7 @@ public class SerchPageView extends MainFrame {
 				@Override
 				public void mousePressed(MouseEvent e) {
 					int num = Integer.parseInt(hiddenLabel.getText());
-					new StoreInfoView(recommendList.get(num), resultName, recommendList, 1, 0);
+					new StoreInfoView().storeInfoViewMain(recommendList.get(num), resultName, recommendList, 1, 0);
 
 				}
 
@@ -134,7 +127,7 @@ public class SerchPageView extends MainFrame {
 				@Override
 				public void mousePressed(MouseEvent e) {
 					int num = Integer.parseInt(hiddenLabel.getText());
-					new StoreInfoView(recommendList.get(num), resultName, recommendList, 1, 0);
+					new StoreInfoView().storeInfoViewMain(recommendList.get(num), resultName, recommendList, 1, 0);
 				}
 
 				@Override
@@ -230,13 +223,13 @@ public class SerchPageView extends MainFrame {
 
 		JButton backBtn = new JButton("이  전");
 		backBtn.setBounds(15, 20, 80, 40);
-		backBtn.setBackground(new Color(255, 128, 0));
+		backBtn.setBackground(Color.ORANGE);
 		backBtn.setForeground(Color.white);
 		backBtn.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				new ViewTemp();
+				new HomeView();
 
 			}
 		});
@@ -254,7 +247,7 @@ public class SerchPageView extends MainFrame {
 
 		JButton serchBtn = new JButton("검  색");
 		serchBtn.setBounds(450, 105, 70, 40);
-		serchBtn.setBackground(new Color(255, 128, 0));
+		serchBtn.setBackground(Color.ORANGE);
 		serchBtn.setForeground(Color.white);
 		serchBtn.addActionListener(new ActionListener() {
 
@@ -266,12 +259,17 @@ public class SerchPageView extends MainFrame {
 					return;
 
 				} else if (serchChoiceBox.getSelectedIndex() == 1) {
-					new ChoiceResult().choiceResultMain("'" + textField.getText() + "' 검색결과",
-							new SerchPage().serchMenu(mainList, textField.getText()), 1);
+					new SerchPageController().serchKeywordSave(member, textField.getText(), "1");
+
+					new ChoiceResultView().choiceResultViewMain("'" + textField.getText() + "' 검색결과",
+							new SerchPageController().serchMenu(mainList, textField.getText()), 1);
 
 				} else {
-					new ChoiceResult().choiceResultMain("'" + textField.getText() + "' 검색결과",
-							new SerchPage().serchStoreName(mainList, textField.getText()), 1);
+					
+					new SerchPageController().serchKeywordSave(member, textField.getText(), "2");
+
+					new ChoiceResultView().choiceResultViewMain("'" + textField.getText() + "' 검색결과",
+							new SerchPageController().serchStoreName(mainList, textField.getText()), 1);
 				}
 
 			}
@@ -290,6 +288,11 @@ public class SerchPageView extends MainFrame {
 		preNameLabel.setOpaque(true);
 		preNameLabel.setPreferredSize(new Dimension(80, 40));
 		preSerchPanel.add(preNameLabel);
+		if (preSerchList == null) {
+
+			preSerchList = new ArrayList<String>();
+			preSerchNum = new ArrayList<String>();
+		}
 		for (int i = 0; i < preSerchList.size(); i++) {
 
 			JLabel preSerchLabel = new JLabel("[" + preSerchList.get(i) + "]");
@@ -304,12 +307,12 @@ public class SerchPageView extends MainFrame {
 				@Override
 				public void mousePressed(MouseEvent e) {
 					if (Integer.parseInt(preSerchNum.get(num)) == 1) {
-						new ChoiceResult().choiceResultMain("'" + preSerchList.get(num) + "' 검색결과",
-								new SerchPage().serchMenu(mainList, preSerchList.get(num)), 1);
+						new ChoiceResultView().choiceResultViewMain("'" + preSerchList.get(num) + "' 검색결과",
+								new SerchPageController().serchMenu(mainList, preSerchList.get(num)), 1);
 
 					} else {
-						new ChoiceResult().choiceResultMain("'" + preSerchList.get(num) + "' 검색결과",
-								new SerchPage().serchStoreName(mainList, preSerchList.get(num)), 1);
+						new ChoiceResultView().choiceResultViewMain("'" + preSerchList.get(num) + "' 검색결과",
+								new SerchPageController().serchStoreName(mainList, preSerchList.get(num)), 1);
 					}
 				}
 

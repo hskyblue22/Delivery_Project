@@ -20,7 +20,8 @@ public class Store implements Serializable{
 	private int category;
 	private int deliveryTip;
 	private int deliveryTime;
-	
+	private String userId;
+	private int aveStarNum;
 		
 	
 
@@ -34,6 +35,43 @@ public class Store implements Serializable{
 	      this.storeMenu = storeMenu;
 	      
 	   }
+	
+	
+
+
+
+	public Store(String storeName, String storeIntroduce, HashMap<String, Menu> storeMenu, double aveStar, int category,
+			int deliveryTip, int deliveryTime, String userId, int aveStarNum) {
+		super();
+		this.storeName = storeName;
+		this.storeIntroduce = storeIntroduce;
+		this.storeMenu = storeMenu;
+		this.aveStar = aveStar;
+		this.category = category;
+		this.deliveryTip = deliveryTip;
+		this.deliveryTime = deliveryTime;
+		this.userId = userId;
+		this.aveStarNum = aveStarNum;
+	}
+
+
+
+
+
+	public Store(String storeName, String storeIntroduce, int category, int deliveryTip,
+			int deliveryTime, HashMap<String, Menu> storeMenu, String userId) {
+		super();
+		this.storeName = storeName;
+		this.storeIntroduce = storeIntroduce;
+		this.category = category;
+		this.deliveryTip = deliveryTip;
+		this.deliveryTime = deliveryTime;
+		this.storeMenu = storeMenu;
+		this.userId = userId;
+		
+	}
+
+
 
 
 
@@ -73,6 +111,10 @@ public class Store implements Serializable{
 		this.deliveryTip = deliveryTip;
 		this.deliveryTime = deliveryTime;
 	}
+
+
+
+
 
 
 
@@ -156,6 +198,38 @@ public class Store implements Serializable{
 
 	public void setStoreAddress(String storeAddress) {
 		this.storeAddress = storeAddress;
+	}
+
+
+
+
+
+	public String getUserId() {
+		return userId;
+	}
+
+
+
+
+
+	public int getAveStarNum() {
+		return aveStarNum;
+	}
+
+
+
+
+
+	public void setAveStarNum(int aveStarNum) {
+		this.aveStarNum = aveStarNum;
+	}
+
+
+
+
+
+	public void setUserId(String userId) {
+		this.userId = userId;
 	}
 	
 	

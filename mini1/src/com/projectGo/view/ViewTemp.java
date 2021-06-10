@@ -9,7 +9,7 @@ import javax.swing.JFrame;
 public class ViewTemp extends MainFrame{
 	private JFrame frame;
 	public ViewTemp()  {
-		
+		MainFrame.loginUserId = "user01";
 		frame = MainFrame.mainFrame;
 		frame.getContentPane().removeAll();
 		frame.validate();
@@ -34,7 +34,7 @@ public class ViewTemp extends MainFrame{
 				new SerchPageView().serchMain();
 				
 			}
-		});
+		}); 
 		backBtn_2.setBounds(314, 250, 100, 70);
 		frame.getContentPane().add(backBtn_2);
 		frame.validate();

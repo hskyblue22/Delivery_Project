@@ -6,7 +6,7 @@ import java.util.Collections;
 import com.projectGo.model.comparator.AscDeliveryTip;
 import com.projectGo.model.vo.Store;
 
-public class CategoryChoice {
+public class CategoryChoiceController {
 
 
 	public ArrayList<Store> categorySelect(ArrayList<Store> list, int choiceNum) {
@@ -19,7 +19,7 @@ public class CategoryChoice {
 				temp.add(list.get(i));
 
 			}
-
+ 
 		}
 		Collections.sort(temp, new AscDeliveryTip());
 		

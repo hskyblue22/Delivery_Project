@@ -75,6 +75,5 @@ public class Menu implements Serializable{
 		this.quantity = quantity;
 	}
 
-	
 
 }

@@ -16,6 +16,10 @@ public class OrderListController {
 		// TODO Auto-generated constructor stub
 	}
 	
+//	public void userOtherList() {
+//		old.userOtherList();
+//	}
+	
 	public ArrayList<Order> displayAllList(){
 		
 		olist = old.displayAllList();
@@ -27,23 +31,16 @@ public class OrderListController {
 //		}
 	}
 
-	public void printList() {
-		
-		for(int i=0; i<olist.size(); i++) {
-			System.out.println(olist.get(i));
-		}
-	}
+//	public void printList() {
+//		
+//		for(int i=0; i<olist.size(); i++) {
+//			System.out.println(olist.get(i));
+//		}
+//	}
 
-	public void deleteOrder() {
+	public void deleteOrder(int index) {
 
-		int deletenum = 1;  //클릭이벤트
-		
-		if(olist != null) {
-			
-			//삭제메시지	
-			old.deleteList(deletenum);
-			System.out.println("삭제되었습니다.");
-		}
+		old.deleteList(index);	
 	}
 
 

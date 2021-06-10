@@ -20,7 +20,7 @@ public class Basket implements Serializable {
 
 	
 	public Basket() {}
-
+	
 	public Basket(String userId, String storeName, String storeAddress, int deliveryTip, HashMap<String, Menu> menuList) {
 		super();
 		this.userId = userId;
