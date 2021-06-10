@@ -40,6 +40,24 @@ public class Store implements Serializable{
 
 
 
+	public Store(String storeName, String storeIntroduce, HashMap<String, Menu> storeMenu, double aveStar, int category,
+			int deliveryTip, int deliveryTime, String userId, int aveStarNum) {
+		super();
+		this.storeName = storeName;
+		this.storeIntroduce = storeIntroduce;
+		this.storeMenu = storeMenu;
+		this.aveStar = aveStar;
+		this.category = category;
+		this.deliveryTip = deliveryTip;
+		this.deliveryTime = deliveryTime;
+		this.userId = userId;
+		this.aveStarNum = aveStarNum;
+	}
+
+
+
+
+
 	public Store(String storeName, String storeIntroduce, int category, int deliveryTip,
 			int deliveryTime, HashMap<String, Menu> storeMenu, String userId) {
 		super();
@@ -93,6 +111,10 @@ public class Store implements Serializable{
 		this.deliveryTip = deliveryTip;
 		this.deliveryTime = deliveryTime;
 	}
+
+
+
+
 
 
 
