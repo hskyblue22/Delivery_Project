@@ -20,15 +20,19 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import com.projectGo.controller.MemberController;
+import com.projectGo.model.dao.MemberDao;
+import com.projectGo.model.vo.Member;
 
-public class MemberSignUpPanel extends JFrame {
-
+public class MemberSignUpPanel extends MainFrame {
+	private JFrame frame;
    //ArrayList<Member> mls;
-
-   boolean check = false; //아이디 중복확인 관련
+	private MemberDao md=new MemberDao();
+	private ArrayList<Member> memList;
+	
+   boolean check = false;
    int type = 0;
 
-   JPanel p = new JPanel();
+   
    JTextField t1 = new JTextField("");
    JTextField t2 = new JTextField("");
    JPasswordField t3p = new JPasswordField("");
@@ -50,21 +54,19 @@ public class MemberSignUpPanel extends JFrame {
    
    Color orange = new Color(243, 156, 18);
    
-   public MemberSignUpPanel(JFrame f, MemberController mc) {
-
-      super("회원가입");
-      super.setResizable(true);
-      
-      ArrayList<Member> mls = mc.getMemList();
-
-      p.setVisible(true);
-      p.setLayout(null);
-      p.setOpaque(false);
-      f.add(p);
+   public MemberSignUpPanel() {
+	   frame = MainFrame.mainFrame;
+		frame.getContentPane().removeAll();
+		frame.validate();
+		frame.repaint();
+     
+		
+      md.fileInput();
+      memList = md.getMemberList();
 
       l0.setBounds(190, 80, 150, 30);
       l0.setFont(new Font("맑은 고딕", Font.BOLD, 25));
-      p.add(l0);
+      frame.getContentPane().add(l0);
       
       b0.setBounds(35, 35, 75, 30);
       b0.setMargin(new Insets(1, 1, 1, 1));
@@ -72,7 +74,7 @@ public class MemberSignUpPanel extends JFrame {
       b0.setForeground(Color.white);
       b0.setBackground(orange);
       b0.setBorder(BorderFactory.createLineBorder(orange));
-      b0.addActionListener(new ActionListener() {//"이전"버튼
+      b0.addActionListener(new ActionListener() {
          @Override
          public void actionPerformed(ActionEvent e) {
             String mem[] = new String[6];
@@ -85,59 +87,59 @@ public class MemberSignUpPanel extends JFrame {
             mem[5] = t6.getText().trim();
             for(i = 0; i < s; i++)
                if( !mem[i].equals("") )
-                  if (JOptionPane.showConfirmDialog(p, "가입하지 않고 나가시겠습니까?", "", JOptionPane.YES_NO_OPTION) == 0) 
+                  if (JOptionPane.showConfirmDialog(frame, "가입하지 않고 나가시겠습니까?", "", JOptionPane.YES_NO_OPTION) == 0) 
                      break;
-            p.setVisible(false);
-            f.remove(p);
-            MemberSignInPanel np = new MemberSignInPanel(f, mc);
+         
+        
+          new MemberSignInPanel();
          }
       });
-      p.add(b0); // 버튼 이전
-                
+      frame.getContentPane().add(b0); // 버튼 이전
+
       // 텍스트필드+라벨
       t1.setBounds(130, 160, 180, 35);
       t1.setFont(new Font("맑은 고딕", Font.BOLD, 17));
-      p.add(t1);
+      frame.getContentPane().add(t1);
       l1.setBounds(40, 160, 100, 35);
       l1.setFont(new Font("맑은 고딕", Font.BOLD, 17));
-      p.add(l1);
+      frame.getContentPane().add(l1);
 
       t2.setBounds(130, 205, 290, 35);
       t2.setFont(new Font("맑은 고딕", Font.BOLD, 17));
-      p.add(t2);
+      frame.getContentPane().add(t2);
       l2.setBounds(40, 205, 100, 35);
       l2.setFont(new Font("맑은 고딕", Font.BOLD, 17));
-      p.add(l2);
+      frame.getContentPane().add(l2);
 
       t3p.setBounds(130, 250, 290, 35);
       t3p.setFont(new Font("맑은 고딕", Font.BOLD, 17));
-      p.add(t3p);
+      frame.getContentPane().add(t3p);
       l3.setBounds(40, 250, 100, 35);
       l3.setFont(new Font("맑은 고딕", Font.BOLD, 17));
-      p.add(l3);
+      frame.getContentPane().add(l3);
 
       t4p.setBounds(130, 295, 290, 35);
       t4p.setFont(new Font("맑은 고딕", Font.BOLD, 17));
-      p.add(t4p);
+      frame.getContentPane().add(t4p);
       l4.setBounds(40, 295, 100, 35);
       l4.setFont(new Font("맑은 고딕", Font.BOLD, 17));
-      p.add(l4);
+      frame.getContentPane().add(l4);
 
       t5.setBounds(130, 340, 290, 35);
       t5.setFont(new Font("맑은 고딕", Font.BOLD, 17));
-      p.add(t5);
+      frame.getContentPane().add(t5);
       l5.setBounds(40, 340, 100, 35);
       l5.setFont(new Font("맑은 고딕", Font.BOLD, 17));
-      p.add(l5);
+      frame.getContentPane().add(l5);
 
       t6.setBounds(130, 385, 290, 72);
       t6.setFont(new Font("맑은 고딕", Font.BOLD, 17));
       t6.setLineWrap(true);
       t6.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.gray));
-      p.add(t6);
+      frame.getContentPane().add(t6);
       l6.setBounds(40, 385, 100, 35);
       l6.setFont(new Font("맑은 고딕", Font.BOLD, 17));
-      p.add(l6);
+      frame.getContentPane().add(l6);
 
       // 버튼
       b1.setBounds(320, 160, 100, 35);
@@ -146,13 +148,13 @@ public class MemberSignUpPanel extends JFrame {
       b1.setForeground(Color.white);
       b1.setBackground(orange);
       b1.setBorder(BorderFactory.createLineBorder(orange));
-      p.add(b1);
+      frame.getContentPane().add(b1);
       b2.setBounds(130, 550, 290, 45);
       b2.setFont(new Font("맑은 고딕", Font.BOLD, 17));
       b2.setForeground(Color.white);
       b2.setBackground(orange);
       b2.setBorder(BorderFactory.createLineBorder(orange));
-      p.add(b2);
+      frame.getContentPane().add(b2);
 
       // 완료(회원가입 완료되는 과정)
       b2.addActionListener(new ActionListener() {
@@ -192,8 +194,12 @@ public class MemberSignUpPanel extends JFrame {
                return;
             }
 
-            Member mb = new Member(mls.size(), mem[0], mem[1], mem[2], mem[4], mem[5], 0, type);
-            mc.addMem(mb);
+            Member mb = new Member(memList.size(), mem[0], mem[1], mem[2], mem[4], mem[5], 0, type);
+         
+            new MemberDao().fileOutput(mb);
+            
+           
+            
             System.out.println(mb);
 
             JOptionPane.showMessageDialog(null, "회원가입이 완료되었습니다");
@@ -206,9 +212,8 @@ public class MemberSignUpPanel extends JFrame {
             t6.setText("");
             check = false;
 
-            p.setVisible(false);
-            f.remove(p);
-            MemberSignInPanel np = new MemberSignInPanel(f, mc);
+            frame.getContentPane().setVisible(false);
+            new MemberSignInPanel( );
          }
       });
 
@@ -221,7 +226,7 @@ public class MemberSignUpPanel extends JFrame {
                JOptionPane.showMessageDialog(null, "닉네임을 입력하세요");
                return;
             }
-            for (Member m : mls) {
+            for (Member m : memList) {
                if (nick.equals(m.getNick())) {
                   t1.setText("");
                   JOptionPane.showMessageDialog(null, "이미 등록된 닉네임 입니다");
@@ -236,7 +241,6 @@ public class MemberSignUpPanel extends JFrame {
       rb1.setBounds(130, 470, 100, 35);
       rb1.setFont(new Font("맑은 고딕", Font.BOLD, 16));
       rb1.setBackground(Color.white);
-      
       rb2.setBounds(230, 470, 100, 35);
       rb2.setFont(new Font("맑은 고딕", Font.BOLD, 16));
       rb2.setBackground(Color.white);
@@ -245,19 +249,19 @@ public class MemberSignUpPanel extends JFrame {
        group.add(rb1);
        group.add(rb2);
        
-       p.add(rb1);
-       p.add(rb2);
+       frame.getContentPane().add(rb1);
+       frame.getContentPane().add(rb2);
        
        rb1.addActionListener(new ActionListener() {
          @Override
          public void actionPerformed(ActionEvent e) {
-            type = 2;
+            type = 2;//구매자
          }
       });
        rb2.addActionListener(new ActionListener() {
          @Override
          public void actionPerformed(ActionEvent e) {
-            type = 1;
+            type = 1;//판매자
          }
       });
       
