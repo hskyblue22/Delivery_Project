@@ -10,7 +10,6 @@ import com.projectGo.model.vo.Menu;
 import com.projectGo.model.vo.Order;
 import com.projectGo.model.vo.Store;
 import com.projectGo.view.MainFrame;
-
 public class SellerController {
 
 	List<Store> storeList = new ArrayList<Store>();
@@ -18,15 +17,17 @@ public class SellerController {
 	StoreDao sd = new StoreDao();
 	HashMap<String, Menu> newMenu = new HashMap<String, Menu>();
 
-	public void menuCreator(String menuName, String menuPic, int menuPrice) {
+	public void menuCreator(HashMap<String, Menu> menuList) {
 		
 
 		Store beforeStore = null;
+		
+		sd.loadStore();
 
-		for (int i = 0; i < sd.loadStore().size(); i++) {
+		for (int i = 0; i < sd.load().size(); i++) {
 
-			if (MainFrame.loginUserId.equals(sd.loadStore().get(i).getUserId())) {
-				beforeStore = sd.loadStore().get(i);
+			if (MainFrame.loginUserId.equals(sd.load().get(i).getUserId())) {
+				beforeStore = sd.load().get(i);
 
 			}
 		} // 내 아이디에 해당되는 가게 정보불러오기
@@ -38,11 +39,11 @@ public class SellerController {
 		int deliveryTip = beforeStore.getDeliveryTip();
 		int deliveryTime = beforeStore.getDeliveryTime();
 		int aveStarNum = beforeStore.getAveStarNum();
-		HashMap newMenuList = beforeStore.getStoreMenu();
 		
-		newMenuList.put(menuName, new Menu(menuPic, menuPrice)); // 메뉴 리스트에 메뉴 객체 담기
+		sd.deleteStore();
+	
 
-		Store newStore = new Store(storeName, storeIntroduce, newMenuList, aveStar, category, deliveryTip, deliveryTime,
+		Store newStore = new Store(storeName, storeIntroduce, menuList, aveStar, category, deliveryTip, deliveryTime,
 				MainFrame.loginUserId, aveStarNum);
 		sd.addStore(newStore);
 
@@ -63,11 +64,13 @@ public class SellerController {
 
 		String myStore = null;
 		ArrayList sellerOrder = new ArrayList();
+		
+		sd.loadStore();
 
 		// 가게 목록에서 내 가게 호출
-		for (int i = 0; i < sd.loadStore().size(); i++) {
-			if (sd.loadStore().get(i).getUserId().equals(MainFrame.loginUserId)) {
-				myStore = sd.loadStore().get(i).getStoreName();
+		for (int i = 0; i < sd.load().size(); i++) {
+			if (sd.load().get(i).getUserId().equals(MainFrame.loginUserId)) {
+				myStore = sd.load().get(i).getStoreName();
 			}
 
 		}
@@ -91,10 +94,12 @@ public class SellerController {
 	public boolean checkStore() {
 
 		boolean check = false;
+		
+		sd.loadStore();
 
-		for (int i = 0; i < sd.loadStore().size(); i++) {
+		for (int i = 0; i < sd.load().size(); i++) {
 
-			if (MainFrame.loginUserId.equals(sd.loadStore().get(i).getUserId())) {
+			if (MainFrame.loginUserId.equals(sd.load().get(i).getUserId())) {
 				check = true;
 
 			}
@@ -105,11 +110,12 @@ public class SellerController {
 	public Store myStoreLoad() {
 
 		Store myStore = null;
+		sd.loadStore();
 
-		for (int i = 0; i < sd.loadStore().size(); i++) {
+		for (int i = 0; i < sd.load().size(); i++) {
 
-			if (MainFrame.loginUserId.equals(sd.loadStore().get(i).getUserId())) {
-				myStore = sd.loadStore().get(i);
+			if (MainFrame.loginUserId.equals(sd.load().get(i).getUserId())) {
+				myStore = sd.load().get(i);
 
 			}
 		}
@@ -121,11 +127,12 @@ public class SellerController {
 	public void storeModify(String storeName, String storeIntroduce, int category, int deliveryTip, int deliveryTime) {
 
 		Store beforeStore = null;
+		sd.loadStore();
 
-		for (int i = 0; i < sd.loadStore().size(); i++) {
+		for (int i = 0; i < sd.load().size(); i++) {
 
-			if (MainFrame.loginUserId.equals(sd.loadStore().get(i).getUserId())) {
-				beforeStore = sd.loadStore().get(i);
+			if (MainFrame.loginUserId.equals(sd.load().get(i).getUserId())) {
+				beforeStore = sd.load().get(i);
 
 			}
 		} // 내 아이디에 해당되는 가게 정보불러오기
@@ -156,11 +163,13 @@ public class SellerController {
 	public void menuFileModify() {
 
 		Store beforeStore = null;
+		
+		sd.loadStore();
 
-		for (int i = 0; i < sd.loadStore().size(); i++) {
+		for (int i = 0; i < sd.load().size(); i++) {
 
-			if (MainFrame.loginUserId.equals(sd.loadStore().get(i).getUserId())) {
-				beforeStore = sd.loadStore().get(i);
+			if (MainFrame.loginUserId.equals(sd.load().get(i).getUserId())) {
+				beforeStore = sd.load().get(i);
 
 			}
 		} // 내 아이디에 해당되는 가게 정보불러오기
@@ -205,6 +214,13 @@ public class SellerController {
 
 		return num;
 
+	}
+
+	public HashMap<String, Menu> addMenu(HashMap<String, Menu> menuList2, String menuName, Menu menu) {
+		HashMap<String, Menu> temp;
+		temp = menuList2;
+		temp.put(menuName, menu);
+		return temp;
 	}
 
 }

@@ -8,7 +8,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import com.projectGo.controller.SellerController;
@@ -29,16 +29,15 @@ public class StoreAddView extends MainFrame {
 		frame.getContentPane().removeAll();
 		frame.validate();
 		frame.repaint();
-		JPanel panel = new JPanel();
-		frame.getContentPane().add(panel);
-		panel.setBounds(0, 0, 550, 800);
+
+
 		
 		
 		JButton backbtn = new JButton("이 전");
 		backbtn.setBounds(15, 20, 80, 40);
 		backbtn.setBackground(Color.orange);
 		backbtn.setForeground(Color.white);
-		panel.add(backbtn);
+		frame.add(backbtn);
 		backbtn.addActionListener(new ActionListener() {
 			
 			@Override
@@ -48,24 +47,13 @@ public class StoreAddView extends MainFrame {
 			}
 		});
 		
-		JButton nextbtn = new JButton("다 음");
-		backbtn.setBounds(455, 20, 80, 40);
-		backbtn.setBackground(Color.orange);
-		backbtn.setForeground(Color.white);
-		panel.add(nextbtn);
-		nextbtn.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				new MenuAddView();
-				
-			}
-		});
 		
 		
-		JLabel header = new JLabel("가게등록");
-		header.setHorizontalAlignment(JLabel.CENTER);
-		panel.add(header);
+		
+		JLabel header = new JLabel("가게 등록");
+		header.setBounds(225, 30, 200, 30);
+		//header.setHorizontalAlignment(JLabel.CENTER);
+		frame.getContentPane().add(header);
 		
 		
 	
@@ -76,6 +64,10 @@ public class StoreAddView extends MainFrame {
 		
 		JLabel snl = new JLabel("가게 이름");
 		JTextField snt = new JTextField();
+		snl.setBounds(50, 100, 300, 30);
+		snt.setBounds(50, 150, 150, 30);
+		frame.getContentPane().add(snl);
+		frame.getContentPane().add(snt);
 		
 
 		JLabel cl = new JLabel("카테고리");
@@ -93,23 +85,66 @@ public class StoreAddView extends MainFrame {
 			}
 		});
 		
+		cl.setBounds(50, 200, 300, 30);
+		frame.getContentPane().add(cl);
+		combo.setBounds(50, 250, 100, 30);
+		frame.getContentPane().add(combo);
+		
 		
 		JLabel dtl = new JLabel("예정 배달 소요 시간");
 		JTextField dtt = new JTextField();
 		
+		dtl.setBounds(50, 300, 300, 30);
+		dtt.setBounds(50, 350, 100, 30);
+		frame.getContentPane().add(dtl);
+		frame.getContentPane().add(dtt);
+		
+		
 		JLabel dtipl = new JLabel("배달 팁");
 		JTextField dtipt = new JTextField();
 		
+		dtipl.setBounds(50, 400, 300, 30);
+		dtipt.setBounds(50, 450, 100, 30);
+		frame.getContentPane().add(dtipl);
+		frame.getContentPane().add(dtipt);
+		
+		
 		JLabel sil = new JLabel("가게 소개");
-		JTextField sit = new JTextField();
+		JTextArea sit = new JTextArea();
+		sit.setBackground(Color.lightGray);
+		sil.setBounds(50, 500, 300, 30);
+		sit.setBounds(50, 550, 300, 120);
+		frame.getContentPane().add(sil);
+		frame.getContentPane().add(sit);
 		
 		
-		
-		
-		sc.StoreCreator(storeName, storeIntroduce, category, deliveryTip, deliveryTime);
-		
-		
+		JButton nextbtn = new JButton("다 음");
+		nextbtn.setBounds(435, 20, 80, 40);
+		nextbtn.setBackground(Color.orange);
+		nextbtn.setForeground(Color.white);
+		frame.getContentPane().add(nextbtn);
+		nextbtn.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
 				
+				storeName = snt.getText();
+				String dt = dtt.getText();
+				deliveryTime = Integer.parseInt(dt);
+				String dttt = dtipt.getText();
+				deliveryTip = Integer.parseInt(dttt);
+				storeIntroduce = sit.getText();
+				sc.StoreCreator(storeName, storeIntroduce, category, deliveryTip, deliveryTime);
+				
+				new MenuAddView().MenuAddViewMain();
+			}
+		});
+		
+	
+		
+		
+		frame.validate();
+		frame.repaint();		
 		
 		
 		

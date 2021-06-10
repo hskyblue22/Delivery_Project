@@ -15,26 +15,43 @@ import com.projectGo.view.MainFrame;
 
 public class StoreDao {
 
+	ArrayList<Store> storeList;
+
 	public void addStore(Store store) {
 
-		// ObjectOutputStream을 통해 전달받은 store 객체를 store.txt에 추가
+		loadStore();
 
-		ArrayList<Store> storeList = new ArrayList<Store>();
+		storeList.add(store);
 
-		ObjectInputStream ois;
-		try {
-			ois = new ObjectInputStream(new FileInputStream("store.txt"));
+		try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("store.txt"))) {
 
-			storeList.addAll((ArrayList<Store>) ois.readObject());
+			for (int i = 0; i < storeList.size(); i++) {
+				oos.writeObject(storeList.get(i));
+			}
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
-			storeList.add(store);
+	}
 
-			ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("store.txt"));
-			oos.writeObject(storeList);
-			
-			oos.close();
-			
-			
+	public void loadStore() {
+
+		storeList = new ArrayList<Store>();
+		try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("store.txt"))) {
+
+			while (true) {
+				storeList.add((Store) ois.readObject());
+
+			}
+
+		} catch (EOFException e) {
+			return;
+		} catch (FileNotFoundException e) {
+			return;
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -45,36 +62,17 @@ public class StoreDao {
 
 	}
 
-	public ArrayList<Store> loadStore() {
+	public ArrayList<Store> load() {
 
-		ArrayList<Store> store = new ArrayList<Store>();
-
-		try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("store.txt"))) {
-			while (true) {
-				store.add((Store) ois.readObject());
-
-			}
-
-		} catch (EOFException e) {
-			// TODO: handle exception
-		} catch (FileNotFoundException e) {
-			return null;
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return store;
-
+		return storeList;
 	}
 
 	public void saveAveStar(String storeName, int reviewScore) {
 		int aveStarNum;
 		ArrayList<Store> list;
+		loadStore();
 		double aveStar, dScore, dTemp, result;
-		list = loadStore();
+		list = load();
 		for (int i = 0; i < list.size(); i++) {
 
 			if (list.get(i).getStoreName().equals(storeName)) {
@@ -106,59 +104,39 @@ public class StoreDao {
 				return;
 
 			}
-			
-			
-			
 
 		}
-		
+
 	}
 
 	public void deleteStore() {
-		
-	
-		
+
 		ArrayList<Store> storeList = new ArrayList<Store>();
-		
-		try {
-			ObjectInputStream ois = new ObjectInputStream(new FileInputStream("store.txt"));
-			
-			storeList.addAll((ArrayList<Store>) ois.readObject());
-			
-			for(int i = 0; i < storeList.size(); i++) {
-				
-				if(storeList.get(i).getUserId().equals(MainFrame.loginUserId)) {
-					
-					storeList.remove(i);
-					
-				}
-				
-				ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("store.txt"));
-				oos.writeObject(storeList);
-				
-				
-				
-				oos.close();
+		loadStore();
+
+		load();
+
+		for (int i = 0; i < storeList.size(); i++) {
+
+			if (storeList.get(i).getUserId().equals(MainFrame.loginUserId)) {
+
+				storeList.remove(i);
 			}
-			
-			
+		}
+
+		try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("store.txt"))) {
+
+			for (int i = 0; i < storeList.size(); i++) {
+				oos.writeObject(storeList.get(i));
+			}
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
-		
-		
-		
-		
+
 	}
-	
 }
-
-	
-		
-	
-
 
