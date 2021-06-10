@@ -36,15 +36,18 @@ public class OrderDao {
 				return;
 		} catch (FileNotFoundException e) {
 			
-			//파일이 없을경우 파일 생성 , 맨 첫 주문일 경우
-			try {
-				new File("order_list.txt").createNewFile();
-			} catch (IOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			} 
 			
+//			//파일이 없을경우 파일 생성 , 맨 첫 주문일 경우
+//			try {
+//				new File("order_list.txt").createNewFile();
+//			} catch (IOException e1) {
+//				// TODO Auto-generated catch block
+//				e1.printStackTrace();
+//			} 
 			System.out.println("파일 생성");
+			return;
+			
+			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -53,6 +56,11 @@ public class OrderDao {
 			e.printStackTrace();
 		}
 		
+	}
+	
+	
+	public  ArrayList<Order> getOrderList() {
+		return ordList;
 	}
 	
 	
