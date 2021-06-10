@@ -41,6 +41,8 @@ public class ReviewListView {
 	private String contents;
 
 	public ReviewListView() {
+		
+		
 
 		init();
 	}
@@ -49,7 +51,7 @@ public class ReviewListView {
 
 		userReview = rlc.userAllList();
 		System.out.println();
-
+		
 		// 메인프레임
 		frame = MainFrame.mainFrame;
 		frame.getContentPane().removeAll();

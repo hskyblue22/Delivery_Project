@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Map.Entry;
 import java.util.Set;
 
 import javax.swing.ImageIcon;
@@ -29,6 +28,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
 import com.projectGo.controller.OrderListController;
+import com.projectGo.model.dao.OrderListDao;
 import com.projectGo.model.dao.ReviewListDao;
 import com.projectGo.model.vo.Menu;
 import com.projectGo.model.vo.Order;
@@ -47,8 +47,9 @@ public class OrderListView extends MouseAdapter {
 	private String storeName;
 	private String date;
 	private String[] menus;  //메뉴이름+가격
+	private String[][] totalmenus;
 	
-	public OrderListView() throws FileNotFoundException {
+	public OrderListView() {
 		//메인프레임
 		frame = MainFrame.mainFrame;
 		frame.getContentPane().removeAll();
@@ -68,6 +69,7 @@ public class OrderListView extends MouseAdapter {
 	public void init() {
 		olc = new OrderListController();
 		userOrderList = olc.displayAllList(); 
+		System.out.println(userOrderList.size());  //load했는데도 안담기네
 		
 		//title(제목, 이전버튼)
 		JLabel headLabel = new JLabel("주 문 내 역");
@@ -122,6 +124,8 @@ public class OrderListView extends MouseAdapter {
 	
 	//주문내역 생성
 	private void makeList() {
+		
+		totalmenus = new String[userOrderList.size()][];
 		
 		for( i=0; i<userOrderList.size() ; i++) { 
 			
@@ -179,35 +183,8 @@ public class OrderListView extends MouseAdapter {
 				panel_1.add(lblNewLabel_3_1, gbc_lblNewLabel_3_1);
 	    	
 	    	}
-	    	
-	    	
-//	    	String menuAndQuantity = "";
-//	    	int menuIndex = 0;
-//	    	menus = new String[entryMenu.size()];  //리뷰 넘겨주기
-//	    	
-//	    	while(mi.hasNext()) {
-//	    		
-//	    		menuPic = mi.next().getValue().getMenuPic();
-//	    		image = new ImageIcon(menuPic).getImage().getScaledInstance(50,50,0);
-//				
-//	    		
-//	    		String key = mi.next().getKey();
-//	    		int quantity = mi.next().getValue().getQuantity();
-//	    		
-//	    		menuAndQuantity = key + "   "+ quantity + "개";
-//	    		menus[menuIndex] = menuAndQuantity;
-//	    		
-//	    		JLabel lblNewLabel_3_1 = new JLabel(menuAndQuantity);
-//				GridBagConstraints gbc_lblNewLabel_3_1 = new GridBagConstraints();
-//				gbc_lblNewLabel_3_1.gridwidth = 2;
-//				gbc_lblNewLabel_3_1.fill = GridBagConstraints.BOTH;
-//				gbc_lblNewLabel_3_1.insets = new Insets(0, 0, 5, 5);
-//				gbc_lblNewLabel_3_1.gridx = 1;
-//				gbc_lblNewLabel_3_1.gridy = 2 + (menuIndex++);
-//				panel_1.add(lblNewLabel_3_1, gbc_lblNewLabel_3_1);
-//	    	}
-
 			
+	    	totalmenus[panelIndex] = menus;
 			
 			//주문날짜
 			JLabel lblNewLabel = new JLabel(date);
@@ -221,7 +198,7 @@ public class OrderListView extends MouseAdapter {
 
 			//주문완료,배달완료
 			String condition = "주문완료";
-			if(userOrderList.get(panelIndex).isOrderState()) {  //나중에 바꿔야 함!!
+			if(!userOrderList.get(panelIndex).isOrderState()) {  //나중에 바꿔야 함!!
 				condition = "배달완료";
 			}
 			JLabel lblNewLabel_1 = new JLabel(condition);
@@ -354,14 +331,21 @@ public class OrderListView extends MouseAdapter {
 						//리뷰리스트에서 중복확인
 						//ReviewListDao -> search메소드 -> 파일내용중복확인 -> 그 값이 false이면 리뷰창 안 띄움
 						//같은 리뷰가 있다면 ==> 인덱스 / 같은리뷰없으면 1
-						if(new ReviewListDao().searchReview(date, userID, storeName, menus) == -1) {
-							new WriteReview(date, storeName, menus, userID );
+						
+						String date1 = StringFromCalendar(userOrderList.get(panelIndex).getOrderedDate());
+						String userID1 = userOrderList.get(panelIndex).getBasket().getUserId();
+				    	String storeName1 = userOrderList.get(panelIndex).getBasket().getStoreName();
+				    	String[] menus1 = totalmenus[panelIndex];
+						
+						if(new ReviewListDao().searchReview(date1, userID1, storeName1, menus1) == -1) {
+							new WriteReview(date1, storeName1, menus1, userID1 );
 						} else {
 							JOptionPane.showMessageDialog(btnNewButton_1,"이전에 리뷰를 작성하였습니다.\n 리뷰수정은 My리뷰에서 하세요",
 									"주의",JOptionPane.WARNING_MESSAGE);
 							btnNewButton_2.setEnabled(false);
 						}
-						
+				
+						//StringFromCalendar(userOrderList.get(i).getOrderedDate();
 					} 
 				}
 			});

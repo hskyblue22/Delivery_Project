@@ -13,8 +13,7 @@ public class ReviewListController {
 	public ReviewListController() {
 		// TODO Auto-generated constructor stub
 	}
-	
-	
+		
 	public ArrayList<Review> userAllList(){
 		
 		return redao.userAllList();		
