@@ -19,11 +19,17 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.WindowConstants;
 
-import controller.MemberController;
-import model.vo.Member;
+import com.projectGo.controller.MemberController;
+import com.projectGo.model.dao.MemberDao;
+import com.projectGo.model.vo.Member;
 
-public class MemberSignInPanel extends JFrame {
+public class MemberSignInPanel extends MainFrame {
+	private JFrame frame;
    
+	private Member m;
+	private ArrayList<Member> list;
+	private MemberDao memDao = new MemberDao();
+	
    JPanel p = new JPanel();
    JTextField t1 = new JTextField("");
    JPasswordField t2 = new JPasswordField("");
@@ -35,29 +41,29 @@ public class MemberSignInPanel extends JFrame {
    
    Color orange = new Color(243, 156, 18);
 
-   public MemberSignInPanel(JFrame f, MemberController mc) {
-
-      super("로그인");
-      super.setResizable(true);
+   public MemberSignInPanel() {
+	   frame = MainFrame.mainFrame;
+		frame.getContentPane().removeAll();
+		frame.validate();
+		frame.repaint();
       
-      System.out.println(mc.getMemList());
-
+		memDao.fileInput();
+		list = memDao.getMemberList();
+		
       p.setVisible(true);
       p.setSize(550, 800);
       p.setLayout(null);
       p.setOpaque(false);
-      f.add(p);
+      frame.add(p);
 
-      ImageIcon icon = new ImageIcon("C:\\Users\\");//경로 복사하기
+      ImageIcon icon = new ImageIcon("C:\\Users\\joyhj\\eclipse-workspace\\Ex\\src\\logo.jpg");
       Image im = icon.getImage(); 
       Image im2 = im.getScaledInstance(137, 130, Image.SCALE_DEFAULT);
       ImageIcon icon2 = new ImageIcon(im2);
-      
-      
       l0.setBounds(170, 140, 137, 130);
       l0.setIcon(icon2);
       p.add(l0); // 레이블 로그인/로고
-           
+      
       l1.setBounds(70, 320, 100, 45);
       l1.setFont(new Font("맑은 고딕", Font.BOLD, 17));
       p.add(l1); // 레이블 아이디
@@ -104,19 +110,23 @@ public class MemberSignInPanel extends JFrame {
                JOptionPane.showMessageDialog(null, "비밀번호를 입력하세요");
                return;
             }
+        
+           
             
-            ArrayList<Member> mls = mc.getMemList();
-            int size = mls.size(), i; Member m;
             
-            for ( i = 0; i < size; i++ ) {
-               m = mls.get(i);
+            for ( int i = 0; i <  list.size(); i++ ) {
+               m = list.get(i);
                if (m.getNick().equals(id)) {
                   if (pw.equals(m.getPwd())) {
                      //JOptionPane.showMessageDialog(null, "로그인하였습니다.");
                      t1.setText("");
                      t2.setText("");
-                     HomeFrame nf = new HomeFrame(i, mc);
-                     f.dispose();
+                    if( m.getType()==2) {
+                    	MainFrame.member = m;
+                        new HomeView();
+                    	
+                    }
+                    frame.dispose();
                      return;
                   }
                   JOptionPane.showMessageDialog(null, "비밀번호가 일치하지 않습니다");
@@ -131,16 +141,18 @@ public class MemberSignInPanel extends JFrame {
          }
       });
 
-      bn2.addActionListener(new ActionListener() {//회원가입 버튼 누르면
+      bn2.addActionListener(new ActionListener() {
 
          @Override
          public void actionPerformed(ActionEvent e) {
             
-            p.setVisible(false);
-            f.remove(p);
-            MemberSignUpPanel np = new MemberSignUpPanel(f, mc);
+           
+           new MemberSignUpPanel();
+            
          }
       });
+      frame.validate();
+	  frame.repaint();
 
    }
    

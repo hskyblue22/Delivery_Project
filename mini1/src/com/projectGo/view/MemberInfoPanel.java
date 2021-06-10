@@ -22,8 +22,8 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
-import controller.MemberController;
-import model.vo.Member;
+import com.projectGo.controller.MemberController;
+import com.projectGo.model.vo.Member;
 
 public class MemberInfoPanel extends JFrame {
 
@@ -43,24 +43,22 @@ public class MemberInfoPanel extends JFrame {
    JTextField t2 = new JTextField();
    JPasswordField t3 = new JPasswordField();
    JTextField t4 = new JTextField();
-   JTextArea t5 = new JTextArea();//주소
+   JTextArea t5 = new JTextArea();
 
    JPanel p1 = new JPanel(); // read
 
    JButton b1 = new JButton("수정 하기");
-   
    JLabel b3 = new JLabel("<html><u>로그아웃</u></html>");
    JLabel b4 = new JLabel("<html><u>탈퇴하기</u></html>");
- 
+
    JPanel p2 = new JPanel(); // update
 
    JButton b2 = new JButton("수정 완료");
-   JButton b5 = new JButton("중복");//수정할 때도 중복확인 해야됨
+   JButton b5 = new JButton("중복");
    JButton b6 = new JButton("초기화");
    
    Color orange = new Color(243, 156, 18);
    Color lightgray = new Color(230, 230, 230);
-   //=========================================================
    
    boolean check, update = true, p1v = true, p2v;
    
@@ -83,7 +81,7 @@ public class MemberInfoPanel extends JFrame {
       b0.setForeground(Color.white);
       b0.setBackground(orange);
       b0.setBorder(BorderFactory.createLineBorder(orange));
-      b0.addActionListener(new ActionListener() {//이전
+      b0.addActionListener(new ActionListener() {
          @Override
          public void actionPerformed(ActionEvent e) {
             if(p1v) {
@@ -105,7 +103,6 @@ public class MemberInfoPanel extends JFrame {
                t3.setEditable(false);
                t4.setEditable(false);
                t5.setEditable(false);
-               
                t1.setText(m.getNick());
                t2.setText(m.getEmail());
                t3.setText(String.valueOf(m.getPwd()));
@@ -120,7 +117,6 @@ public class MemberInfoPanel extends JFrame {
          }
       });
       p0.add(b0); // 버튼 이전
-      //==========================================================================
       
       l0.setBounds(210, 100, 150, 30);
       l0.setFont(new Font("맑은 고딕", Font.BOLD, 25));
@@ -145,7 +141,6 @@ public class MemberInfoPanel extends JFrame {
       l5.setBounds(80, 420, 100, 35);
       l5.setFont(new Font("맑은 고딕", Font.BOLD, 17));
       p0.add(l5); // 레이블 주소
-      //===
       
       t1.setBounds(170, 180, 270, 35);
       t1.setText(m.getNick());
@@ -256,9 +251,8 @@ public class MemberInfoPanel extends JFrame {
       p1.setBounds(0, 0, 550, 800);
       p1.setVisible(true);
       f.add(p1);
-      //=========================================================================
 
-      b1.setBounds(80, 610, 360, 45);//수정하기
+      b1.setBounds(80, 610, 360, 45);
       b1.setFont(new Font("맑은 고딕", Font.BOLD, 17));
       b1.setForeground(Color.white);
       b1.setBackground(orange);
@@ -273,16 +267,13 @@ public class MemberInfoPanel extends JFrame {
             t3.setEditable(true);
             t4.setEditable(true);
             t5.setEditable(true);
-            
             b2.setEnabled(false);
             b5.setEnabled(false);
             b6.setEnabled(false);
-            
             p1.setVisible(false);
             p2.setVisible(true);
-            
             p1v = false;
-            p2v = true;///////////////////
+            p2v = true;
             check = false;
             //update = false;
          }

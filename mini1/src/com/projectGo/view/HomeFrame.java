@@ -22,10 +22,10 @@ public class HomeFrame extends JFrame {
       
       switch(mc.getMemList().get(idx).getType()) {
       case 1:
-         HomeSellerPanel ps = new HomeSellerPanel(f, idx);//판매자
+         HomeSellerPanel ps = new HomeSellerPanel(f, idx);
          break;
       case 2:
-         HomeBuyerPanel pb = new HomeBuyerPanel(f, idx, mc);//소비자
+         HomeBuyerPanel pb = new HomeBuyerPanel(f, idx);
          break;
       }
       

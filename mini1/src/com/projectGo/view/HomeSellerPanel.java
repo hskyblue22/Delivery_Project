@@ -3,7 +3,7 @@ package com.projectGo.view;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import controller.MemberController;
+import com.projectGo.controller.MemberController;
 
 public class HomeSellerPanel extends JFrame {
    
