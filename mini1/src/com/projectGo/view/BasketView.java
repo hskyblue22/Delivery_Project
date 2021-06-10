@@ -66,11 +66,11 @@ public class BasketView extends MainFrame{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				//mainFrame static 변수로!
 				//홈에서 다시 메뉴로 돌아왔을 때 데이터 유지
 //				new HomeView(basCont.getBasket());
 			}
 		});
-		
 
 		if (basCont.listIsEmpty()) {
 
@@ -149,10 +149,8 @@ public class BasketView extends MainFrame{
 		scrollPane.setViewportView(MenuPanel);
 		GridBagLayout gbl_panel = new GridBagLayout();
 		gbl_panel.columnWidths = new int[]{10, 440, 10};
-//		gbl_panel.rowHeights = new int[]{145,145,145,145,145,145,145,145,145,145};
 		gbl_panel.rowHeights = new int[count];
 		gbl_panel.columnWeights = new double[]{0.0, 0.0, 0.0};
-//		gbl_panel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
 		gbl_panel.rowWeights = new double[count]; 
 		MenuPanel.setLayout(gbl_panel);
 		
@@ -319,7 +317,6 @@ public class BasketView extends MainFrame{
 			deleteButton.setFocusPainted(false); //텍스트 테두리 제거
 			menu_1.add(deleteButton);
 			
-			i++;
 			
 			//삭제 버튼 누를경우
 			
@@ -338,6 +335,8 @@ public class BasketView extends MainFrame{
 				}
 			});
 			
+			
+			i++;
 		}
 		
 		frame.validate();
