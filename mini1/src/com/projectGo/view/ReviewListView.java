@@ -78,7 +78,7 @@ public class ReviewListView {
 		backBtn.setForeground(Color.white);
 		frame.getContentPane().add(backBtn);
 
-		// '이전'버튼 -> '홈으로' 변경
+		// '이전'버튼
 		backBtn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -87,7 +87,8 @@ public class ReviewListView {
 		});
 
 		// 스크롤판, 전체패널
-		JScrollPane scrollPane = new JScrollPane();
+		JScrollPane scrollPane = new JScrollPane(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		scrollPane.setBounds(12, 110, 512, 640);
 		contentPane.add(scrollPane);
 
@@ -186,7 +187,14 @@ public class ReviewListView {
 				gbc_lblNewLabel_3_4.fill = GridBagConstraints.BOTH;
 				gbc_lblNewLabel_3_4.insets = new Insets(0, 0, 5, 5);
 				gbc_lblNewLabel_3_4.gridx = 0;
-				gbc_lblNewLabel_3_4.gridy = 5;
+				
+				if(menus.length >= 4) {  //메뉴 많아지면 알아서 길이지도록 좌표수정_06.11
+					gbc_lblNewLabel_3_4.gridy = menus.length + 2;
+				}else {
+					gbc_lblNewLabel_3_4.gridy = 5;
+				}
+				
+//				gbc_lblNewLabel_3_4.gridy = 5;
 				area.setLineWrap(true);
 				area.setBackground(new Color(230, 230, 250));
 				area.setFont(new Font("굴림", Font.PLAIN, 15));
@@ -197,13 +205,27 @@ public class ReviewListView {
 				gbc_btnNewButton2.fill = GridBagConstraints.BOTH;
 				gbc_btnNewButton2.insets = new Insets(0, 0, 5, 5);
 				gbc_btnNewButton2.gridx = 3;
-				gbc_btnNewButton2.gridy = 8;
+				
+				if(menus.length >= 4) {  //메뉴 많아지면 알아서 길이지도록 좌표수정_06.11
+					gbc_btnNewButton2.gridy = menus.length + 6;
+				}else {
+					gbc_btnNewButton2.gridy = 8;
+				}
+				
+//				gbc_btnNewButton2.gridy = 8;
 				btnNewButton.setBackground(Color.orange);
 				btnNewButton.setForeground(Color.white);
 				panel_1.add(btnNewButton, gbc_btnNewButton2);
 				// 리뷰작성창 띄우기
 				// 작성완료 ==> 해당리뷰 삭제하고 다시 저장
 				btnNewButton.addActionListener(new ActionListener() {
+					
+					String date1 = userReview.get(panelIndex).getDate();
+					int score1 = userReview.get(panelIndex).getScore();
+					String storeName1 = userReview.get(panelIndex).getStoreName();
+					String[] menus1 = userReview.get(panelIndex).getMenus();
+					String contents1 = userReview.get(panelIndex).getContents();
+					String userID1 = userReview.get(panelIndex).getUserID();
 
 					@Override
 					public void actionPerformed(ActionEvent e) {
@@ -211,7 +233,7 @@ public class ReviewListView {
 						int result = JOptionPane.showConfirmDialog(null, "리뷰를 수정하시겠습니까?", "리뷰내역 삭제",
 								JOptionPane.YES_NO_OPTION);
 						if (result == JOptionPane.YES_OPTION) {
-							new WriteReview(date, storeName, menus, userID, contents, score);
+							new WriteReview(date1, storeName1, menus1, userID1, contents1, score1);
 						}
 					}
 				});
@@ -221,7 +243,14 @@ public class ReviewListView {
 				gbc_btnNewButton3.fill = GridBagConstraints.BOTH;
 				gbc_btnNewButton3.insets = new Insets(0, 0, 5, 0);
 				gbc_btnNewButton3.gridx = 4;
-				gbc_btnNewButton3.gridy = 8;
+				
+				if(menus.length >= 4) {  //메뉴 많아지면 알아서 길이지도록 좌표수정_06.11
+					gbc_btnNewButton3.gridy = menus.length + 6;
+				}else {
+					gbc_btnNewButton3.gridy = 8;
+				}
+				
+//				gbc_btnNewButton3.gridy = 8;
 				btnNewButton_2.setBackground(Color.orange);
 				btnNewButton_2.setForeground(Color.white);
 				panel_1.add(btnNewButton_2, gbc_btnNewButton3);

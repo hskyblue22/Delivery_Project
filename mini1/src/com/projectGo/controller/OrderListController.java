@@ -21,10 +21,6 @@ public class OrderListController {
 		olist = old.displayAllList();
 		return olist;
 		
-//		Iterator it = olist.iterator();
-//		while(it.hasNext()) {
-//			System.out.println(it.next());
-//		}
 	}
 
 
