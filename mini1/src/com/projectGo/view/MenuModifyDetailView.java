@@ -27,22 +27,12 @@ public class MenuModifyDetailView extends MainFrame{
 	private HashMap<String, Menu> otherMenu;
 	
 	
-	public MenuModifyDetailView(String menuN, String menuPic, int menuPrice, HashMap<String, Menu> otherMenu) {
-		this.menuN = menuN;
-		this.menuPic = menuPic;
-		this.menuPrice = menuPrice;
-		this.otherMenu = otherMenu;
-	}
-	
-	
-	
-
-
-
-	
 	public MenuModifyDetailView() {
-		// TODO Auto-generated constructor stub
+		
 	}
+	
+	
+	
 
 
 
@@ -50,7 +40,7 @@ public class MenuModifyDetailView extends MainFrame{
 
 
 
-	public void MenuAddViewMain() {
+	public void MenuAddViewMain(String menuN, String menuPic, int menuPrice, HashMap<String, Menu> otherMenu) {
 
 		frame = MainFrame.mainFrame;
 		frame.getContentPane().removeAll();
@@ -85,6 +75,8 @@ public class MenuModifyDetailView extends MainFrame{
 
 		frame.getContentPane().add(ml);
 		frame.getContentPane().add(mt);
+		
+		
 
 		JLabel mpl = new JLabel("메뉴 사진 주소");
 		JTextField mpt = new JTextField();
@@ -112,22 +104,25 @@ public class MenuModifyDetailView extends MainFrame{
 		addBtn.setForeground(Color.white);
 
 		frame.getContentPane().add(addBtn);
+		
+		/*String menuName = mt.getText();
+		String newMenuPic = mpt.getText();
+		String getPrice = mprt.getText();
+		int newMenuPrice = Integer.parseInt(getPrice);*/
+		
+		String a,b;
+		int c;
+		a = mt.getText();
+		b = mpt.getText();
+		c = Integer.parseInt(mprt.getText());
 
 		addBtn.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				System.out.println(mprl.getText());
-				System.out.println(mprt.getText());
-				menuN = mt.getText();
-				menuPic = mpt.getText();
-				String getPrice = mprt.getText();
-				menuPrice = Integer.parseInt(getPrice);
-				if (menuList == null) {
-					menuList = new HashMap<String, Menu>();
-				}
-
-				sc.editMenu(otherMenu, menuN, menuPic, menuPrice);
+				
+				
+				sc.editMenu(otherMenu, a, b, c);
 				new SellerMain();
 
 			}
