@@ -1,6 +1,7 @@
 package com.projectGo.model.dao;
 
 import java.io.EOFException;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -16,9 +17,9 @@ import com.projectGo.view.MainFrame;
 
 public class ReviewListDao {
 	
-	private ArrayList<Review> totalReview = new ArrayList<Review>();
-	private ArrayList<Review> userReview = new ArrayList<Review>();
-	private ArrayList<Review> otherReview = new ArrayList<Review>();
+	private ArrayList<Review> totalReview;
+	private ArrayList<Review> userReview;
+	private ArrayList<Review> otherReview;
 	private Review review;
 	String userID; 
 
@@ -26,26 +27,36 @@ public class ReviewListDao {
 		// TODO Auto-generated constructor stub
 	}
 
-
 	public ReviewListDao() {
 		
+	}
+
+	public void loadReviewList() {
+		totalReview = new ArrayList<Review>();
+		userReview = new ArrayList<Review>();
+		otherReview = new ArrayList<Review>();
+
 		try(ObjectInputStream ois = new ObjectInputStream(new FileInputStream("review_list.txt"))){
 			
 //			totalReview.addAll((ArrayList<Review>)ois.readObject());  //주문내역담긴 파일 전체 orderlist에 담기
-			userID = MainFrame.loginUserId;
+//			userID = MainFrame.loginUserId;
+			userID = "temp1";
+//			userID = "06.11_수정해봄";
 			
-			while(true) {
-				totalReview.add((Review)ois.readObject());  //객체로 arraylist에 하나씩 담아줘야 함
+			Review r;
+			while((r = (Review)ois.readObject()) != null) {
 				
-				for(Review r : totalReview) {
-					if(r.getUserID().equals(userID)) {  //userid와 orderList에 있는 userid비교
-						userReview.add(r);  //아이디 같으면 새로운 orderList에 담기
-					}else {
-						otherReview.add(r);
-					}
+				totalReview.add(r);  //객체로 arraylist에 하나씩 담아줘야 함
+
+				//여기 포문돌리면 안된다...나중에 또 봐서 실수하지 말자!
+				if(r.getUserID().equals(userID)) {  //userid와 orderList에 있는 userid비교
+					userReview.add(r);  //아이디 같으면 새로운 orderList에 담기
+				}else {
+					otherReview.add(r);
 				}
 				
 			}
+	
 		}catch(EOFException e) {
 			return;
 		} catch (FileNotFoundException e) {
@@ -62,27 +73,31 @@ public class ReviewListDao {
 			return;
 		}
 	}
-
-//	public void firstWriteReview(Review review) {
-//		if(userReview == null) {  //userReview에 아무것도 없을 때(전체 유저리뷰 없을때)
-//			userReview = new ArrayList<Review>();
-//			userReview.add(review);
-//			
-//			if(userReview != null) {
-//				System.out.println(userReview.size());
-//			}
-//			saveListFile(userReview);
-//		}
-//	}
-	
+ 	
 	public void writeReview(Review review) {
 		//전달받은 게시글을 list 에 추가 --> 후 파일에 저장되도록
-		userReview.add(review);
-		saveListFile(userReview);
+
+		if(userReview == null) {
+			try {
+				new File("review_list.txt").createNewFile();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} 
+			loadReviewList();
+			userReview.add(review);
+			saveListFile(userReview);
+			
+		} else {
+			userReview.add(review);
+			saveListFile(userReview);
+		}
+		
 	}
 	
 	public ArrayList<Review> userAllList(){
 		//주문내역 list 를 전체 리턴
+		loadReviewList();
 		return userReview;
 	}
 	
@@ -96,14 +111,18 @@ public class ReviewListDao {
 	//같은리뷰없으면 -1(true) / 같은 리뷰있으면 리뷰인덱스 전달
 	
 	public int searchReview(String date, String userID, String storeName, String[] menus){
-		
-		for(int i=0; i<userReview.size(); i++) {
-			if(userReview.get(i).getDate().equals(date) && userReview.get(i).getUserID().equals(userID) &&
-					userReview.get(i).getStoreName().equals(storeName) && Arrays.equals(userReview.get(i).getMenus(), menus) ) {
-				return i;
+		loadReviewList();
+		if(userReview.size() != 0) {
+			for(int i=0; i<userReview.size(); i++) {
+				if(userReview.get(i).getDate().equals(date) && userReview.get(i).getUserID().equals(userID) &&
+						userReview.get(i).getStoreName().equals(storeName) && Arrays.equals(userReview.get(i).getMenus(), menus) ) {
+					return i;  //작성된 리뷰 있는 경우 인덱스 반환
+				}
 			}
+			return -1;  //유저리뷰가 있긴하지만 해당 리뷰 작성안된 경우
+		}else {
+			return -1;
 		}
-		return -1;
 		
 //		if(userReview != null) {  //이전에 작성된 userReview가 있는경우 같은 내용있는지 확인
 //			
@@ -167,6 +186,7 @@ public class ReviewListDao {
 
 	//리뷰 수정
 	public void modifyReview(Review review, int index) {
+		loadReviewList();
 		userReview.set(index, review);	
 		saveListFile(userReview);
 	}

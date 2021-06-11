@@ -34,6 +34,16 @@ public class Menu implements Serializable{
 		   }
 	   
 	   
+	   
+	   
+	   
+
+	public Menu(String menuName, String menuPic, int menuPrice) {
+		super();
+		this.menuName = menuName;
+		this.menuPic = menuPic;
+		this.menuPrice = menuPrice;
+	}
 
 	public Menu(String menuName, String menuPic, int menuPrice, int quantity) {
 		super();

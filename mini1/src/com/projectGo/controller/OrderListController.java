@@ -13,30 +13,16 @@ public class OrderListController {
 	private ArrayList<Order> olist;
 	
 	public OrderListController() {
-		// TODO Auto-generated constructor stub
+		
 	}
-	
-//	public void userOtherList() {
-//		old.userOtherList();
-//	}
 	
 	public ArrayList<Order> displayAllList(){
 		
 		olist = old.displayAllList();
 		return olist;
 		
-//		Iterator it = olist.iterator();
-//		while(it.hasNext()) {
-//			System.out.println(it.next());
-//		}
 	}
 
-//	public void printList() {
-//		
-//		for(int i=0; i<olist.size(); i++) {
-//			System.out.println(olist.get(i));
-//		}
-//	}
 
 	public void deleteOrder(int index) {
 

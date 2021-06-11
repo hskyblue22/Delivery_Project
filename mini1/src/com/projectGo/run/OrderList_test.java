@@ -1,16 +1,13 @@
 package com.projectGo.run;
 
-import java.io.FileNotFoundException;
-
-import com.projectGo.model.vo.Order;
 import com.projectGo.view.OrderListView;
 
 public class OrderList_test {
 
-	public static void main(String[] args) throws FileNotFoundException {
+	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 
 		new OrderListView();
-	}
 
+	}
 }

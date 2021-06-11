@@ -15,96 +15,92 @@ import com.projectGo.view.MainFrame;
 
 public class OrderListDao {
 	
-	
-	private ArrayList<Order> totalorderList = new ArrayList<Order>();
-	private ArrayList<Order> userOrderList = new ArrayList<Order>();
-	private ArrayList<Order> otherOrderList = new ArrayList<Order>();
+	private ArrayList<Order> totalorderList;
+	private ArrayList<Order> userOrderList;
+	private ArrayList<Order> otherOrderList;
 	private String userID;
 	
 	public OrderListDao() {
 		
-		try(ObjectInputStream ois = new ObjectInputStream(new FileInputStream("order_list.txt"))){
-			
-			userID = MainFrame.loginUserId;
+	}
+	
+	public void loadOrderList() {
+		
+		totalorderList = new ArrayList<Order>();  //위에 해놓으면 부를때마다 생성하기때문에 불러올때 생성해주자
+		userOrderList = new ArrayList<Order>();
+		otherOrderList = new ArrayList<Order>();
+		
+		try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("order_list.txt"))) {
+
+			// userID = MainFrame.loginID;
+			userID = "temp1";
+//			userID = "06.11_수정해봄";
 //			totalorderList.addAll((ArrayList<Order>)ois.readObject());  //주문내역담긴 파일 전체 orderlist에 담기
-			
-			while(true) {
-				
+
+			while (true) {
+
 				Order o;
-				while( (o = (Order)ois.readObject()) != null ) {
+				while ((o = (Order) ois.readObject()) != null) {
 					totalorderList.add(o);
-					
-					for(Order ol : totalorderList) {
-						if(ol.getBasket().getUserId().equals(userID)) {
-							userOrderList.add(ol);
-						}else {
-							otherOrderList.add(ol);
-						}
-					}
+
+					if (o.getBasket().getUserId().equals(userID)) {  //여기서 for문 안된다!!
+						userOrderList.add(o);
+					} else
+						otherOrderList.add(o);
 				}
-				
-				//totalorderList.add((Order)ois.readObject());
 
 			}
 			
-//			while (true) {
-//	            
-//	            totalorderList.add((Order) ois.readObject());
-//	            
-////	            
-//	            for(Order ol : totalorderList) {
-//	               if(ol.getBasket().getUserId().equals(userID)) {  //userid와 orderList에 있는 userid비교
-//	                  userOrderList.add(ol);  //아이디 같으면 새로운 orderList에 담기
-//	               }else {
-//	                  //otherOrderList.add(ol);
-//	                  userOrderList.add(ol);
-//	               }
-//	            }
-//	            
-//	         }
-			
-		}catch(EOFException e) {
+//			for(Order ol : totalorderList) {  //이렇게 포문돌리면 계속 들어가는 거니까 다음에는 잘 생각하자_06.10
+//				if(ol.getBasket().getUserId().equals(userID)) {
+//					userOrderList.add(ol);
+//				}else {
+//					otherOrderList.add(ol);
+//				}
+//			}
+
+		} catch (EOFException e) {
 			return;
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			userOrderList = null;
+			return;
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} catch(NullPointerException e) {  //갑자기 nullpointerexception나서 추가함
-			userOrderList = null;
+		} catch (NullPointerException e) { // 갑자기 nullpointerexception나서 추가함
+			return;
 		}
 	}
 	
-//	public void userOtherList() {
-//
-//		for(Order ol : totalorderList) {
-//			System.out.println(ol.toString());
-//			System.out.println(ol.getBasket().getUserId());
-//		}
-//	}
 	
-	public ArrayList<Order> getOrderList() {
-		return userOrderList;
-	}
+//	public ArrayList<Order> getOrderList() {
+//		return userOrderList;
+//	}
 
 
 	public void writeOrder(Order order) {
 		//전달받은 게시글을 list 에 추가
 		userOrderList.add(order);
+		System.out.println("dao_writeOrder메소드(load없음)" + userOrderList.size());
 	}
 	
 	public ArrayList<Order> displayAllList(){
 		//주문내역 list 를 전체 리턴
+		loadOrderList();  //생성자에서 로드하는거 삭제했으니까 파일불러줘야 함_06.10
 		return userOrderList;
+	}
+	
+	public ArrayList<Order> orderTotalList(){  //서형씨한테 이렇게 반환하면 되는지 물어보기_06.11
+		loadOrderList();
+		return totalorderList;
 	}
 	
 	public void deleteList(int no) {
 		//주문내역 삭제
 		userOrderList.remove(no);
+		System.out.println("dao_deleteList메소드(load없음)" + userOrderList.size());
 	}
 	
 	public void saveListFile() {

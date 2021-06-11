@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Map.Entry;
 import java.util.Set;
 
 import javax.swing.ImageIcon;
@@ -29,6 +28,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
 import com.projectGo.controller.OrderListController;
+import com.projectGo.model.dao.OrderListDao;
 import com.projectGo.model.dao.ReviewListDao;
 import com.projectGo.model.vo.Menu;
 import com.projectGo.model.vo.Order;
@@ -47,8 +47,9 @@ public class OrderListView extends MouseAdapter {
 	private String storeName;
 	private String date;
 	private String[] menus;  //메뉴이름+가격
+	private String[][] totalmenus;  //menus index로 꺼내려고 만든 객체배열인데 다른방법으로 하는게 편하지 않을까?_06.11
 	
-	public OrderListView() throws FileNotFoundException {
+	public OrderListView() {
 		//메인프레임
 		frame = MainFrame.mainFrame;
 		frame.getContentPane().removeAll();
@@ -67,7 +68,8 @@ public class OrderListView extends MouseAdapter {
 	
 	public void init() {
 		olc = new OrderListController();
-		userOrderList = olc.displayAllList(); 
+		userOrderList = olc.displayAllList(); //dao파일가서 loadOrderList로 파일 로드됨 -> userOrderList return받음
+		System.out.println(userOrderList.size());
 		
 		//title(제목, 이전버튼)
 		JLabel headLabel = new JLabel("주 문 내 역");
@@ -108,7 +110,7 @@ public class OrderListView extends MouseAdapter {
 		panel.setLayout(gbl_panel);
 	  	
 	    
-	    if(userOrderList == null) {  //이 부분 수정해야함!!_06.09
+	    if(userOrderList.size() == 0) {  //수정완료_06.11
 	    	listEmpty();
 	    	
 	    }else {             //주문내역이 있는 경우
@@ -122,6 +124,8 @@ public class OrderListView extends MouseAdapter {
 	
 	//주문내역 생성
 	private void makeList() {
+		
+		totalmenus = new String[userOrderList.size()][];
 		
 		for( i=0; i<userOrderList.size() ; i++) { 
 			
@@ -146,15 +150,13 @@ public class OrderListView extends MouseAdapter {
 			panel_1.setToolTipText(String.valueOf(i)); //패널번호 = userOrderList인덱스
 			int panelIndex = Integer.parseInt(panel_1.getToolTipText()); 
 	    	
-			//날짜, 식당명, 총금액
+			//날짜, 식당명, 총금액 초기화
 			date = StringFromCalendar(userOrderList.get(i).getOrderedDate());
 	    	storeName = userOrderList.get(i).getBasket().getStoreName();
 	    	int totalPay = userOrderList.get(i).getPayment();
 	    	
 	    	//음식사진, 메뉴별 [이름 + 수량]
 	    	HashMap<String, Menu> menuMap = userOrderList.get(i).getBasket().getMenuList();
-//	    	Set<Entry<String,Menu> > entryMenu = menuMap.entrySet();  //지워야함
-//	    	Iterator<Entry<String,Menu>> mii =entryMenu.iterator();   //지워야 함
 	    	
 	    	Set<String> menunames = menuMap.keySet();
 	    	Iterator<String> mi = menunames.iterator();
@@ -179,35 +181,8 @@ public class OrderListView extends MouseAdapter {
 				panel_1.add(lblNewLabel_3_1, gbc_lblNewLabel_3_1);
 	    	
 	    	}
-	    	
-	    	
-//	    	String menuAndQuantity = "";
-//	    	int menuIndex = 0;
-//	    	menus = new String[entryMenu.size()];  //리뷰 넘겨주기
-//	    	
-//	    	while(mi.hasNext()) {
-//	    		
-//	    		menuPic = mi.next().getValue().getMenuPic();
-//	    		image = new ImageIcon(menuPic).getImage().getScaledInstance(50,50,0);
-//				
-//	    		
-//	    		String key = mi.next().getKey();
-//	    		int quantity = mi.next().getValue().getQuantity();
-//	    		
-//	    		menuAndQuantity = key + "   "+ quantity + "개";
-//	    		menus[menuIndex] = menuAndQuantity;
-//	    		
-//	    		JLabel lblNewLabel_3_1 = new JLabel(menuAndQuantity);
-//				GridBagConstraints gbc_lblNewLabel_3_1 = new GridBagConstraints();
-//				gbc_lblNewLabel_3_1.gridwidth = 2;
-//				gbc_lblNewLabel_3_1.fill = GridBagConstraints.BOTH;
-//				gbc_lblNewLabel_3_1.insets = new Insets(0, 0, 5, 5);
-//				gbc_lblNewLabel_3_1.gridx = 1;
-//				gbc_lblNewLabel_3_1.gridy = 2 + (menuIndex++);
-//				panel_1.add(lblNewLabel_3_1, gbc_lblNewLabel_3_1);
-//	    	}
-
 			
+	    	totalmenus[panelIndex] = menus;
 			
 			//주문날짜
 			JLabel lblNewLabel = new JLabel(date);
@@ -221,7 +196,7 @@ public class OrderListView extends MouseAdapter {
 
 			//주문완료,배달완료
 			String condition = "주문완료";
-			if(userOrderList.get(panelIndex).isOrderState()) {  //나중에 바꿔야 함!!
+			if(!userOrderList.get(panelIndex).isOrderState()) {  //나중에 바꿔야 함!!
 				condition = "배달완료";
 			}
 			JLabel lblNewLabel_1 = new JLabel(condition);
@@ -268,7 +243,13 @@ public class OrderListView extends MouseAdapter {
 			gbc_btnNewButton1.fill = GridBagConstraints.BOTH;
 			gbc_btnNewButton1.insets = new Insets(0, 0, 5, 5);
 			gbc_btnNewButton1.gridx = 2;
-			gbc_btnNewButton1.gridy = 6;
+			
+			if(menunames.size() >= 5) {  //메뉴 많아지면 알아서 길이지도록 좌표수정_06.11
+				gbc_btnNewButton1.gridy = menunames.size() + 2;
+			}else {
+				gbc_btnNewButton1.gridy = 6;
+			}	
+//			gbc_btnNewButton1.gridy = 6;
 			btnNewButton_1.setBackground(Color.orange);
 			btnNewButton_1.setForeground(Color.white);
 			panel_1.add(btnNewButton_1, gbc_btnNewButton1);
@@ -297,7 +278,13 @@ public class OrderListView extends MouseAdapter {
 			gbc_btnNewButton2.fill = GridBagConstraints.BOTH;
 			gbc_btnNewButton2.insets = new Insets(0, 0, 5, 5);
 			gbc_btnNewButton2.gridx = 3;
-			gbc_btnNewButton2.gridy = 6;
+			
+			if(menunames.size() >= 5) {  //메뉴 많아지면 알아서 길이지도록 좌표수정_06.11
+				gbc_btnNewButton2.gridy = menunames.size() + 2;
+			}else {
+				gbc_btnNewButton2.gridy = 6;
+			}			
+//			gbc_btnNewButton2.gridy = 6;
 			btnNewButton.setBackground(Color.orange);
 			btnNewButton.setForeground(Color.white);
 			panel_1.add(btnNewButton, gbc_btnNewButton2);
@@ -334,7 +321,13 @@ public class OrderListView extends MouseAdapter {
 			gbc_btnNewButton3.fill = GridBagConstraints.BOTH;
 			gbc_btnNewButton3.insets = new Insets(0, 0, 5, 0);
 			gbc_btnNewButton3.gridx = 4;
-			gbc_btnNewButton3.gridy = 6;
+			
+			if(menunames.size() >= 5) {  //메뉴 많아지면 알아서 길이지도록 좌표수정_06.11
+				gbc_btnNewButton3.gridy = menunames.size() + 2;
+			}else {
+				gbc_btnNewButton3.gridy = 6;
+			}
+			
 			btnNewButton_2.setBackground(Color.orange);
 			btnNewButton_2.setForeground(Color.white);
 			panel_1.add(btnNewButton_2, gbc_btnNewButton3);
@@ -349,19 +342,26 @@ public class OrderListView extends MouseAdapter {
 						int result = JOptionPane.showConfirmDialog(btnNewButton_1, "리뷰를 작성하시겠습니까?", "리뷰작성",
 								JOptionPane.YES_NO_OPTION);
 						
-//						new WriteReview(date, storeName, menus, userID );
-						
-						//리뷰리스트에서 중복확인
-						//ReviewListDao -> search메소드 -> 파일내용중복확인 -> 그 값이 false이면 리뷰창 안 띄움
-						//같은 리뷰가 있다면 ==> 인덱스 / 같은리뷰없으면 1
-						if(new ReviewListDao().searchReview(date, userID, storeName, menus) == -1) {
-							new WriteReview(date, storeName, menus, userID );
-						} else {
-							JOptionPane.showMessageDialog(btnNewButton_1,"이전에 리뷰를 작성하였습니다.\n 리뷰수정은 My리뷰에서 하세요",
-									"주의",JOptionPane.WARNING_MESSAGE);
-							btnNewButton_2.setEnabled(false);
+						if (result == JOptionPane.YES_OPTION) {
+//							new WriteReview(date, storeName, menus, userID );
+							
+							//리뷰리스트에서 중복확인
+							//ReviewListDao -> search메소드 -> 파일내용중복확인 -> 그 값이 false이면 리뷰창 안 띄움
+							//같은 리뷰가 있다면 ==> 인덱스 / 같은리뷰없으면 -1
+							
+							String date1 = StringFromCalendar(userOrderList.get(panelIndex).getOrderedDate());  //마지막값으로 전역변수 바뀌니까 이렇게 패널인덱스로 뽑아주기_06.10
+							String userID1 = userOrderList.get(panelIndex).getBasket().getUserId();
+					    	String storeName1 = userOrderList.get(panelIndex).getBasket().getStoreName();
+					    	String[] menus1 = totalmenus[panelIndex];
+							
+							if(new ReviewListDao().searchReview(date1, userID1, storeName1, menus1) == -1) {
+								new WriteReview(date1, storeName1, menus1, userID1 );
+							} else {
+								JOptionPane.showMessageDialog(btnNewButton_1,"이전에 리뷰를 작성하였습니다.\n 리뷰수정은 My리뷰에서 하세요",
+										"주의",JOptionPane.WARNING_MESSAGE);
+								btnNewButton_2.setEnabled(false);
+							}
 						}
-						
 					} 
 				}
 			});

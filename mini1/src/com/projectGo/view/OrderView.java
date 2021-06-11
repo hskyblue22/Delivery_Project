@@ -7,6 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.io.FileNotFoundException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -22,13 +23,13 @@ import com.projectGo.model.vo.Order;
 
 public class OrderView extends MainFrame{
 	
+	
 	private JFrame frame;
 	private JTextField reqTextField;
 	private JTextField pointTextField;
 	private JLabel usedPointLab;
 	private JLabel totalPaymentLab;
 	
-
 	private OrderController ordCont;
 	private int usePoint;
 	private int totalPayment;
@@ -71,7 +72,7 @@ public class OrderView extends MainFrame{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				//이전으로 화면 전환 되었을 때, 초기 값이 아닌 변경된 데이터로 저장가능??
+				//이전으로 화면 전환 되었을 때, 초기 값이 아닌 변경된 데이터로 저장
 				new BasketView(ordCont.getBasket());
 			}
 			
@@ -131,7 +132,7 @@ public class OrderView extends MainFrame{
 		
 		
 		//포인트 불러오기
-		JLabel pointLab = new JLabel("보유포인트 : " + ordCont.getPoint());
+		JLabel pointLab = new JLabel("보유포인트  : " + ordCont.getPoint());
 		pointLab.setFont(new Font("굴림", Font.PLAIN, 17));
 		pointLab.setBounds(40, 22, 200, 31);
 		pointPanel.add(pointLab);
@@ -155,28 +156,39 @@ public class OrderView extends MainFrame{
 			@Override
 			public void keyReleased(KeyEvent e) {
 
+				
 				// 포인트 없을 때 팝업
 				if (ordCont.getPoint() == 0) {
 					JOptionPane.showMessageDialog(null, "사용 가능한 포인트가 없습니다.");
 					return;
 				}
-
-				if (pointTextField.getText().equals("")) {
-					return;
-				}
+				
 
 				// 숫자가 아닌 다른값을 입력했을때?
 				char c = e.getKeyChar();
 
-				if (!((Character.isDigit(c)))) {
-					JOptionPane.showMessageDialog(null, "다시 입력해 주세요. \n숫자만 입력할 수 있습니다.");
+				if (!((Character.isDigit(c)) || c == '')) {
+					JOptionPane.showMessageDialog(null, "숫자만 입력해 주세요.");
+					pointTextField.setText("");
+					usedPointLab.setText("포인트 사용     : ");
+					return;
+				}
+				
+				if(c == '') {
 					pointTextField.setText("");
 					usedPointLab.setText("포인트 사용     : ");
 					return;
 				}
 
 				usePoint = Integer.parseInt(pointTextField.getText());
-
+				
+				if(usePoint > ordCont.getPoint()) {
+					JOptionPane.showMessageDialog(null, "사용 가능한 금액을 초과하였습니다.");
+					pointTextField.setText("");
+					usedPointLab.setText("포인트 사용     : ");
+					return;
+				}
+				
 				usedPointLab.setText("포인트 사용     : -" + usePoint);
 				totalPaymentLab.setText("총 결제 금액 : " + (totalPayment - usePoint));
 
@@ -193,6 +205,13 @@ public class OrderView extends MainFrame{
 		frame.getContentPane().add(paymentPanel);
 		paymentPanel.setLayout(null);
 		
+		
+		JPanel line1 = new JPanel();
+		line1.setBackground(Color.GRAY);
+		line1.setBounds(0, 491, 534, 4);
+		paymentPanel.add(line1);
+		
+		
 		JLabel paymetLabel = new JLabel("결제 금액");
 		paymetLabel.setFont(new Font("굴림", Font.PLAIN, 17));
 		paymetLabel.setBounds(40, 10, 106, 33);
@@ -203,12 +222,13 @@ public class OrderView extends MainFrame{
 		orderChargeLab.setFont(new Font("굴림", Font.PLAIN, 15));
 		orderChargeLab.setBounds(40, 46, 456, 33);
 		paymentPanel.add(orderChargeLab);
-			
+
 		
 		JLabel deliveryTipLab = new JLabel("배달팁            : " + ordCont.getDeliveryTip());
 		deliveryTipLab.setFont(new Font("굴림", Font.PLAIN, 15));
 		deliveryTipLab.setBounds(40, 74, 456, 33);
 		paymentPanel.add(deliveryTipLab);
+		
 		
 		usedPointLab = new JLabel("포인트 사용     : ");
 		usedPointLab.setFont(new Font("굴림", Font.PLAIN, 15));
@@ -303,7 +323,12 @@ public class OrderView extends MainFrame{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
-//				new  OrderListView();
+				try {
+					new  OrderListView();
+				} catch (FileNotFoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
 		
@@ -320,9 +345,8 @@ public class OrderView extends MainFrame{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				//로그인 정보 유지??? 홈 생성자 -> 로그인 유저 정보 인풋, 홈으로 가도 유저정보 볼 수 있도록
-//				new HomeView(MainFrame.loginUserId??/);
-//				ordCont.getBasket().getUserId()
+			
+				new HomeView();
 			}
 		});
 		

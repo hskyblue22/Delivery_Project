@@ -13,10 +13,10 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import controller.MemberController;
-import model.vo.Member;
+import com.projectGo.controller.MemberController;
+import com.projectGo.model.vo.Member;
 
-public class MemberMyPagePanel extends JFrame {
+public class MemberMypagePanel extends JFrame {
    
    //MemberController mc = new MemberController();
    Member m;
@@ -35,7 +35,7 @@ public class MemberMyPagePanel extends JFrame {
    Color orange = new Color(243, 156, 18);
    Color lightgray = new Color(230, 230, 230);
    
-   public MemberMyPagePanel(JFrame f, int idx, MemberController mc) {
+   public MemberMypagePanel(JFrame f, int idx, MemberController mc) {
       
       super("마이 페이지");
       super.setResizable(true);
@@ -130,7 +130,7 @@ public class MemberMyPagePanel extends JFrame {
          public void actionPerformed(ActionEvent e) {
             p.setVisible(false);
             f.remove(p);
-            HomeBuyerPanel np = new HomeBuyerPanel(f, idx, mc);
+            HomeBuyerPanel np = new HomeBuyerPanel(f, idx);
             return;
          }
       });
