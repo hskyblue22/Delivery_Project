@@ -13,29 +13,42 @@ import javax.swing.JTextField;
 import com.projectGo.controller.SellerController;
 import com.projectGo.model.vo.Menu;
 
-
-public class MenuAddView extends MainFrame {
-
+public class MenuModifyDetailView extends MainFrame{
+	
+	
 	JFrame frame;
-	String menuName;
-	String menuPic;
-	int menuPrice;
+	
 	SellerController sc = new SellerController();
+	
+	private String menuN;
+	private String menuPic;
+	private int menuPrice;
+	private HashMap<String, Menu> menuList;
+	private HashMap<String, Menu> otherMenu;
+	
+	
+	public MenuModifyDetailView(String menuN, String menuPic, int menuPrice, HashMap<String, Menu> otherMenu) {
+		this.menuN = menuN;
+		this.menuPic = menuPic;
+		this.menuPrice = menuPrice;
+		this.otherMenu = otherMenu;
+	}
+	
+	
+	
 
-	HashMap<String, Menu> menuList;
 
-	public MenuAddView() {
-		
-		MenuAddViewMain();
 
+	
+	public MenuModifyDetailView() {
+		// TODO Auto-generated constructor stub
 	}
 
-	public MenuAddView(HashMap<String, Menu> menuList2) {
 
-		
-		new MenuAddView();
 
-	}
+
+
+
 
 	public void MenuAddViewMain() {
 
@@ -52,12 +65,12 @@ public class MenuAddView extends MainFrame {
 		backbtn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				new SellerMain();
+				new MenuModifyView();
 
 			}
 		});
 
-		JLabel header = new JLabel("메뉴 등록");
+		JLabel header = new JLabel("메뉴 수정");
 		header.setBounds(225, 30, 200, 30);
 		frame.getContentPane().add(header);
 
@@ -65,6 +78,7 @@ public class MenuAddView extends MainFrame {
 
 		JLabel ml = new JLabel("메뉴 이름");
 		JTextField mt = new JTextField();
+		mt.setText(menuN);
 
 		ml.setBounds(50, 100, 300, 30);
 		mt.setBounds(50, 150, 150, 30);
@@ -74,6 +88,7 @@ public class MenuAddView extends MainFrame {
 
 		JLabel mpl = new JLabel("메뉴 사진 주소");
 		JTextField mpt = new JTextField();
+		mpt.setText(menuPic);
 
 		mpl.setBounds(50, 200, 300, 30);
 		mpt.setBounds(50, 250, 300, 30);
@@ -83,6 +98,7 @@ public class MenuAddView extends MainFrame {
 
 		JLabel mprl = new JLabel("메뉴 가격");
 		JTextField mprt = new JTextField();
+		mprt.setText(Integer.toString(menuPrice));
 
 		mprl.setBounds(50, 300, 300, 30);
 		mprt.setBounds(50, 350, 100, 30);
@@ -90,7 +106,7 @@ public class MenuAddView extends MainFrame {
 		frame.getContentPane().add(mprl);
 		frame.getContentPane().add(mprt);
 
-		JButton addBtn = new JButton("메뉴 추가");
+		JButton addBtn = new JButton("변경 완료");
 		addBtn.setBounds(200, 400, 120, 40);
 		addBtn.setBackground(Color.orange);
 		addBtn.setForeground(Color.white);
@@ -103,7 +119,7 @@ public class MenuAddView extends MainFrame {
 			public void actionPerformed(ActionEvent e) {
 				System.out.println(mprl.getText());
 				System.out.println(mprt.getText());
-				menuName = mt.getText();
+				menuN = mt.getText();
 				menuPic = mpt.getText();
 				String getPrice = mprt.getText();
 				menuPrice = Integer.parseInt(getPrice);
@@ -111,49 +127,20 @@ public class MenuAddView extends MainFrame {
 					menuList = new HashMap<String, Menu>();
 				}
 
-				menuList = sc.addMenu(menuList, menuName, new Menu(menuPic, menuPrice));
-				MenuAddViewMain(menuList);
-
-			}
-
-		});
-
-		JButton nextbtn = new JButton("완 료");
-		nextbtn.setBounds(435, 20, 80, 40);
-		nextbtn.setBackground(Color.orange);
-		nextbtn.setForeground(Color.white);
-		frame.getContentPane().add(nextbtn);
-		nextbtn.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				System.out.println(mprl.getText());
-				System.out.println(mprt.getText());
-				menuName = mt.getText();
-				menuPic = mpt.getText();
-				String getPrice = mprt.getText();
-				System.out.println(getPrice);
-				menuPrice = Integer.parseInt(getPrice);
-				System.out.println(menuList);
-				menuList = sc.addMenu(menuList, menuName, new Menu(menuPic, menuPrice));
-
-				sc.menuCreator(menuList);
-
+				sc.editMenu(otherMenu, menuN, menuPic, menuPrice);
 				new SellerMain();
 
 			}
+
 		});
+
+		
 
 		frame.validate();
 		frame.repaint();
 
 	}
-
-	protected void MenuAddViewMain(HashMap<String, Menu> menuList2) {
-		
-		this.menuList = menuList2;
-		MenuAddViewMain();
-		
-	}
+	
+	
 
 }

@@ -16,107 +16,59 @@ import java.util.Set;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
+import com.projectGo.controller.SellerController;
 import com.projectGo.model.vo.Basket;
 import com.projectGo.model.vo.Menu;
 import com.projectGo.model.vo.Store;
 
-public class StoreInfoView extends MainFrame {
-
+public class MenuModifyView extends MainFrame {
+	
 	private Store store;
 	private int count;
 	private HashMap<String, Menu> menulist;
-	private int quantity;
 	private String menuPic;
 	private int menuPrice;
-	private Basket basket;
+	private Menu menu;
 	private JFrame frame;
+	private Image image;
+	private int pre = 0;
 	private ArrayList<Store> printList;
 	private String resultName;
 	private int kinds;
 	private int serchKinds;
-	private Image image;
-	private int pre = 0;
-
-	public StoreInfoView() {
-
+	private HashMap<String, Menu> otherMenu;
+	
+	SellerController sc = new SellerController();
+	MenuModifyDetailView mmdv = new MenuModifyDetailView();
+	
+	
+	// 기본 생성자
+	public MenuModifyView() {
+		
 	}
 
-	public HashMap<String, Menu> getMenulist() {
-		return menulist;
-	}
-
-	public void setMenulist(HashMap<String, Menu> menulist) {
-		this.menulist = menulist;
-	}
-
-	public Store getStore() {
-		return store;
-	}
-
-	public void setStore(Store store) {
-		this.store = store;
-	}
-
-	public ArrayList<Store> getPrintList() {
-		return printList;
-	}
-
-	public void setPrintList(ArrayList<Store> printList) {
-		this.printList = printList;
-	}
-
-	public String getResultName() {
-		return resultName;
-	}
-
-	public void setResultName(String resultName) {
-		this.resultName = resultName;
-	}
-
-	public int getKinds() {
-		return kinds;
-	}
-
-	public void setKinds(int kinds) {
-		this.kinds = kinds;
-	}
-
-	public StoreInfoView(Store store, String resultName, ArrayList<Store> printList,
-			int kinds, int serchKinds, HashMap<String, Menu> menulist) {
-		super();
-		this.store = store;
-		this.menulist = menulist;
-		this.printList = printList;
-		this.resultName = resultName;
-		this.kinds = kinds;
-		this.serchKinds = serchKinds;
-	}
-
-	public int getSerchKinds() {
-		return serchKinds;
-	}
-
-	public void setSerchKinds(int serchKinds) {
-		this.serchKinds = serchKinds;
-	}
-
-	public void storeInfoViewMainPre(Store store, String resultName, ArrayList<Store> printList, int kinds,
-			int serchKinds, HashMap<String, Menu> menulist) {
-
+	// preset 
+	public void MenuModifyViewPre(Store store, String resultName, ArrayList<Store> printList, int kinds, int serchKinds, HashMap<String, Menu> menulist) {
+	
 		this.pre = 1;
 		this.menulist = menulist;
-		storeInfoViewMain(store, resultName, printList, kinds, serchKinds);
+		MenuModifyViewMain(store, resultName, printList, kinds, serchKinds);
 	}
+	
 
-	public void storeInfoViewMain(Store store, String resultName, ArrayList<Store> printList, int kinds,
+	public void MenuModifyViewMain(Store store, String resultName, ArrayList<Store> printList, int kinds,
 			int serchKinds) {
+		
+		//myStore에 내 아이디에 해당하는 가게 호출
+		Store myStore = sc.myStoreLoad();
+		
+		menulist = myStore.getStoreMenu();
+		
 		this.store = store;
 		this.printList = printList;
 		this.resultName = resultName;
@@ -126,16 +78,17 @@ public class StoreInfoView extends MainFrame {
 		frame.getContentPane().removeAll();
 		frame.validate();
 		frame.repaint();
-		Set<String> menuName;
 		String name;
-		menuName = store.getStoreMenu().keySet();
+		Set<String> menuName = myStore.getStoreMenu().keySet();
 		Iterator<String> it = menuName.iterator();
 		if(pre == 0) {
 			menulist = new HashMap<String, Menu>();
 		}
 		
 		count = 0;
-
+		
+		
+		//스크롤판
 		GridBagLayout gbl = new GridBagLayout();
 		GridBagConstraints gbc;
 		JPanel panel = new JPanel();
@@ -145,6 +98,9 @@ public class StoreInfoView extends MainFrame {
 				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		scrollPane.setBounds(0, 316, 535, 400);
 		frame.getContentPane().add(scrollPane);
+		
+		
+		//반복문 
 		while (it.hasNext()) {
 			name = it.next();
 			JPanel menuPanel = new JPanel();
@@ -158,8 +114,10 @@ public class StoreInfoView extends MainFrame {
 			menuPanel.setLayout(gbl_menuPanel);
 			menuPanel.setBounds(-13, 130, 535, 96);
 			frame.getContentPane().add(menuPanel);
-
-			image = new ImageIcon(store.getStoreMenu().get(name).getMenuPic()).getImage().getScaledInstance(70, 70, 0);
+			
+			
+			//메뉴 사진
+			image = new ImageIcon(myStore.getStoreMenu().get(name).getMenuPic()).getImage().getScaledInstance(70, 70, 0);
 			JLabel menuPicLabel = new JLabel(new ImageIcon(image));
 			GridBagConstraints gbc_menuPicLabel = new GridBagConstraints();
 			gbc_menuPicLabel.fill = GridBagConstraints.BOTH;
@@ -172,7 +130,8 @@ public class StoreInfoView extends MainFrame {
 			menuPicLabel.setOpaque(true);
 			menuPicLabel.setPreferredSize(new Dimension(70, 70));
 			menuPicLabel.setBackground(Color.LIGHT_GRAY);
-
+			
+			// 메뉴 이름
 			JLabel menuNameLabel = new JLabel(name);
 			GridBagConstraints gbc_menuNameLabel = new GridBagConstraints();
 			gbc_menuNameLabel.fill = GridBagConstraints.BOTH;
@@ -182,8 +141,9 @@ public class StoreInfoView extends MainFrame {
 			gbc_menuNameLabel.gridy = 0;
 			menuPanel.add(menuNameLabel, gbc_menuNameLabel);
 			menuNameLabel.setOpaque(true);
-
-			JLabel menuPriceLabel = new JLabel(store.getStoreMenu().get(name).getMenuPrice() + "");
+			
+			//메뉴 가격
+			JLabel menuPriceLabel = new JLabel(myStore.getStoreMenu().get(name).getMenuPrice() + "");
 			GridBagConstraints gbc_menuPriceLabel = new GridBagConstraints();
 			gbc_menuPriceLabel.fill = GridBagConstraints.BOTH;
 			gbc_menuPriceLabel.gridwidth = 5;
@@ -192,29 +152,18 @@ public class StoreInfoView extends MainFrame {
 			gbc_menuPriceLabel.gridy = 1;
 			menuPanel.add(menuPriceLabel, gbc_menuPriceLabel);
 			menuPriceLabel.setOpaque(true);
-			String[] strQuantity = { "수량", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" };
-
-			JComboBox<String> quantityComboBox_1 = new JComboBox<String>(strQuantity);
-			GridBagConstraints gbc_quantityComboBox_1 = new GridBagConstraints();
-			gbc_quantityComboBox_1.anchor = GridBagConstraints.EAST;
-			gbc_quantityComboBox_1.gridwidth = 2;
-			gbc_quantityComboBox_1.insets = new Insets(0, 0, 5, 5);
-			gbc_quantityComboBox_1.gridx = 8;
-			gbc_quantityComboBox_1.gridy = 1;
-			menuPanel.add(quantityComboBox_1, gbc_quantityComboBox_1);
-			quantityComboBox_1.setToolTipText("afsasf");
-
-			JButton basketButton_1 = new JButton("<HTML><center>장바구니에<br>담기</center></HTML>");
-			basketButton_1.setBackground(Color.ORANGE);
-			basketButton_1.setForeground(Color.white);
-			GridBagConstraints gbc_basketButton_1 = new GridBagConstraints();
-			gbc_basketButton_1.fill = GridBagConstraints.BOTH;
-			gbc_basketButton_1.gridheight = 2;
-			gbc_basketButton_1.gridwidth = 2;
-			gbc_basketButton_1.insets = new Insets(0, 0, 5, 5);
-			gbc_basketButton_1.gridx = 11;
-			gbc_basketButton_1.gridy = 0;
-			menuPanel.add(basketButton_1, gbc_basketButton_1);
+			
+			JButton editBtn = new JButton("수정하기");
+			editBtn.setBackground(Color.ORANGE);
+			editBtn.setForeground(Color.white);
+			GridBagConstraints gbc_editBtn = new GridBagConstraints();
+			gbc_editBtn.fill = GridBagConstraints.BOTH;
+			gbc_editBtn.gridheight = 2;
+			gbc_editBtn.gridwidth = 2;
+			gbc_editBtn.insets = new Insets(0, 0, 5, 5);
+			gbc_editBtn.gridx = 11;
+			gbc_editBtn.gridy = 0;
+			menuPanel.add(editBtn, gbc_editBtn);
 
 			JLabel blinkLabel = new JLabel("");
 			GridBagConstraints gbc_blinkLabel = new GridBagConstraints();
@@ -222,36 +171,32 @@ public class StoreInfoView extends MainFrame {
 			gbc_blinkLabel.gridx = 0;
 			gbc_blinkLabel.gridy = 2;
 			menuPanel.add(blinkLabel, gbc_blinkLabel);
-
-			basketButton_1.addActionListener(new ActionListener() {
-
+			
+			otherMenu = myStore.getStoreMenu();
+			otherMenu.remove(menuName);
+			String menuN = menuNameLabel.getText();
+			menuPic = myStore.getStoreMenu().get(menuN).getMenuPic();
+			menuPrice = Integer.parseInt(menuPriceLabel.getText());
+			
+			
+			editBtn.addActionListener(new ActionListener() {
+				
 				@Override
 				public void actionPerformed(ActionEvent e) {
-
-					if (quantityComboBox_1.getSelectedIndex() == 0) {
-						return;
-
-					} else {
-						quantity = quantityComboBox_1.getSelectedIndex();
-
-					}
-					int choice;
-					menuPic = menuPicLabel.getText();
-					menuPrice = Integer.parseInt(menuPriceLabel.getText());
-
-					menulist.put(menuNameLabel.getText(), new Menu(menuPic, menuPrice, quantity));
-
-					choice = JOptionPane.showConfirmDialog(basketButton_1, "장바구니로 이동하시겠습니까?\n더 담으시려면 아니오", "장바구니 이동",
-							JOptionPane.YES_NO_OPTION);
 					
-					if (choice == JOptionPane.YES_OPTION) {
-						basket = new Basket("user01", store.getStoreName(), store.getStoreAddress(),
-								store.getDeliveryTip(), menulist);
-						new BasketView(basket, new StoreInfoView(store, resultName, printList, kinds, serchKinds, menulist));
-
-					}
+					
+					
+					
+					
+					//mmdv.editMenu(menuN, menuPic, menuPrice);
+					new MenuModifyDetailView(menuN, menuPic, menuPrice, otherMenu);
+					
+					
 				}
 			});
+					
+				
+			
 			gbc = new GridBagConstraints();
 			gbc.fill = GridBagConstraints.BOTH;
 			gbc.gridx = 0;
@@ -264,6 +209,8 @@ public class StoreInfoView extends MainFrame {
 			panel.updateUI();
 
 		}
+		
+		//menuPanel 추가를 위한 for문
 
 		for (int i = count; i < 5; i++) {
 
@@ -306,7 +253,7 @@ public class StoreInfoView extends MainFrame {
 		lineLabel.setBounds(0, 80, 535, 5);
 		frame.getContentPane().add(lineLabel);
 
-		JLabel headLabel = new JLabel("음식점 상세");
+		JLabel headLabel = new JLabel("메뉴 수정");
 		headLabel.setHorizontalAlignment(JLabel.CENTER);
 		headLabel.setFont(new Font("굴림", Font.PLAIN, 30));
 		// lblNewLabel_2.setOpaque(true);
@@ -329,23 +276,23 @@ public class StoreInfoView extends MainFrame {
 		frame.getContentPane().add(storeIntroduceLabel);
 		storeIntroduceLabel.setOpaque(true);
 
-		JButton basketMoveBtn = new JButton("장 바 구 니");
-		basketMoveBtn.setBounds(0, 715, 535, 50);
-		basketMoveBtn.setBackground(Color.ORANGE);
-		basketMoveBtn.setForeground(Color.white);
-		basketMoveBtn.setFont(new Font("맑은 고딕", Font.BOLD, 20));
-		basketMoveBtn.addActionListener(new ActionListener() {
+		/*JButton completeBtn = new JButton("메 뉴 수 정 완 료");
+		completeBtn.setBounds(0, 715, 535, 50);
+		completeBtn.setBackground(Color.ORANGE);
+		completeBtn.setForeground(Color.white);
+		completeBtn.setFont(new Font("맑은 고딕", Font.BOLD, 20));
+		completeBtn.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
-				basket = new Basket("userId", store.getStoreName(), store.getStoreAddress(), store.getDeliveryTip(),
-						menulist);
-				new BasketView(basket, new StoreInfoView(store, resultName, printList, kinds, serchKinds, menulist));
+				new SellerMain();
+				// 수정 완료 후 메인으로 이동
+				
 
 			}
 		});
-		frame.getContentPane().add(basketMoveBtn);
+		frame.getContentPane().add(completeBtn);*/
 
 		JButton backBtn = new JButton("이  전");
 		backBtn.setBounds(15, 20, 80, 40);
@@ -355,39 +302,18 @@ public class StoreInfoView extends MainFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (kinds == 1) {
-
-					new SerchPageView().serchMain();
-
-				} else if (kinds == 2) {
-
-					new CategoryChoiceView().categoryMain();
-
-				} else {
-
-					new ChoiceResultView().choiceResultViewMain(resultName, printList, serchKinds);
-
-				}
+				
+				//메인으로 이동 
 
 			}
 		});
 		frame.getContentPane().add(backBtn);
 
-		JButton homeBtn = new JButton("홈으로");
-		homeBtn.setBounds(440, 20, 80, 40);
-		homeBtn.setBackground(Color.ORANGE);
-		homeBtn.setForeground(Color.white);
-		homeBtn.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				new HomeView();
-
-			}
-		});
-		frame.getContentPane().add(homeBtn);
+	
 		frame.validate();
 		frame.repaint();
 	}
+	
+	
 
 }

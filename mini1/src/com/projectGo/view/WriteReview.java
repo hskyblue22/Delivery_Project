@@ -99,18 +99,18 @@ public class WriteReview implements ActionListener {
 		backBtn.setBackground(Color.ORANGE);
 		backBtn.setBounds(15, 20, 80, 40);
 		contentPane.add(backBtn);
-		
-		backBtn.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				try {
-					new OrderListView();
-				} catch (FileNotFoundException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-			}
-		});
+//		
+//		backBtn.addActionListener(new ActionListener() {
+//			@Override
+//			public void actionPerformed(ActionEvent e) {
+//				try {
+//					new OrderListView();
+//				} catch (FileNotFoundException e1) {
+//					// TODO Auto-generated catch block
+//					e1.printStackTrace();
+//				}
+//			}
+//		});
 		image = new ImageIcon("사진주소").getImage().getScaledInstance(50,50,0);
 		JLabel lblNewLabel_1 = new JLabel(new ImageIcon(image));
 		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
@@ -238,7 +238,6 @@ public class WriteReview implements ActionListener {
 						JOptionPane.showMessageDialog(null,"리뷰가 수정되었습니다!\n홈으로 돌아갑니다");
 						new HomeView();
 					}
-					
 				}
 			}
 		});

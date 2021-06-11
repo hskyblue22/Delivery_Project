@@ -107,17 +107,18 @@ public class SellerMain extends MainFrame {
 
 
 		if (sc.checkStore() == true) {
-			panel.add(bt4);
+			frame.add(bt4);
 		} else {
-			panel.add(bt1);
+			frame.add(bt1);
 		}
 		
 		
-		panel.add(bt2);
-		panel.add(bt3);
+		frame.add(bt2);
+		frame.add(bt3);
 		
 		
-		
+		frame.validate();
+		frame.repaint();
 
 	}
 

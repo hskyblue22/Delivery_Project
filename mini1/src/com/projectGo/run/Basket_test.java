@@ -2,6 +2,7 @@ package com.projectGo.run;
 
 import java.util.HashMap;
 
+import com.projectGo.model.dao.OrderDao;
 import com.projectGo.model.vo.Basket;
 import com.projectGo.model.vo.Menu;
 import com.projectGo.view.BasketView;
@@ -20,6 +21,10 @@ public class Basket_test {
 		
 		new BasketView(basket);
 		
+//		OrderDao ord = new OrderDao();
+//		ord.orderInput();
+//		System.out.println(ord.getOrderList());
+//		System.out.println(ord.getOrderList().size());
 		
 	}
 

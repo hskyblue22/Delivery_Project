@@ -75,14 +75,7 @@ public class HomeView extends MainFrame {
 		basketButton.setFocusPainted(false);
 		frame.getContentPane().add(basketButton);
 
-		JButton randomButton = new JButton("랜덤 메뉴 추천");
-		randomButton.setFont(new Font("굴림", Font.BOLD, 15));
-		randomButton.setForeground(Color.WHITE);
-		randomButton.setBackground(Color.ORANGE);
-		randomButton.setBounds(77, 587, 160, 60);
-		randomButton.setBorderPainted(false);
-		randomButton.setFocusPainted(false);
-		frame.getContentPane().add(randomButton);
+		
 
 		JButton orderListButton = new JButton("주문내역");
 		orderListButton.setFont(new Font("굴림", Font.BOLD, 15));
@@ -97,7 +90,7 @@ public class HomeView extends MainFrame {
 		myPageButton.setFont(new Font("굴림", Font.BOLD, 15));
 		myPageButton.setForeground(Color.WHITE);
 		myPageButton.setBackground(Color.ORANGE);
-		myPageButton.setBounds(299, 587, 160, 60);
+		myPageButton.setBounds(192, 587, 160, 60);
 		myPageButton.setBorderPainted(false);
 		myPageButton.setFocusPainted(false);
 		frame.getContentPane().add(myPageButton);
