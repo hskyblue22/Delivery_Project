@@ -80,7 +80,7 @@ public class SellerController {
 		OrderListDao old = new OrderListDao();
 
 		for (int i = 0; i < old.totalOrderList().size(); i++) {
-			if (myStore.equals(old.totalOrderList().get(i).getStoreName())) {
+			if (myStore.equals(old.totalOrderList().get(i).getBasket().getStoreName())) {
 
 				sellerOrder.add(old.totalOrderList().get(i));
 			}
@@ -221,6 +221,19 @@ public class SellerController {
 		temp = menuList2;
 		temp.put(menuName, menu);
 		return temp;
+	}
+
+	public void editMenu(HashMap<String, Menu> otherMenu, String menuN, String menuPic,
+			int menuPrice) {
+		
+		otherMenu.put(menuN, new Menu(menuPic, menuPrice));
+		
+		Store s = myStoreLoad();
+		s.setStoreMenu(otherMenu);
+		
+		sd.addStore(s);
+		
+		
 	}
 
 }

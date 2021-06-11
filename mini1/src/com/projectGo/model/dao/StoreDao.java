@@ -8,7 +8,9 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 
+import com.projectGo.model.vo.Menu;
 import com.projectGo.model.vo.Order;
 import com.projectGo.model.vo.Store;
 import com.projectGo.view.MainFrame;
@@ -137,6 +139,20 @@ public class StoreDao {
 			e.printStackTrace();
 		}
 
+	}
+
+
+
+	public void putMenu(HashMap<String, Menu> otherMenu) {
+		
+		loadStore();
+
+		load();
+		
+		
+		
+		
+		
 	}
 }
 
