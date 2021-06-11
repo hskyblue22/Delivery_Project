@@ -32,15 +32,15 @@ public class BasketController {
 	
 	// 리스트 크기 반환
 	public int getMenuListSize() {
-
+		
 		return basket.getMenuList().size();
-
+	
 	}
 
 	// 리스트가 비어있는지 확인
 	public boolean listIsEmpty() {
-
-		return basket.getMenuList().isEmpty();
+		
+		return basket.getMenuList().isEmpty();	
 
 	}
 	

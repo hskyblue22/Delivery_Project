@@ -25,7 +25,7 @@ public class OrderController {
 	
 	public OrderController(Order order) {
 		
-		this.member = new Member(1, "nick", "email", "pwd", "010-1111-2222", "서울시 강남구", 5000, 2);
+		this.member = new Member(1, "user01", "email", "pwd", "010-1111-2222", "서울시 강남구", 5000, 2);
 		
 		this.order = order;
 //		ordDao.memInput();

@@ -1,6 +1,13 @@
 package com.projectGo.run;
 
-import com.projectGo.view.MemberMypagePanel;
+import java.util.HashMap;
+
+import com.projectGo.model.dao.OrderDao;
+import com.projectGo.model.dao.OrderListDao;
+import com.projectGo.model.vo.Basket;
+import com.projectGo.model.vo.Menu;
+import com.projectGo.view.BasketView;
+import com.projectGo.view.HomeView;
 
 public class Basket_test {
 
@@ -21,8 +28,15 @@ public class Basket_test {
 //		System.out.println(ord.getOrderList());
 //		System.out.println(ord.getOrderList().size());
 		
-		
+		new HomeView();
 //		new MemberMypagePanel();
+		
+//		OrderDao od = new OrderDao();
+//		od.orderInput();
+//		System.out.println(od.getOrderList());
+//		
+//		OrderListDao old = new OrderListDao();
+//		System.out.println(old.orderTotalList());
 		
 	}
 

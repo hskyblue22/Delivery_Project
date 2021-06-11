@@ -75,7 +75,13 @@ public class HomeView extends MainFrame {
 		basketButton.setFocusPainted(false);
 		frame.getContentPane().add(basketButton);
 
-		
+		basketButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				new BasketView(MainFrame.basket, MainFrame.storeInfoView);
+			}
+		});
 
 		JButton orderListButton = new JButton("주문내역");
 		orderListButton.setFont(new Font("굴림", Font.BOLD, 15));
@@ -85,6 +91,14 @@ public class HomeView extends MainFrame {
 		orderListButton.setBorderPainted(false);
 		orderListButton.setFocusPainted(false);
 		frame.getContentPane().add(orderListButton);
+		
+		orderListButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				new OrderListView();
+			}
+		});
 
 		JButton myPageButton = new JButton("마이페이지");
 		myPageButton.setFont(new Font("굴림", Font.BOLD, 15));
