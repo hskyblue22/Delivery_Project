@@ -323,12 +323,8 @@ public class OrderView extends MainFrame{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
-				try {
-					new  OrderListView();
-				} catch (FileNotFoundException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
+				new  OrderListView();
+				
 			}
 		});
 		
