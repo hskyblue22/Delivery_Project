@@ -31,15 +31,16 @@ import com.projectGo.model.vo.Member;
 import com.projectGo.model.vo.Store;
 
 public class SerchPageView extends MainFrame {
-
-	Member member;
-	ArrayList<String> preSerchNum;
-	ArrayList<String> preSerchList;
-	ArrayList<Store> mainList, recommendList;
-	Scanner sc = new Scanner(System.in);
-	JFrame frame;
-	String resultName;
-	DaoTemp dt;
+ 
+	private Member member;
+	private ArrayList<String> preSerchNum;
+	private ArrayList<String> preSerchList;
+	private ArrayList<Store> mainList, recommendList;
+	private Scanner sc = new Scanner(System.in);
+	private JFrame frame;
+	private String resultName;
+	private DaoTemp dt;
+	private StoreDao sd;
 
 	public SerchPageView() {
 
@@ -52,7 +53,9 @@ public class SerchPageView extends MainFrame {
 		preSerchList = member.getPreSerchList();
 		preSerchNum = member.getPreSerchNum();
 		resultName = "";
-		mainList = new StoreDao().loadStore();
+		sd = new StoreDao();
+		sd.loadStore();
+		mainList = sd.load();
 		recommendList = new StoreSortController().recommendStore(mainList);
 
 		frame = MainFrame.mainFrame;

@@ -25,7 +25,7 @@ public class ChoiceResultView extends MainFrame {
 	private JFrame frame;
 	private ArrayList<Store> printList;
 	private int kinds;
-
+ 
 	public ChoiceResultView() {
 
 	}

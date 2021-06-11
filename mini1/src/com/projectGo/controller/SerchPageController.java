@@ -16,7 +16,7 @@ public class SerchPageController {
 
 	public ArrayList<Store> serchStoreName(ArrayList<Store> list, String keyWord) {
 		ArrayList<Store> temp = new ArrayList<Store>();
-
+ 
 		for (int i = 0; i < list.size(); i++) {
 
 			if (list.get(i).getStoreName().contains(keyWord)) {
