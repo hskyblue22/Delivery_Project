@@ -154,6 +154,8 @@ public class CategoryChoiceView extends MainFrame{
 		frame.getContentPane().add(headLabel);
 
 		JButton backBtn = new JButton("이  전");
+
+		backBtn.setFont(new Font("굴림", Font.PLAIN, 15));
 		backBtn.setBounds(15, 20, 80, 40);
 		backBtn.setBackground(Color.ORANGE);
 		backBtn.setForeground(Color.white);

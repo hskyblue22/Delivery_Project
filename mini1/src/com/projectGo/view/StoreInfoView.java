@@ -205,6 +205,7 @@ public class StoreInfoView extends MainFrame {
 			quantityComboBox_1.setToolTipText("afsasf");
 
 			JButton basketButton_1 = new JButton("<HTML><center>장바구니에<br>담기</center></HTML>");
+			basketButton_1.setFont(new Font("굴림", Font.PLAIN, 15));
 			basketButton_1.setBackground(Color.ORANGE);
 			basketButton_1.setForeground(Color.white);
 			GridBagConstraints gbc_basketButton_1 = new GridBagConstraints();
@@ -333,7 +334,7 @@ public class StoreInfoView extends MainFrame {
 		basketMoveBtn.setBounds(0, 715, 535, 50);
 		basketMoveBtn.setBackground(Color.ORANGE);
 		basketMoveBtn.setForeground(Color.white);
-		basketMoveBtn.setFont(new Font("맑은 고딕", Font.BOLD, 20));
+		basketMoveBtn.setFont(new Font("굴림", Font.BOLD, 17));
 		basketMoveBtn.addActionListener(new ActionListener() {
 
 			@Override
@@ -348,6 +349,8 @@ public class StoreInfoView extends MainFrame {
 		frame.getContentPane().add(basketMoveBtn);
 
 		JButton backBtn = new JButton("이  전");
+
+		backBtn.setFont(new Font("굴림", Font.PLAIN, 15));
 		backBtn.setBounds(15, 20, 80, 40);
 		backBtn.setBackground(Color.ORANGE);
 		backBtn.setForeground(Color.white);
@@ -374,6 +377,8 @@ public class StoreInfoView extends MainFrame {
 		frame.getContentPane().add(backBtn);
 
 		JButton homeBtn = new JButton("홈으로");
+
+		homeBtn.setFont(new Font("굴림", Font.PLAIN, 15));
 		homeBtn.setBounds(440, 20, 80, 40);
 		homeBtn.setBackground(Color.ORANGE);
 		homeBtn.setForeground(Color.white);
