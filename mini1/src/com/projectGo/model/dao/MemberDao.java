@@ -9,72 +9,82 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
-import com.projectGo.model.vo.Basket;
 import com.projectGo.model.vo.Member;
 
 public class MemberDao {
-	
-	ArrayList<Member> list;
-	private Member mem;
+
+	private ArrayList<Member> list;
 	
 	public MemberDao() {
 		
 	}
-	
-	public void fileOutput(Member mem) {
-	
-		
-		list.add(mem);
-		
-		try(ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("member.txt"))) {
-			
-			
-			
-			for(int i = 0; i <list.size(); i++) {
-				oos.writeObject(list.get(i));
-			}
-			
-			
-			
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-	}
-	
-	
-	
-	public void fileInput() {
-		
-		list = new ArrayList<>();
-		try(ObjectInputStream ois = new ObjectInputStream(new FileInputStream("member.txt"))) {
-			
-			while (true) {
-				list.add((Member) ois.readObject());
-			}
 
-			
-		}catch(EOFException e) {
-			System.out.println("파일읽기 완료");
-		}catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
+	// 추가 (회원가입)
+//	public void addMem(Member m) {
+//		fileOutput();
+//	}
+
+	// 삭제 (회원탈퇴)
+	public void deleteMem(int idx) {
+		list.remove(idx);
 	}
-	
-	public ArrayList<Member> getMemberList(){
+
+	// 수정 (회원정보 수정)
+	public void updateMem(int idx, Member m) {
+		list.set(idx, m);
+	}
+
+	// 조회 (회원정보 조회)
+	public Member getMem(int idx) {
+		fileInput();
+		return list.get(idx);
+	}
+
+	// 조회 (회원 리스트 조회)
+	public ArrayList<Member> getMemList() {
 		return list;
 	}
-	
+
+	public ArrayList<Member> fileInput() {
+		
+		list = new ArrayList<>();
+		
+		System.out.println("------------------------input");
+		try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("member.txt"))) {
+			while (true) {
+				//System.oxut.println((Member) ois.readObject());
+				System.out.println(list);
+				list.add((Member)ois.readObject());
+			}
+		} catch (EOFException e) {
+			return list;
+		} catch (FileNotFoundException e) {
+			return null;
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	public void fileOutput(ArrayList<Member> mls) {
+		
+		fileInput();
+		list = mls;
+		
+		System.out.println("------------------------output");
+		try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("member.txt"))) {
+			int size = list.size(), i;
+			System.out.println("회원수 : " +size);
+			for (i = 0; i < size; i++)
+				oos.writeObject(list.get(i));
+			
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
 }
