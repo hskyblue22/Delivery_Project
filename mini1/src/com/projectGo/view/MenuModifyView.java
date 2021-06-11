@@ -52,15 +52,7 @@ public class MenuModifyView extends MainFrame {
 		
 	}
 
-	// preset 
-	public void MenuModifyViewPre(Store store, String resultName, ArrayList<Store> printList, int kinds, int serchKinds, HashMap<String, Menu> menulist) {
 	
-		this.pre = 1;
-		this.menulist = menulist;
-		MenuModifyViewMain(store, resultName, printList, kinds, serchKinds);
-	}
-	
-
 	public void MenuModifyViewMain(Store store, String resultName, ArrayList<Store> printList, int kinds,
 			int serchKinds) {
 		
@@ -184,12 +176,7 @@ public class MenuModifyView extends MainFrame {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					
-					
-					
-					
-					
-					//mmdv.editMenu(menuN, menuPic, menuPrice);
-					new MenuModifyDetailView(menuN, menuPic, menuPrice, otherMenu);
+					mmdv.MenuAddViewMain(menuN, menuPic, menuPrice, otherMenu);
 					
 					
 				}
@@ -303,7 +290,7 @@ public class MenuModifyView extends MainFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				
-				//메인으로 이동 
+				new SellerMain();
 
 			}
 		});

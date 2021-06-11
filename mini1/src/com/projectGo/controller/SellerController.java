@@ -1,8 +1,13 @@
 package com.projectGo.controller;
 
+import java.awt.Color;
+import java.awt.GridBagConstraints;
+import java.awt.Insets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
+import javax.swing.JButton;
 
 import com.projectGo.model.dao.OrderListDao;
 import com.projectGo.model.dao.StoreDao;
@@ -21,9 +26,9 @@ public class SellerController {
 		
 
 		Store beforeStore = null;
-		
 		sd.loadStore();
 
+		System.out.println("aasssss ===== "+ menuList);
 		for (int i = 0; i < sd.load().size(); i++) {
 
 			if (MainFrame.loginUserId.equals(sd.load().get(i).getUserId())) {
@@ -53,7 +58,7 @@ public class SellerController {
 
 		Store store = new Store(storeName, storeIntroduce, category, deliveryTip, deliveryTime, menuList,
 				MainFrame.loginUserId); // 새 스토어 객체 생성
-		storeList.add(store); // ArrayList에 추가
+		//storeList.add(store); // ArrayList에 추가
 
 		sd.addStore(store);
 		// dao로 이동
@@ -62,7 +67,7 @@ public class SellerController {
 
 	public ArrayList<Order> loadSellerOrder() {
 
-		String myStore = null;
+		String myStore = "";
 		ArrayList sellerOrder = new ArrayList();
 		
 		sd.loadStore();
@@ -78,11 +83,12 @@ public class SellerController {
 		// 주문 목록에서 가게 이름과 대조 , 해당하는 주문만 불러옴
 
 		OrderListDao old = new OrderListDao();
+		old.orderTotalList();
+		for (int i = 0; i < old.orderTotalList().size(); i++) {
+			System.out.println(old.orderTotalList());
+			if (myStore.equals(old.orderTotalList().get(i).getBasket().getStoreName())) {
 
-		for (int i = 0; i < old.totalOrderList().size(); i++) {
-			if (myStore.equals(old.totalOrderList().get(i).getBasket().getStoreName())) {
-
-				sellerOrder.add(old.totalOrderList().get(i));
+				sellerOrder.add(old.orderTotalList().get(i));
 			}
 
 		}
@@ -125,9 +131,11 @@ public class SellerController {
 	}
 
 	public void storeModify(String storeName, String storeIntroduce, int category, int deliveryTip, int deliveryTime) {
-
-		Store beforeStore = null;
+		
+		
 		sd.loadStore();
+		Store beforeStore = null;
+		
 
 		for (int i = 0; i < sd.load().size(); i++) {
 
@@ -160,7 +168,7 @@ public class SellerController {
 
 	}
 
-	public void menuFileModify() {
+	public void menuFileModify(String a, String b, int c) {
 
 		Store beforeStore = null;
 		
@@ -194,19 +202,19 @@ public class SellerController {
 
 		if (c1.equals("한식")) {
 			num = 1;
-		} else if (c1.equals("중식")) {
-			num = 2;
 		} else if (c1.equals("일식")) {
+			num = 2;
+		} else if (c1.equals("중식")) {
 			num = 3;
 		} else if (c1.equals("양식")) {
 			num = 4;
-		} else if (c1.equals("식")) {
+		} else if (c1.equals("분식")) {
 			num = 5;
-		} else if (c1.equals("디저트")) {
+		} else if (c1.equals("피자")) {
 			num = 6;
 		} else if (c1.equals("치킨")) {
 			num = 7;
-		} else if (c1.equals("피자")) {
+		} else if (c1.equals("디저트")) {
 			num = 8;
 		} else if (c1.equals("패스트푸드")) {
 			num = 9;
@@ -223,14 +231,21 @@ public class SellerController {
 		return temp;
 	}
 
-	public void editMenu(HashMap<String, Menu> otherMenu, String menuN, String menuPic,
+	public void editMenu(HashMap<String, Menu> otherMenu, String menuName, String menuPic,
 			int menuPrice) {
 		
-		otherMenu.put(menuN, new Menu(menuPic, menuPrice));
+		
+		
+		otherMenu.put(menuName, new Menu(menuPic, menuPrice));
 		
 		Store s = myStoreLoad();
-		s.setStoreMenu(otherMenu);
+		HashMap<String, Menu> newMenu = otherMenu;
+		newMenu.put(menuName, new Menu(menuPic, menuPrice));
+		s.setStoreMenu(newMenu);
 		
+		System.out.println(s);
+		System.out.println(newMenu);
+		sd.deleteStore();
 		sd.addStore(s);
 		
 		

@@ -101,12 +101,13 @@ public class MenuAddView extends MainFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				System.out.println(mprl.getText());
-				System.out.println(mprt.getText());
 				menuName = mt.getText();
 				menuPic = mpt.getText();
 				String getPrice = mprt.getText();
 				menuPrice = Integer.parseInt(getPrice);
+				
+			//	menuList = new HashMap<String, Menu>();
+				
 				if (menuList == null) {
 					menuList = new HashMap<String, Menu>();
 				}
@@ -127,17 +128,20 @@ public class MenuAddView extends MainFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				System.out.println(mprl.getText());
-				System.out.println(mprt.getText());
+				
 				menuName = mt.getText();
 				menuPic = mpt.getText();
 				String getPrice = mprt.getText();
-				System.out.println(getPrice);
 				menuPrice = Integer.parseInt(getPrice);
-				System.out.println(menuList);
-				menuList = sc.addMenu(menuList, menuName, new Menu(menuPic, menuPrice));
+//				menuList = new HashMap<String, Menu>();
+				if (menuList == null) {
+					menuList = new HashMap<String, Menu>();
+				}
 
+				menuList = sc.addMenu(menuList, menuName, new Menu(menuPic, menuPrice));
+			
 				sc.menuCreator(menuList);
+				
 
 				new SellerMain();
 
