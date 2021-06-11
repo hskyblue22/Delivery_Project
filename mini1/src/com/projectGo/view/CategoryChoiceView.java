@@ -27,7 +27,7 @@ import com.projectGo.model.dao.StoreDao;
 import com.projectGo.model.vo.Store;
 
 public class CategoryChoiceView extends MainFrame{
-
+ 
 	private ArrayList<Store> mainList;
 	private ArrayList<Store> printList;
 	private JFrame frame;

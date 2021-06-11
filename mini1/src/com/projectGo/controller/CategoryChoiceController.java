@@ -9,7 +9,7 @@ import com.projectGo.model.vo.Store;
 public class CategoryChoiceController {
 
 
-	public ArrayList<Store> categorySelect(ArrayList<Store> list, int choiceNum) {
+	public ArrayList<Store>  categorySelect(ArrayList<Store> list, int choiceNum) {
 		ArrayList<Store> temp = new ArrayList<Store>();
 		
 		for (int i = 0; i < list.size(); i++) {

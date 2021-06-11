@@ -28,7 +28,7 @@ import com.projectGo.model.vo.Menu;
 import com.projectGo.model.vo.Store;
 
 public class StoreInfoView extends MainFrame {
-
+ 
 	private Store store;
 	private int count;
 	private HashMap<String, Menu> menulist;

@@ -31,7 +31,7 @@ import com.projectGo.model.vo.Member;
 import com.projectGo.model.vo.Store;
 
 public class SerchPageView extends MainFrame {
-
+ 
 	private Member member;
 	private ArrayList<String> preSerchNum;
 	private ArrayList<String> preSerchList;

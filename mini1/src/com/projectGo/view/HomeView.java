@@ -16,7 +16,7 @@ public class HomeView extends MainFrame {
 	private JFrame frame;
 
 	public HomeView() {
-
+ 
 		frame = MainFrame.mainFrame;
 		frame.getContentPane().removeAll();
 		frame.validate();

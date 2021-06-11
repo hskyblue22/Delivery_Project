@@ -11,7 +11,7 @@ import com.projectGo.model.vo.Store;
 public class StoreSortController {
 	
 	public ArrayList<Store> recommendStore(ArrayList<Store> list) {
-
+ 
 		ArrayList<ArrayList<Store>> temp = new ArrayList<ArrayList<Store>>();
 		ArrayList<Store> recommendStoreList = new ArrayList<Store>();
 
