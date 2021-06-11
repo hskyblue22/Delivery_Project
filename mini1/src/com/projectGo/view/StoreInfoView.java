@@ -23,7 +23,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
-import com.projectGo.model.dao.BasketDao;
 import com.projectGo.model.vo.Basket;
 import com.projectGo.model.vo.Menu;
 import com.projectGo.model.vo.Store;
@@ -46,10 +45,9 @@ public class StoreInfoView extends MainFrame {
 	private int pre = 0;
 
 	public StoreInfoView() {
-		
+
 	}
 
-	
 	public HashMap<String, Menu> getMenulist() {
 		return menulist;
 	}
@@ -69,7 +67,7 @@ public class StoreInfoView extends MainFrame {
 	public ArrayList<Store> getPrintList() {
 		return printList;
 	}
- 
+
 	public void setPrintList(ArrayList<Store> printList) {
 		this.printList = printList;
 	}
@@ -90,6 +88,17 @@ public class StoreInfoView extends MainFrame {
 		this.kinds = kinds;
 	}
 
+	public StoreInfoView(Store store, String resultName, ArrayList<Store> printList,
+			int kinds, int serchKinds, HashMap<String, Menu> menulist) {
+		super();
+		this.store = store;
+		this.menulist = menulist;
+		this.printList = printList;
+		this.resultName = resultName;
+		this.kinds = kinds;
+		this.serchKinds = serchKinds;
+	}
+
 	public int getSerchKinds() {
 		return serchKinds;
 	}
@@ -97,13 +106,14 @@ public class StoreInfoView extends MainFrame {
 	public void setSerchKinds(int serchKinds) {
 		this.serchKinds = serchKinds;
 	}
-	public void storeInfoViewMainPre(Store store, String resultName, ArrayList<Store> printList, int kinds, int serchKinds, HashMap<String, Menu> menulist) {
-	
+
+	public void storeInfoViewMainPre(Store store, String resultName, ArrayList<Store> printList, int kinds,
+			int serchKinds, HashMap<String, Menu> menulist) {
+
 		this.pre = 1;
 		this.menulist = menulist;
 		storeInfoViewMain(store, resultName, printList, kinds, serchKinds);
 	}
-	
 
 	public void storeInfoViewMain(Store store, String resultName, ArrayList<Store> printList, int kinds,
 			int serchKinds) {
@@ -235,9 +245,9 @@ public class StoreInfoView extends MainFrame {
 							JOptionPane.YES_NO_OPTION);
 					
 					if (choice == JOptionPane.YES_OPTION) {
-						basket = new Basket("userId", store.getStoreName(), store.getStoreAddress(),
+						basket = new Basket("user01", store.getStoreName(), store.getStoreAddress(),
 								store.getDeliveryTip(), menulist);
-						new BasketView().initialize(basket);
+						new BasketView(basket, new StoreInfoView(store, resultName, printList, kinds, serchKinds, menulist));
 
 					}
 				}
@@ -331,7 +341,7 @@ public class StoreInfoView extends MainFrame {
 
 				basket = new Basket("userId", store.getStoreName(), store.getStoreAddress(), store.getDeliveryTip(),
 						menulist);
-				new BasketView().initialize(basket);
+				new BasketView(basket, new StoreInfoView(store, resultName, printList, kinds, serchKinds, menulist));
 
 			}
 		});

@@ -33,14 +33,15 @@ public class CategoryChoiceView extends MainFrame{
 	private JFrame frame;
 	private Image image;
 	private Store topStore;
-	
+	private StoreDao sd;
 	public CategoryChoiceView() {
 		
 	}
 
 	public void categoryMain() {
-
-		mainList = new StoreDao().loadStore();
+		sd = new StoreDao();
+		sd.loadStore();
+		mainList = sd.load();
 		topStore = new StoreSortController().topStore(mainList);
 		frame = MainFrame.mainFrame;
 		frame.getContentPane().removeAll();
