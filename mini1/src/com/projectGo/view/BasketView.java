@@ -32,8 +32,11 @@ public class BasketView extends MainFrame{
 	private int menuPrice;
 	
 	
-	public BasketView(Basket basket) {     //view로 전달받아 controller로 전달
-
+	public BasketView(Basket basket, StoreInfoView storeInfoView) {     //view로 전달받아 controller로 전달
+		
+		MainFrame.basket = basket;
+		MainFrame.storeInfoView = storeInfoView;
+		
 		basCont = new BasketController(basket);
 		frame = MainFrame.mainFrame;
 		frame.getContentPane().removeAll();
@@ -42,6 +45,7 @@ public class BasketView extends MainFrame{
 		initialize();
 	}
 
+	
 	
 	private void initialize() {
 
@@ -53,35 +57,43 @@ public class BasketView extends MainFrame{
 		frame.getContentPane().add(mainLabel);
 
 		
-		JButton preButton = new JButton("홈으로");
-		preButton.setBounds(15, 20, 80, 40);
-		preButton.setSize(80, 40);
-		preButton.setBackground(Color.orange);
-		preButton.setForeground(Color.white);
-		preButton.setBorderPainted(false); // 테두리 제거
-		preButton.setFocusPainted(false); // 텍스트 테두리 제거
-		frame.getContentPane().add(preButton);
+		JButton homeButton = new JButton("홈으로");
+		homeButton.setFont(new Font("굴림", Font.PLAIN, 15));
+		homeButton.setBounds(15, 20, 80, 40);
+		homeButton.setSize(80, 40);
+		homeButton.setBackground(Color.orange);
+		homeButton.setForeground(Color.white);
+		homeButton.setBorderPainted(false); // 테두리 제거
+		homeButton.setFocusPainted(false); // 텍스트 테두리 제거
+		frame.getContentPane().add(homeButton);
 		
-		preButton.addActionListener(new ActionListener() {
+		homeButton.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				//mainFrame static 변수로!
 				//홈에서 다시 메뉴로 돌아왔을 때 데이터 유지
-//				new HomeView(basCont.getBasket());
+				new HomeView();
 			}
 		});
 
-		if (basCont.listIsEmpty()) {
-
-			listEmpty();
-
-		} else {
-
-			notEmpty();
-
-		}	
+		//basCont.listIsEmpty()
 		
+		try {
+			if (basket.getMenuList() == null) {
+				
+				listEmpty();
+				
+			} else {
+
+				notEmpty();
+
+			}	
+		} catch(NullPointerException e) {
+			
+			listEmpty();
+		}
+
 	}
 
 
@@ -99,6 +111,7 @@ public class BasketView extends MainFrame{
 	private void notEmpty() {
 		
 		JButton delBtn = new JButton("전체삭제");
+		delBtn.setFont(new Font("굴림", Font.PLAIN, 15));
 		delBtn.setBounds(420, 20, 100, 40);
 		delBtn.setBackground(Color.orange);
 		delBtn.setForeground(Color.white);
@@ -156,6 +169,7 @@ public class BasketView extends MainFrame{
 		
 		
 		JButton orderButton = new JButton("주문하기");
+		orderButton.setFont(new Font("굴림", Font.BOLD,17));
 		orderButton.setForeground(Color.WHITE);
 		orderButton.setBackground(Color.ORANGE);
 		orderButton.setBounds(-1, 690, 535, 60);
@@ -175,7 +189,8 @@ public class BasketView extends MainFrame{
 		
 		
 		// 메뉴 추가 버튼 누르면 음식점 상세 페이지로
-		JButton addMenuButton = new JButton("메뉴추가하기");
+		JButton addMenuButton = new JButton("메뉴 추가하기");
+		addMenuButton.setFont(new Font("굴림", Font.BOLD, 17));
 		addMenuButton.setBackground(Color.WHITE);
 		addMenuButton.setBounds(0, 631, 535, 60);
 		addMenuButton.setFocusPainted(false); //텍스트 테두리 제거
@@ -186,7 +201,7 @@ public class BasketView extends MainFrame{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				
-//				new StoreInfoView().storeInfoViewMainPre(store, resultName, printList, kinds, serchKinds, menulist);
+				new StoreInfoView().storeInfoViewMainPre(storeInfoView.getStore(), storeInfoView.getResultName(), storeInfoView.getPrintList(), storeInfoView.getKinds(), storeInfoView.getSerchKinds(), storeInfoView.getMenulist());
 				
 			}
 		});

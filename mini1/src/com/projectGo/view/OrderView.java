@@ -59,7 +59,8 @@ public class OrderView extends MainFrame{
 		frame.getContentPane().add(mainLabel);
 		
 		
-		JButton preButton = new JButton("이전");
+		JButton preButton = new JButton("이 전");
+		preButton.setFont(new Font("굴림", Font.PLAIN, 15));
 		preButton.setBounds(15, 20, 80, 40);
 		preButton.setSize(80, 40);
 		preButton.setBackground(Color.orange);
@@ -73,7 +74,7 @@ public class OrderView extends MainFrame{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				//이전으로 화면 전환 되었을 때, 초기 값이 아닌 변경된 데이터로 저장
-				new BasketView(ordCont.getBasket());
+				new BasketView(MainFrame.basket, MainFrame.storeInfoView);
 			}
 			
 		});
@@ -237,12 +238,13 @@ public class OrderView extends MainFrame{
 		
 		
 		totalPaymentLab = new JLabel("총 결제 금액 : " + totalPayment);
-		totalPaymentLab.setFont(new Font("굴림", Font.PLAIN, 17));
+		totalPaymentLab.setFont(new Font("굴림", Font.BOLD, 17));
 		totalPaymentLab.setBounds(40, 140, 456, 33);
 		paymentPanel.add(totalPaymentLab);
 		
 
 		JButton paymentButton = new JButton("결제하기");
+		paymentButton.setFont(new Font("굴림", Font.BOLD, 17));
 		paymentButton.setForeground(Color.WHITE);
 		paymentButton.setBackground(Color.ORANGE);
 		paymentButton.setBounds(-1, 690, 535, 60);
@@ -311,6 +313,7 @@ public class OrderView extends MainFrame{
 		
 		
 		JButton btnNewButton = new JButton("주문 내역 보기");
+		btnNewButton.setFont(new Font("굴림", Font.BOLD, 17));
 		btnNewButton.setBackground(new Color(240, 240, 240));
 		btnNewButton.setBounds(31, 583, 476, 60);
 		btnNewButton.setBorderPainted(false); //테두리 제거
@@ -324,12 +327,15 @@ public class OrderView extends MainFrame{
 			public void actionPerformed(ActionEvent e) {
 
 				new  OrderListView();
+				MainFrame.basket = null;
+				MainFrame.storeInfoView = null;
 				
 			}
 		});
 		
 		
 		JButton homeButton = new JButton("홈으로 돌아가기");
+		homeButton.setFont(new Font("굴림", Font.BOLD, 17));
 		homeButton.setForeground(Color.WHITE);
 		homeButton.setBackground(Color.ORANGE);
 		homeButton.setBounds(31, 653, 476, 60);
@@ -343,6 +349,8 @@ public class OrderView extends MainFrame{
 			public void actionPerformed(ActionEvent e) {
 			
 				new HomeView();
+				MainFrame.basket = null;
+				MainFrame.storeInfoView = null;
 			}
 		});
 		
