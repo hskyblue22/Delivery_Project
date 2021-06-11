@@ -111,7 +111,7 @@ public class WriteReview implements ActionListener {
 //				}
 //			}
 //		});
-		image = new ImageIcon("사진주소").getImage().getScaledInstance(50,50,0);
+		image = new ImageIcon("images/user.png").getImage().getScaledInstance(70,70,0);
 		JLabel lblNewLabel_1 = new JLabel(new ImageIcon(image));
 		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel_1.setBackground(Color.LIGHT_GRAY);
@@ -128,13 +128,27 @@ public class WriteReview implements ActionListener {
 		lblNewLabel_3.setFont(new Font("굴림", Font.PLAIN, 16));
 		lblNewLabel_3.setBounds(25, 152, 213, 34);
 		contentPane.add(lblNewLabel_3);
-		
-		for(int i=0; i < menus.length; i++) {
-			JLabel lblNewLabel_3_1 = new JLabel(menus[i]);
-			lblNewLabel_3_1.setFont(new Font("굴림", Font.PLAIN, 16));
-			lblNewLabel_3_1.setBounds(25, 189+i*33 , 213, 34);
-			contentPane.add(lblNewLabel_3_1);
-		}		
+				
+		if(menus.length >= 4) {  //메뉴 4개 이상일 경우 3개까지 나오고 외~~건으로 나오게!
+			for(int i=0; i < 3; i++) {
+				JLabel lblNewLabel_3_1 = new JLabel(menus[i]);
+				lblNewLabel_3_1.setFont(new Font("굴림", Font.PLAIN, 16));
+				lblNewLabel_3_1.setBounds(25, 189+i*33 , 213, 34);
+				contentPane.add(lblNewLabel_3_1);
+			}	
+			
+			JLabel extraLabel = new JLabel("외 " + (menus.length-3) + "건");
+			extraLabel.setFont(new Font("굴림", Font.PLAIN, 16));
+			extraLabel.setBounds(200, 255 , 213, 34);
+			contentPane.add(extraLabel);
+		} else {
+			for(int i=0; i < menus.length; i++) {
+				JLabel lblNewLabel_3_1 = new JLabel(menus[i]);
+				lblNewLabel_3_1.setFont(new Font("굴림", Font.PLAIN, 16));
+				lblNewLabel_3_1.setBounds(25, 189+i*33 , 213, 34);
+				contentPane.add(lblNewLabel_3_1);
+			}	
+		}
 
 		JPanel panel = new JPanel();
 		panel.setBounds(19, 297, 488, 38);

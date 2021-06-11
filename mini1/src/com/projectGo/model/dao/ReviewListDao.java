@@ -41,6 +41,7 @@ public class ReviewListDao {
 //			totalReview.addAll((ArrayList<Review>)ois.readObject());  //주문내역담긴 파일 전체 orderlist에 담기
 //			userID = MainFrame.loginUserId;
 			userID = "temp1";
+//			userID = "06.11_수정해봄";
 			
 			Review r;
 			while((r = (Review)ois.readObject()) != null) {
