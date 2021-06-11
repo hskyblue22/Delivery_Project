@@ -225,6 +225,7 @@ public class SerchPageView extends MainFrame {
 		frame.getContentPane().add(headLabel);
 
 		JButton backBtn = new JButton("이  전");
+		backBtn.setFont(new Font("굴림", Font.PLAIN, 15));
 		backBtn.setBounds(15, 20, 80, 40);
 		backBtn.setBackground(Color.ORANGE);
 		backBtn.setForeground(Color.white);
@@ -248,7 +249,9 @@ public class SerchPageView extends MainFrame {
 		frame.getContentPane().add(textField);
 		textField.setColumns(10);
 
-		JButton serchBtn = new JButton("검  색");
+		JButton serchBtn = new JButton("검 색");
+		serchBtn.setFont(new Font("굴림", Font.PLAIN, 15));
+		
 		serchBtn.setBounds(450, 105, 70, 40);
 		serchBtn.setBackground(Color.ORANGE);
 		serchBtn.setForeground(Color.white);
