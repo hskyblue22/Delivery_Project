@@ -1,13 +1,17 @@
 package com.projectGo.view;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
@@ -49,12 +53,20 @@ public class StoreAddView extends MainFrame {
 		
 		
 		
-		
-		JLabel header = new JLabel("가게 등록");
-		header.setBounds(225, 30, 200, 30);
-		//header.setHorizontalAlignment(JLabel.CENTER);
-		frame.getContentPane().add(header);
-		
+		JLabel lineLabel = new JLabel("");
+
+		lineLabel.setOpaque(true);
+
+		lineLabel.setBackground(Color.ORANGE);
+		lineLabel.setBounds(0, 80, 535, 5);
+		frame.getContentPane().add(lineLabel);
+
+		JLabel headLabel = new JLabel("가게 등록");
+		headLabel.setHorizontalAlignment(JLabel.CENTER);
+		headLabel.setFont(new Font("굴림", Font.PLAIN, 30));
+		// lblNewLabel_2.setOpaque(true);
+		headLabel.setBounds(150, 10, 250, 60);
+		frame.getContentPane().add(headLabel);
 		
 	
 		
@@ -71,7 +83,7 @@ public class StoreAddView extends MainFrame {
 		
 
 		JLabel cl = new JLabel("카테고리");
-		String categorySelect [] = {"한식", "중식", "일식", "양식", "분식", "디저트", "피자", "치킨", "패스트푸드" };
+		String categorySelect [] = {"선택","한식", "중식", "일식", "양식", "분식", "디저트", "피자", "치킨", "패스트푸드" };
 		
 		JComboBox<String> combo = new JComboBox<String>(categorySelect);
 		combo.addActionListener(new ActionListener() {
@@ -96,6 +108,25 @@ public class StoreAddView extends MainFrame {
 		
 		dtl.setBounds(50, 300, 300, 30);
 		dtt.setBounds(50, 350, 100, 30);
+		dtt.addKeyListener(new KeyAdapter() {
+
+			@Override
+			public void keyReleased(KeyEvent e) {
+
+				
+				char c = e.getKeyChar();
+
+				if (!((Character.isDigit(c)) || c == '')) {
+					JOptionPane.showMessageDialog(dtt, "숫자만 입력해 주세요.");
+					dtt.setText("");
+					return;
+				}
+				
+				
+
+			}
+
+		});
 		frame.getContentPane().add(dtl);
 		frame.getContentPane().add(dtt);
 		
@@ -105,6 +136,25 @@ public class StoreAddView extends MainFrame {
 		
 		dtipl.setBounds(50, 400, 300, 30);
 		dtipt.setBounds(50, 450, 100, 30);
+		dtipt.addKeyListener(new KeyAdapter() {
+
+			@Override
+			public void keyReleased(KeyEvent e) {
+
+				
+				char c = e.getKeyChar();
+
+				if (!((Character.isDigit(c)) || c == '')) {
+					JOptionPane.showMessageDialog(dtipt, "숫자만 입력해 주세요.");
+					dtipt.setText("");
+					return;
+				}
+				
+				
+
+			}
+
+		});
 		frame.getContentPane().add(dtipl);
 		frame.getContentPane().add(dtipt);
 		
@@ -127,7 +177,19 @@ public class StoreAddView extends MainFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
+				if(combo.getSelectedIndex()==0) {
+					JOptionPane.showMessageDialog(dtl, "카테고리를 선택하세요");
+					return;
+					
+					
+				}
+				if (snt.getText().equals("") || dtipt.getText().equals("") || dtt.getText().equals("")
+						|| sit.getText().equals("")) {
+
+					JOptionPane.showMessageDialog(dtl, "내용을 입력하세요");
+					return;
+
+				}
 				storeName = snt.getText();
 				String dt = dtt.getText();
 				deliveryTime = Integer.parseInt(dt);

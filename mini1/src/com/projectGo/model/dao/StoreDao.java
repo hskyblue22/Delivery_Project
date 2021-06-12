@@ -10,6 +10,7 @@ import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import com.projectGo.model.vo.Member;
 import com.projectGo.model.vo.Menu;
 import com.projectGo.model.vo.Order;
 import com.projectGo.model.vo.Store;
@@ -18,6 +19,24 @@ import com.projectGo.view.MainFrame;
 public class StoreDao {
 
 	ArrayList<Store> storeList;
+	
+	
+	public Member sellerInfo() {
+		ArrayList<Member> memList;
+		MemberDao md = new MemberDao();
+		memList = md.fileInput();
+		for(Member m : memList) {
+			
+			if(m.getNick().equals(MainFrame.loginUserId)) {
+				
+				return m;
+				
+			}
+			
+		}
+		return null;
+		
+	}
 
 	public void addStore(Store store) {
 
@@ -47,7 +66,6 @@ public class StoreDao {
 
 			while (true) {
 				storeList.add((Store) ois.readObject());
-
 			}
 
 		} catch (EOFException e) {
@@ -65,7 +83,7 @@ public class StoreDao {
 	}
 
 	public ArrayList<Store> load() {
-
+		loadStore();
 		return storeList;
 	}
 

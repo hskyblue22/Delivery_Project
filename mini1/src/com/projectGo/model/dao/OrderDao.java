@@ -66,7 +66,8 @@ public class OrderDao {
 	
 	//추가된 order객체 ArrayList에 담아서 output
 	public void orderOutput(Order order) {
-		
+		int sNum = (int)(Math.random() * 100000000);
+		order.setsNum(sNum);
 		orderInput();
 		ordList.add(order);
 		

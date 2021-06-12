@@ -16,7 +16,16 @@ public class Order implements Serializable{
 	private Calendar orderedDate;
 	private String userAddress;
 	private boolean orderState;
+	private int sNum;
 	
+	public int getsNum() {
+		return sNum;
+	}
+
+	public void setsNum(int sNum) {
+		this.sNum = sNum;
+	}
+
 	public Order() {}
 
 	public Order(Basket basket) {
