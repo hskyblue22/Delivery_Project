@@ -198,7 +198,7 @@ public class SellerOrderCheckView extends MouseAdapter {
 
 				//주문완료,배달완료
 				String condition = "주문완료";
-				if(!sellerOrderList.get(panelIndex).isOrderState()) {  //나중에 바꿔야 함!!
+				if(sellerOrderList.get(panelIndex).isOrderState()) {  //나중에 바꿔야 함!!
 					condition = "배달완료";
 				}
 				JLabel lblNewLabel_1 = new JLabel(condition);

@@ -246,7 +246,7 @@ public class StoreInfoView extends MainFrame {
 							JOptionPane.YES_NO_OPTION);
 					
 					if (choice == JOptionPane.YES_OPTION) {
-						basket = new Basket("user01", store.getStoreName(), store.getStoreAddress(),
+						basket = new Basket(MainFrame.loginUserId, store.getStoreName(), store.getStoreAddress(),
 								store.getDeliveryTip(), menulist);
 						new BasketView(basket, new StoreInfoView(store, resultName, printList, kinds, serchKinds, menulist));
 
@@ -340,7 +340,7 @@ public class StoreInfoView extends MainFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
-				basket = new Basket("userId", store.getStoreName(), store.getStoreAddress(), store.getDeliveryTip(),
+				basket = new Basket(MainFrame.loginUserId, store.getStoreName(), store.getStoreAddress(), store.getDeliveryTip(),
 						menulist);
 				new BasketView(basket, new StoreInfoView(store, resultName, printList, kinds, serchKinds, menulist));
 
