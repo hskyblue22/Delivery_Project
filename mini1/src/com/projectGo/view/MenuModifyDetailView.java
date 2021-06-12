@@ -3,11 +3,14 @@ package com.projectGo.view;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.util.HashMap;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 import com.projectGo.controller.SellerController;
@@ -94,6 +97,22 @@ public class MenuModifyDetailView extends MainFrame{
 
 		mprl.setBounds(50, 300, 300, 30);
 		mprt.setBounds(50, 350, 100, 30);
+		mprt.addKeyListener(new KeyAdapter() {
+
+			@Override
+			public void keyReleased(KeyEvent e) {
+
+				char c = e.getKeyChar();
+
+				if (!((Character.isDigit(c)) || c == '')) {
+					JOptionPane.showMessageDialog(mprt, "숫자만 입력해 주세요.");
+					mprt.setText("");
+					return;
+				}
+
+			}
+
+		});
 
 		frame.getContentPane().add(mprl);
 		frame.getContentPane().add(mprt);
@@ -117,11 +136,17 @@ public class MenuModifyDetailView extends MainFrame{
 		c = Integer.parseInt(mprt.getText());
 
 		addBtn.addActionListener(new ActionListener() {
+			
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				
-				
+				if (mt.getText().equals("") || mpt.getText().equals("") || mprt.getText().equals("")) {
+
+					JOptionPane.showMessageDialog(mpt, "내용을 입력하세요");
+					return;
+
+				}
 				sc.editMenu(otherMenu, a, b, c);
 				new SellerMain();
 

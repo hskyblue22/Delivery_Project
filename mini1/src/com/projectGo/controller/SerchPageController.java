@@ -3,14 +3,12 @@ package com.projectGo.controller;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
-
 import java.util.Set;
 
 import com.projectGo.model.comparator.AscDeliveryTip;
-import com.projectGo.model.dao.DaoTemp;
+import com.projectGo.model.dao.SerchKeywordDao;
 import com.projectGo.model.vo.Member;
 import com.projectGo.model.vo.Store;
-import com.projectGo.view.MainFrame;
 
 public class SerchPageController {
 
@@ -59,7 +57,7 @@ public class SerchPageController {
 
 	public void serchKeywordSave(Member member, String serchList, String serchNum) {
 		Member tempMember;
-		DaoTemp dt = new DaoTemp();
+		SerchKeywordDao dt = new SerchKeywordDao();
 		ArrayList<String> preSerchNum, preSerchList;
 		ArrayList<String> temp1, temp2;
 		temp1 = new ArrayList<String>();

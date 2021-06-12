@@ -143,4 +143,22 @@ public class OrderListDao {
 		return totalorderList;
 	}
 	
+	public void saveOrderState(ArrayList<Order> list) {
+		//"order_list.txt" 저장하기
+		try(ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("order_list.txt"))) {
+
+			//객체로 변환해서 하나하나 저장해야한다.
+			for(int i=0; i<list.size(); i++) {
+				oos.writeObject(list.get(i));
+			}
+			
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
 }

@@ -57,7 +57,7 @@ public class SellerController {
 	public void StoreCreator(String storeName, String storeIntroduce, int category, int deliveryTip, int deliveryTime) {
 
 		Store store = new Store(storeName, storeIntroduce, category, deliveryTip, deliveryTime, menuList,
-				MainFrame.loginUserId); // 새 스토어 객체 생성
+				MainFrame.loginUserId, sd.sellerInfo().getAddress()); // 새 스토어 객체 생성
 		//storeList.add(store); // ArrayList에 추가
 
 		sd.addStore(store);
@@ -69,23 +69,26 @@ public class SellerController {
 
 		String myStore = "";
 		ArrayList sellerOrder = new ArrayList();
-		
+		ArrayList<Store> temp = new ArrayList<Store>(); 
 		sd.loadStore();
-
+		
+		temp = sd.load();
+		
 		// 가게 목록에서 내 가게 호출
-		for (int i = 0; i < sd.load().size(); i++) {
+		for (int i = 0; i < temp.size(); i++) {
+
+
 			if (sd.load().get(i).getUserId().equals(MainFrame.loginUserId)) {
 				myStore = sd.load().get(i).getStoreName();
+
 			}
 
 		}
-
 		// 주문 목록에서 가게 이름과 대조 , 해당하는 주문만 불러옴
 
 		OrderListDao old = new OrderListDao();
 		old.orderTotalList();
 		for (int i = 0; i < old.orderTotalList().size(); i++) {
-			System.out.println(old.orderTotalList());
 			if (myStore.equals(old.orderTotalList().get(i).getBasket().getStoreName())) {
 
 				sellerOrder.add(old.orderTotalList().get(i));
@@ -134,7 +137,7 @@ public class SellerController {
 		
 		
 		sd.loadStore();
-		Store beforeStore = null;
+		Store beforeStore = new Store();
 		
 
 		for (int i = 0; i < sd.load().size(); i++) {
@@ -154,6 +157,7 @@ public class SellerController {
 		Store newStore = new Store(storeName, storeIntroduce, menu, aveStar, category, deliveryTip, deliveryTime,
 				MainFrame.loginUserId, aveStarNum);
 		// 기존 메뉴 + 별점 넣은 스토어 객체 생성
+		newStore.setStoreAddress(sd.sellerInfo().getAddress());
 		storeList.add(newStore);
 
 		sd.addStore(newStore); // 새로운 가게 dao로 옮겨 파일에 담기
@@ -249,6 +253,24 @@ public class SellerController {
 		sd.addStore(s);
 		
 		
+	}
+	
+	public void changeOrderState(int sNum) {
+
+		ArrayList<Order> temp = new ArrayList<Order>();
+
+		OrderListDao old = new OrderListDao();
+		temp = old.orderTotalList();
+		for (int i = 0; i < temp.size(); i++) {
+			if (temp.get(i).getsNum() == sNum) {
+
+				temp.get(i).setOrderState(true);
+			}
+
+		}
+
+		old.saveOrderState(temp);
+
 	}
 
 }
