@@ -34,6 +34,7 @@ public class CategoryChoiceView extends MainFrame{
 	private Image image;
 	private Store topStore;
 	private StoreDao sd;
+	
 	public CategoryChoiceView() {
 		
 	}

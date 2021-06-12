@@ -25,8 +25,8 @@ import com.projectGo.model.vo.Member;
 public class MemberSignInView extends MainFrame {
 	MemberDao md = new MemberDao();
 	ArrayList<Member> mls = new ArrayList<>();
-	
-	Color orange = new Color(243, 156, 18);
+
+	Color orange = Color.ORANGE;
 	Color lightgray = new Color(230, 230, 230);
 
 	JFrame frame;
@@ -45,7 +45,7 @@ public class MemberSignInView extends MainFrame {
 		frame.getContentPane().removeAll();
 		frame.validate();
 		frame.repaint();
-		mls=md.fileInput();
+		mls = md.fileInput();
 		p.setSize(550, 800);
 		p.setVisible(true);
 		p.setLayout(null);
@@ -53,8 +53,7 @@ public class MemberSignInView extends MainFrame {
 		frame.getContentPane().add(p);
 
 		ImageIcon logo = new ImageIcon(
-				new ImageIcon("images/hankkiGo.PNG")
-						.getImage().getScaledInstance(137, 130, Image.SCALE_DEFAULT));
+				new ImageIcon("images/hankkiGo.PNG").getImage().getScaledInstance(137, 130, Image.SCALE_DEFAULT));
 		i.setIcon(logo);
 		i.setBounds(200, 160, 137, 130);
 		p.add(i); // 레이블 로그인/로고
@@ -79,11 +78,11 @@ public class MemberSignInView extends MainFrame {
 				String id = t1.getText().trim();
 				String pw = String.valueOf(t2.getPassword());
 				if (id.equals("")) {
-					JOptionPane.showMessageDialog(null, "아이디를 입력하세요");
+					JOptionPane.showMessageDialog(t1, "아이디를 입력하세요");
 					return;
 				}
 				if (pw.length() == 0) {
-					JOptionPane.showMessageDialog(null, "비밀번호를 입력하세요");
+					JOptionPane.showMessageDialog(t2, "비밀번호를 입력하세요");
 					return;
 				}
 				System.out.println(mls); /******/
@@ -99,18 +98,23 @@ public class MemberSignInView extends MainFrame {
 							type = m.getType();
 							SellerMain np1;
 							HomeView np2;
-							if (type == 1)
+							if (type == 1) {
+								MainFrame.loginUserId = id;
 								np1 = new SellerMain();
-							else if (type == 2)
+							}
+
+							else if (type == 2) {
+								MainFrame.loginUserId = id;
 								np2 = new HomeView();
+							}
 							return;
 						}
-						JOptionPane.showMessageDialog(null, "비밀번호가 일치하지 않습니다");
+						JOptionPane.showMessageDialog(t2, "비밀번호가 일치하지 않습니다");
 						t2.setText("");
 						return;
 					}
 				}
-				JOptionPane.showMessageDialog(null, "존재하지 않는 아이디입니다.");
+				JOptionPane.showMessageDialog(t1, "존재하지 않는 아이디입니다.");
 				t1.setText("");
 				t2.setText("");
 				return;
@@ -129,6 +133,7 @@ public class MemberSignInView extends MainFrame {
 		frame.validate();
 		frame.repaint();
 	}
+
 	public void setFontDefault(JComponent l, JPanel p) {
 		l.setFont(new Font("맑은 고딕", Font.BOLD, 17));
 		p.add(l);
@@ -146,6 +151,5 @@ public class MemberSignInView extends MainFrame {
 		b.setBorder(null);
 		setFontDefault(b, p);
 	}
-	
 
 }

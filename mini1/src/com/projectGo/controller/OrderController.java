@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import com.projectGo.model.dao.MemberDao;
 import com.projectGo.model.dao.OrderDao;
 import com.projectGo.model.vo.Basket;
 import com.projectGo.model.vo.Member;
@@ -17,15 +18,23 @@ public class OrderController {
 
 	private Order order;
 	private OrderDao ordDao = new OrderDao();
-	
+	private MemberDao md = new MemberDao();
 	private Member member;
 	private int memIndex;
 	private ArrayList<Member> memList;
 	
 	
 	public OrderController(Order order) {
-		
-		this.member = new Member(1, "user01", "email", "pwd", "010-1111-2222", "서울시 강남구", 5000, 2);
+		memList = md.fileInput();
+		for(Member m : memList) {
+			
+			if(m.getNick().equals(MainFrame.loginUserId)) {
+				
+				this.member = m;
+				
+			}
+			
+		}
 		
 		this.order = order;
 //		ordDao.memInput();

@@ -42,9 +42,9 @@ public class OrderListDao {
 				Order o;
 				while ((o = (Order) ois.readObject()) != null) {
 					totalorderList.add(o);
-
 					if (o.getBasket().getUserId().equals(userID)) {  //여기서 for문 안된다!!
 						userOrderList.add(o);
+						
 					} else
 						otherOrderList.add(o);
 				}

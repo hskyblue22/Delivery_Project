@@ -52,11 +52,12 @@ public class MemberDao {
 		System.out.println("------------------------input");
 		try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("member.txt"))) {
 			while (true) {
-				//System.oxut.println((Member) ois.readObject());
-				System.out.println(list);
+			
+				
 				list.add((Member)ois.readObject());
 			}
 		} catch (EOFException e) {
+			System.out.println(list);
 			return list;
 		} catch (FileNotFoundException e) {
 			return null;

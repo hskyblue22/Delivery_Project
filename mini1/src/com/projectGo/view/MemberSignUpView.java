@@ -32,14 +32,12 @@ public class MemberSignUpView extends MainFrame {
 	private MemberController mbc = new MemberController();
 	private MemberDao md = new MemberDao();
 	private ArrayList<Member> mls = new ArrayList<>();
-	
-	
-	
-	//md.fileInput();
-	//md.fileOut
-	//System.out.println(md.getMemList()); //
-	
-	Color orange = new Color(243, 156, 18);
+
+	// md.fileInput();
+	// md.fileOut
+	// System.out.println(md.getMemList()); //
+
+	Color orange = Color.ORANGE;
 	Color lightgray = new Color(230, 230, 230);
 
 	boolean check = false; // 닉네임 중복확인 여부
@@ -60,14 +58,14 @@ public class MemberSignUpView extends MainFrame {
 	JPasswordField t4p = new JPasswordField(""); // 텍스트박스 - 비밀번호 확인
 	JTextField t5 = new JTextField(""); // 텍스트박스 - 폰번호
 	JTextArea t6 = new JTextArea(""); // 텍스트박스 - 주소
-	JButton b = new JButton("이전"); // 버튼 - 이전
+	JButton b = new JButton("이  전"); // 버튼 - 이전
 	JButton b1 = new JButton("중복확인"); // 버튼 - 중복확인
-	JButton b2 = new JButton("완료"); // 버튼 - 완료
+	JButton b2 = new JButton("회 원 가 입"); // 버튼 - 완료
 	JRadioButton rb1 = new JRadioButton(" 구매자"); // 라디오 버튼 - 구매자
 	JRadioButton rb2 = new JRadioButton(" 판매자"); // 라디오 버튼 - 판매자
 
 	public MemberSignUpView() {
-		
+
 		frame = MainFrame.mainFrame;
 		frame.getContentPane().removeAll();
 		frame.validate();
@@ -77,20 +75,29 @@ public class MemberSignUpView extends MainFrame {
 		p.setLayout(null);
 		p.setOpaque(false);
 
-		l.setBounds(210, 100, 150, 30);
-		setFontDefault(l, p);
-		
+		l.setHorizontalAlignment(JLabel.CENTER);
+		l.setFont(new Font("굴림", Font.BOLD, 35));
+		l.setBackground(Color.WHITE);
+		l.setOpaque(true);
+		l.setBounds(150, 110, 250, 49);
+		setFontTitle(l, p);
+
 		init();
 
 	}
-	
+
 	public void init() {
 
 		md.fileInput(); // 파일불러오기
 		mls = md.getMemList(); // arraylist 담아주기
 
 		// 이전 버튼
-		setButton(b, p);
+
+		b.setFont(new Font("굴림", Font.PLAIN, 15));
+		b.setBounds(15, 20, 80, 40);
+		b.setBackground(Color.ORANGE);
+		b.setForeground(Color.white);
+
 		b.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -102,13 +109,19 @@ public class MemberSignUpView extends MainFrame {
 				mem[3] = String.valueOf(t4p.getPassword());
 				mem[4] = t5.getText().trim();
 				mem[5] = t6.getText().trim();
-				for (i = 0; i < s; i++)
-					if (!mem[i].equals(""))
-						if (JOptionPane.showConfirmDialog(p, "가입하지 않고 나가시겠습니까?", "", JOptionPane.YES_NO_OPTION) == 0)
-							break;
-				MemberSignInView np = new MemberSignInView();
+				for (i = 0; i < s; i++) {
+					if (!mem[i].equals("")) {
+						if (JOptionPane.showConfirmDialog(t3p, "가입하지 않고 나가시겠습니까?", "",
+								JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION)
+							new MemberSignInView();
+						return;
+					}
+				}
+				new MemberSignInView();
+
 			}
 		});
+		frame.getContentPane().add(b);
 
 		// 텍스트필드+라벨
 		t1.setBounds(155, 185, 180, 35);
@@ -152,18 +165,18 @@ public class MemberSignUpView extends MainFrame {
 				String nick = t1.getText();
 
 				if (nick.equals("")) {
-					JOptionPane.showMessageDialog(null, "닉네임을 입력하세요");
+					JOptionPane.showMessageDialog(t1, "닉네임을 입력하세요");
 					return;
 				}
 				for (Member m : mls) {
 					System.out.println(m.getNick());
 					if (nick.equals(m.getNick())) {
 						t1.setText("");
-						JOptionPane.showMessageDialog(null, "이미 등록된 닉네임 입니다");
+						JOptionPane.showMessageDialog(t3p, "이미 등록된 닉네임 입니다");
 						return;
 					}
 				}
-				JOptionPane.showMessageDialog(null, "사용할 수 있는 닉네임 입니다");
+				JOptionPane.showMessageDialog(t3p, "사용할 수 있는 닉네임 입니다");
 				check = true;
 			}
 		});
@@ -175,7 +188,7 @@ public class MemberSignUpView extends MainFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (type == 0) {
-					JOptionPane.showMessageDialog(null, "구매자 또는 판매자를 선택해주세요");
+					JOptionPane.showMessageDialog(rb1, "구매자 또는 판매자를 선택해주세요");
 					return;
 				}
 				String mem[] = new String[6];
@@ -188,22 +201,20 @@ public class MemberSignUpView extends MainFrame {
 				mem[5] = t6.getText().trim();
 				for (int i = 0; i < s; i++) {
 					if (mem[i].equals("")) {
-						JOptionPane.showMessageDialog(null, "정보를 모두 입력하세요");
+						JOptionPane.showMessageDialog(t3p, "정보를 모두 입력하세요");
 						return;
 					}
 				}
 				if (!check) {
-					JOptionPane.showMessageDialog(null, "중복확인을 완료하세요");
+					JOptionPane.showMessageDialog(b1, "중복확인을 완료하세요");
 					return;
 				}
 				if (!mem[2].equals(mem[3])) {
-					JOptionPane.showMessageDialog(null, "비밀번호가 일치하지 않습니다");
+					JOptionPane.showMessageDialog(t4p, "비밀번호가 일치하지 않습니다");
 					return;
 				}
 				Member mb = new Member(mls.size(), mem[0], mem[1], mem[2], mem[4], mem[5], type);
-				//mbc.addMem(mb);
-				System.out.println(mb);
-				JOptionPane.showMessageDialog(null, "회원가입이 완료되었습니다");
+				JOptionPane.showMessageDialog(t3p, "회원가입이 완료되었습니다");
 				t1.setText("");
 				t2.setText("");
 				t3p.setText("");
@@ -211,15 +222,15 @@ public class MemberSignUpView extends MainFrame {
 				t5.setText("");
 				t6.setText("");
 				check = false;
-				MemberSignInView np = new MemberSignInView();
-				
+
 				mls.add(mb);
-				System.out.println(mls.size());
-				for(int i =0; i<mls.size(); i++) {
+
+				for (int i = 0; i < mls.size(); i++) {
 					System.out.println(mls.toString());
 				}
-				
+
 				md.fileOutput(mls);
+				new MemberSignInView();
 			}
 		});
 
@@ -248,12 +259,28 @@ public class MemberSignUpView extends MainFrame {
 		p.add(rb1);
 		p.add(rb2);
 		frame.getContentPane().add(p);
+
+		JLabel lineLabel = new JLabel("");
+
+		lineLabel.setOpaque(true);
+
+		lineLabel.setBackground(Color.ORANGE);
+		lineLabel.setBounds(0, 80, 535, 5);
+		frame.getContentPane().add(lineLabel);
+
+		JLabel headLabel = new JLabel("회원가입");
+
+		headLabel.setHorizontalAlignment(JLabel.CENTER);
+		headLabel.setFont(new Font("굴림", Font.PLAIN, 30));
+		headLabel.setBounds(150, 10, 250, 60);
+		frame.getContentPane().add(headLabel);
+
 		frame.validate();
 		frame.repaint();
 	}
-	
+
 	public void setFontDefault(JComponent l, JPanel p) {
-		l.setFont(new Font("맑은 고딕", Font.BOLD, 17));
+		l.setFont(new Font("굴림", Font.PLAIN, 17));
 		p.add(l);
 	}
 

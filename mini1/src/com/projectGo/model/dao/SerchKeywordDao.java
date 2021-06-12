@@ -12,11 +12,11 @@ import java.util.ArrayList;
 import com.projectGo.model.vo.Member;
 import com.projectGo.view.MainFrame;
 
-public class DaoTemp {
+public class SerchKeywordDao {
 
 	private ArrayList<Member> memberList;
-	Member member;
-	String userName;
+	private Member member;
+	private String userName;
 
 	public Member memberLoad(String userName) {
 		memberList = new ArrayList<Member>();

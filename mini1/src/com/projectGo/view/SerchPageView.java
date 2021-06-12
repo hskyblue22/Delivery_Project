@@ -25,13 +25,13 @@ import javax.swing.JTextField;
 
 import com.projectGo.controller.SerchPageController;
 import com.projectGo.controller.StoreSortController;
-import com.projectGo.model.dao.DaoTemp;
+import com.projectGo.model.dao.SerchKeywordDao;
 import com.projectGo.model.dao.StoreDao;
 import com.projectGo.model.vo.Member;
 import com.projectGo.model.vo.Store;
 
 public class SerchPageView extends MainFrame {
- 
+
 	private Member member;
 	private ArrayList<String> preSerchNum;
 	private ArrayList<String> preSerchList;
@@ -39,7 +39,7 @@ public class SerchPageView extends MainFrame {
 	private Scanner sc = new Scanner(System.in);
 	private JFrame frame;
 	private String resultName;
-	private DaoTemp dt;
+	private SerchKeywordDao dt;
 	private StoreDao sd;
 
 	public SerchPageView() {
@@ -48,10 +48,12 @@ public class SerchPageView extends MainFrame {
 
 	public void serchMain() {
 		String userName = MainFrame.loginUserId;
-		dt = new DaoTemp();
+		dt = new SerchKeywordDao();
 		member = dt.memberLoad(userName);
+
 		preSerchList = member.getPreSerchList();
 		preSerchNum = member.getPreSerchNum();
+
 		resultName = "";
 		sd = new StoreDao();
 		sd.loadStore();
@@ -71,7 +73,7 @@ public class SerchPageView extends MainFrame {
 				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		scrollPane.setBounds(0, 293, 535, 442);
 		frame.getContentPane().add(scrollPane);
- 
+
 		for (int i = 0; i < recommendList.size(); i++) {
 
 			JPanel menuPanel = new JPanel();
@@ -251,7 +253,7 @@ public class SerchPageView extends MainFrame {
 
 		JButton serchBtn = new JButton("검 색");
 		serchBtn.setFont(new Font("굴림", Font.PLAIN, 15));
-		
+
 		serchBtn.setBounds(450, 105, 70, 40);
 		serchBtn.setBackground(Color.ORANGE);
 		serchBtn.setForeground(Color.white);
@@ -271,7 +273,7 @@ public class SerchPageView extends MainFrame {
 							new SerchPageController().serchMenu(mainList, textField.getText()), 1);
 
 				} else {
-					
+
 					new SerchPageController().serchKeywordSave(member, textField.getText(), "2");
 
 					new ChoiceResultView().choiceResultViewMain("'" + textField.getText() + "' 검색결과",
