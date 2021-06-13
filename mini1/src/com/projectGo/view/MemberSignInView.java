@@ -100,11 +100,13 @@ public class MemberSignInView extends MainFrame {
 							HomeView np2;
 							if (type == 1) {
 								MainFrame.loginUserId = id;
+								MainFrame.loginUserPW = pw;
 								np1 = new SellerMain();
 							}
 
 							else if (type == 2) {
 								MainFrame.loginUserId = id;
+								MainFrame.loginUserPW = pw;
 								np2 = new HomeView();
 							}
 							return;

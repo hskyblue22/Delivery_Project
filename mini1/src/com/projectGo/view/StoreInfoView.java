@@ -158,7 +158,6 @@ public class StoreInfoView extends MainFrame {
 			menuPanel.setLayout(gbl_menuPanel);
 			menuPanel.setBounds(-13, 130, 535, 96);
 			frame.getContentPane().add(menuPanel);
-
 			image = new ImageIcon(store.getStoreMenu().get(name).getMenuPic()).getImage().getScaledInstance(70, 70, 0);
 			JLabel menuPicLabel = new JLabel(new ImageIcon(image));
 			GridBagConstraints gbc_menuPicLabel = new GridBagConstraints();
@@ -172,6 +171,8 @@ public class StoreInfoView extends MainFrame {
 			menuPicLabel.setOpaque(true);
 			menuPicLabel.setPreferredSize(new Dimension(70, 70));
 			menuPicLabel.setBackground(Color.LIGHT_GRAY);
+			
+			JLabel picLabel = new JLabel(store.getStoreMenu().get(name).getMenuPic());
 
 			JLabel menuNameLabel = new JLabel(name);
 			GridBagConstraints gbc_menuNameLabel = new GridBagConstraints();
@@ -237,7 +238,7 @@ public class StoreInfoView extends MainFrame {
 
 					}
 					int choice;
-					menuPic = menuPicLabel.getText();
+					menuPic = picLabel.getText();
 					menuPrice = Integer.parseInt(menuPriceLabel.getText());
 
 					menulist.put(menuNameLabel.getText(), new Menu(menuPic, menuPrice, quantity));
