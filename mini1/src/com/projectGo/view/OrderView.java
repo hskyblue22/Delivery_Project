@@ -7,7 +7,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.io.FileNotFoundException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -33,13 +32,13 @@ public class OrderView extends MainFrame{
 	private OrderController ordCont;
 	private int usePoint;
 	private int totalPayment;
+	private double pointRatio = 0.1;
 
 	
 	public OrderView(Order order) {
 		
 		ordCont = new OrderController(order);
 		totalPayment = ordCont.getTotalCharge() + ordCont.getDeliveryTip();
-//		totalPayment = ordCont.getTotalCharge() + ordCont.getDeliveryTip() - usePoint;
 		
 		frame = MainFrame.mainFrame;
 		frame.getContentPane().removeAll();
@@ -133,15 +132,15 @@ public class OrderView extends MainFrame{
 		
 		
 		//포인트 불러오기
-		JLabel pointLab = new JLabel("보유포인트  : " + ordCont.getPoint());
+		JLabel pointLab = new JLabel("보유포인트  :  " + ordCont.getPoint() + "원");
 		pointLab.setFont(new Font("굴림", Font.PLAIN, 17));
-		pointLab.setBounds(40, 22, 200, 31);
+		pointLab.setBounds(40, 22, 250, 31);
 		pointPanel.add(pointLab);
 		
 		
 		JLabel usePointLab = new JLabel("사용할 금액 : ");
 		usePointLab.setFont(new Font("굴림", Font.PLAIN, 17));
-		usePointLab.setBounds(40, 63, 108, 31);
+		usePointLab.setBounds(40, 63, 250, 31);
 		pointPanel.add(usePointLab);
 		
 
@@ -164,20 +163,24 @@ public class OrderView extends MainFrame{
 					return;
 				}
 				
+				
 
 				// 숫자가 아닌 다른값을 입력했을때?
 				char c = e.getKeyChar();
 
-				if (!((Character.isDigit(c)) || c == '')) {
+				if (!((Character.isDigit(c)) || c == '' )) {
 					JOptionPane.showMessageDialog(null, "숫자만 입력해 주세요.");
 					pointTextField.setText("");
-					usedPointLab.setText("포인트 사용     : ");
+					usedPointLab.setText("포인트 사용      :  ");
 					return;
 				}
 				
+				
 				if(c == '') {
+					usePoint = 0;
 					pointTextField.setText("");
-					usedPointLab.setText("포인트 사용     : ");
+					usedPointLab.setText("포인트 사용      :  ");
+					totalPaymentLab.setText("총 결제 금액 :  " + totalPayment + "원");
 					return;
 				}
 
@@ -185,15 +188,15 @@ public class OrderView extends MainFrame{
 				
 				if(usePoint > ordCont.getPoint()) {
 					JOptionPane.showMessageDialog(null, "사용 가능한 금액을 초과하였습니다.");
+					usePoint = 0;
 					pointTextField.setText("");
-					usedPointLab.setText("포인트 사용     : ");
+					usedPointLab.setText("포인트 사용      :  ");
+					totalPaymentLab.setText("총 결제 금액 :  " + totalPayment + "원");
 					return;
 				}
 				
-				usedPointLab.setText("포인트 사용     : -" + usePoint);
-				totalPaymentLab.setText("총 결제 금액 : " + (totalPayment - usePoint));
-
-				ordCont.setPoint(usePoint); // 보유 포인트 - usePoint
+				usedPointLab.setText("포인트 사용      :  -" + usePoint + "원");
+				totalPaymentLab.setText("총 결제 금액 :  " + (totalPayment - usePoint) + "원");
 
 			}
 
@@ -219,25 +222,25 @@ public class OrderView extends MainFrame{
 		paymentPanel.add(paymetLabel);
 		
 		
-		JLabel orderChargeLab = new JLabel("주문 금액        : " + ordCont.getTotalCharge());
+		JLabel orderChargeLab = new JLabel("주문 금액         :  " + ordCont.getTotalCharge() + "원");
 		orderChargeLab.setFont(new Font("굴림", Font.PLAIN, 15));
 		orderChargeLab.setBounds(40, 46, 456, 33);
 		paymentPanel.add(orderChargeLab);
 
 		
-		JLabel deliveryTipLab = new JLabel("배달팁            : " + ordCont.getDeliveryTip());
+		JLabel deliveryTipLab = new JLabel("배달팁             :  " + ordCont.getDeliveryTip() + "원");
 		deliveryTipLab.setFont(new Font("굴림", Font.PLAIN, 15));
 		deliveryTipLab.setBounds(40, 74, 456, 33);
 		paymentPanel.add(deliveryTipLab);
 		
 		
-		usedPointLab = new JLabel("포인트 사용     : ");
+		usedPointLab = new JLabel("포인트 사용      :  ");
 		usedPointLab.setFont(new Font("굴림", Font.PLAIN, 15));
 		usedPointLab.setBounds(40, 104, 456, 33);
 		paymentPanel.add(usedPointLab);
 		
 		
-		totalPaymentLab = new JLabel("총 결제 금액 : " + totalPayment);
+		totalPaymentLab = new JLabel("총 결제 금액 :  " + totalPayment + "원");
 		totalPaymentLab.setFont(new Font("굴림", Font.BOLD, 17));
 		totalPaymentLab.setBounds(40, 140, 456, 33);
 		paymentPanel.add(totalPaymentLab);
@@ -256,14 +259,10 @@ public class OrderView extends MainFrame{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
-				//포인트 사용하지 않았을 경우 결제 금액?? 포인트 사용하고 결제하기 누르면??
-				
+								
 				ordCont.setTotalPayment(totalPayment - usePoint);
-//				System.out.println(totalPayment - usePoint);
-				
-				//유저 정보에서 포인트 적립률 가져오기??
-				ordCont.savePoint((int)((totalPayment -usePoint) * 0.01));
+				ordCont.setPoint(usePoint);                                          // 보유 포인트 - usePoint
+				ordCont.savePoint((int)((totalPayment -usePoint) * pointRatio));     // (결제금액 - usePoint) * pointRatio
 				ordCont.orderOutPut();
 				
 				
@@ -297,16 +296,13 @@ public class OrderView extends MainFrame{
 		lblNewLabel.setBounds(94, 27, 285, 45);
 		panel.add(lblNewLabel);
 		
-		JLabel lblNewLabel_1 = new JLabel("결제 금액 : " + (totalPayment -usePoint));
+		JLabel lblNewLabel_1 = new JLabel("결제 금액 :  " + (totalPayment -usePoint) + "원");
 		lblNewLabel_1.setFont(new Font("굴림", Font.PLAIN, 15));
 		lblNewLabel_1.setBounds(130, 82, 161, 35);
 		panel.add(lblNewLabel_1);
 		
 		
-//		포인트 적립
-//		int savePoint = totalPayment * (/*user객체 받아서 불러오기 getUser().getPointRatio*/);
-		
-		JLabel lblNewLabel_2 = new JLabel("적립 포인트 : " + (int)((totalPayment -usePoint) * 0.01)); 
+		JLabel lblNewLabel_2 = new JLabel("적립 포인트 :  " + (int)((totalPayment -usePoint) * pointRatio) + "원");
 		lblNewLabel_2.setFont(new Font("굴림", Font.PLAIN, 15));
 		lblNewLabel_2.setBounds(130, 113, 150, 35);
 		panel.add(lblNewLabel_2);

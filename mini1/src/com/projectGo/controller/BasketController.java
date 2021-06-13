@@ -24,11 +24,11 @@ public class BasketController {
 		
 	}
 	
+	// basket 객체 리턴
 	public Basket getBasket() {
 		return basket;
 	}
 		
-	
 	
 	// 리스트 크기 반환
 	public int getMenuListSize() {

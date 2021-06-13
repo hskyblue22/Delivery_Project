@@ -71,13 +71,12 @@ public class BasketView extends MainFrame{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				//mainFrame static 변수로!
+				
 				//홈에서 다시 메뉴로 돌아왔을 때 데이터 유지
 				new HomeView();
 			}
 		});
 
-		//basCont.listIsEmpty()
 		
 		try {
 			if (basket.getMenuList() == null) {
@@ -124,7 +123,9 @@ public class BasketView extends MainFrame{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				
 				basCont.deleteAll();
+				MainFrame.basket = null;
 				
 				frame.getContentPane().removeAll();
 				frame.validate();
@@ -223,13 +224,11 @@ public class BasketView extends MainFrame{
 			
 			
 			JPanel menu_1 = new JPanel();
-//			menu_1.setBorder(new LineBorder(new Color(0, 0, 0))); //메뉴 테두리
 			menu_1.setLayout(null);
 			GridBagConstraints gbc_panel_1 = new GridBagConstraints();
 			gbc_panel_1.insets = new Insets(0, 0, 5, 5);
 			gbc_panel_1.fill = GridBagConstraints.BOTH;
 			gbc_panel_1.gridx = 1;
-//			gbc_panel_1.gridy = 0;
 			gbc_panel_1.gridy = i;
 			MenuPanel.add(menu_1, gbc_panel_1);
 			menu_1.setToolTipText(entry.getKey());
@@ -340,8 +339,12 @@ public class BasketView extends MainFrame{
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					
-					String str = menu_1.getToolTipText();
-					basCont.deleteBasketMenu(str);					
+					
+					basCont.deleteBasketMenu(menu_1.getToolTipText());
+					if(basCont.getMenuListSize() == 0) {
+						MainFrame.basket = null;
+					}
+					
 					frame.getContentPane().removeAll();
 					frame.validate();
 					frame.repaint();

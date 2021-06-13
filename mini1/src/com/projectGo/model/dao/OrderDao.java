@@ -1,7 +1,6 @@
 package com.projectGo.model.dao;
 
 import java.io.EOFException;
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -18,7 +17,6 @@ public class OrderDao {
 	
 	
 	private ArrayList<Order> ordList = new ArrayList<Order>();
-	private ArrayList<Member> memList = new ArrayList<Member>();  //전체 멤버리스트
 	
 	public OrderDao() {}
 	
@@ -35,24 +33,10 @@ public class OrderDao {
 		} catch (EOFException e) {
 				return;
 		} catch (FileNotFoundException e) {
-			
-			
-//			//파일이 없을경우 파일 생성 , 맨 첫 주문일 경우
-//			try {
-//				new File("order_list.txt").createNewFile();
-//			} catch (IOException e1) {
-//				// TODO Auto-generated catch block
-//				e1.printStackTrace();
-//			} 
-			System.out.println("파일 생성");
-			return;
-			
-			
+			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -78,66 +62,29 @@ public class OrderDao {
 			}
 		
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
 	}
 	
 	
-	//이부분 memberDao랑 공유가능?*************************************************************
-	
-	// 유저파일 오픈
-	public void memInput() {
-
-		try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(".txt"))) {
-
-			while (true) {
-				memList.add((Member) ois.readObject());
-			}
-
-		} catch (EOFException e) {
-			return;
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-	}
-	
-	
-	// 유저리스트 저장
+	// 멤버리스트 저장
 	public void memOutput(ArrayList<Member> memList) {
 		
-		try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(".txt"))) {
+		try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("member.txt"))) {
 
 			for (int i = 0; i < memList.size(); i++) {
 				oos.writeObject(memList.get(i));
 			}
 
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
-	}
-
-
-	public ArrayList<Member> getMemList() {
-		
-		return memList;
 	}
 	
 }
