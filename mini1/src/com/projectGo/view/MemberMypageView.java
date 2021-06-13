@@ -41,7 +41,7 @@ public class MemberMypageView extends MainFrame {
 
 	public MemberMypageView() {
 
-		MainFrame.loginUserId = "pp1";
+//		MainFrame.loginUserId;
 		memList = md.fileInput();
 		for(Member m : memList) {
 			

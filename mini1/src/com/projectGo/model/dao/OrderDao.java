@@ -31,9 +31,9 @@ public class OrderDao {
 			}
 			
 		} catch (EOFException e) {
-				return;
+			return;
 		} catch (FileNotFoundException e) {
-			e.printStackTrace();
+			return;
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (ClassNotFoundException e) {

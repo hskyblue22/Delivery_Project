@@ -114,14 +114,14 @@ public class OrderView extends MainFrame{
 		
 		
 		//요청사항 전달
-		reqTextField.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				
-				ordCont.setRequest(reqTextField.getText());
-			}
-		});
+//		reqTextField.addActionListener(new ActionListener() {
+//			
+//			@Override
+//			public void actionPerformed(ActionEvent e) {
+//				
+//				
+//			}
+//		});
 		
 		
 		//포인트
@@ -263,6 +263,9 @@ public class OrderView extends MainFrame{
 				ordCont.setTotalPayment(totalPayment - usePoint);
 				ordCont.setPoint(usePoint);                                          // 보유 포인트 - usePoint
 				ordCont.savePoint((int)((totalPayment -usePoint) * pointRatio));     // (결제금액 - usePoint) * pointRatio
+				
+				ordCont.setRequest(reqTextField.getText());  //request 수정_06.13
+				
 				ordCont.orderOutPut();
 				
 				

@@ -236,12 +236,12 @@ public class BasketView extends MainFrame{
 			
 			//메뉴명
 			JLabel nameLab = new JLabel(entry.getKey());
-			nameLab.setBounds(39, 47, 80, 15);
+			nameLab.setBounds(39, 47, 120, 15);
 			menu_1.add(nameLab);
 			
 			//가격
 			JLabel priceLab = new JLabel(String.valueOf(menuPrice * quantity));
-			priceLab.setBounds(39, 75, 80, 15);
+			priceLab.setBounds(39, 75, 100, 15);
 			menu_1.add(priceLab);
 			
 			
