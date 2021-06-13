@@ -16,8 +16,6 @@ public class Basket implements Serializable {
 	private int deliveryTip;
 	private HashMap<String, Menu> menuList;
 
-//  String menuName, String menuPic, int menuPrice, int quantity
-
 	
 	public Basket() {}
 	
