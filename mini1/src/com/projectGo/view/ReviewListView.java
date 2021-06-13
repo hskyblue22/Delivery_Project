@@ -76,13 +76,15 @@ public class ReviewListView {
 		backBtn.setBounds(15, 20, 80, 40);
 		backBtn.setBackground(Color.orange);
 		backBtn.setForeground(Color.white);
+		backBtn.setBorderPainted(false); 
+		backBtn.setFocusPainted(false); 
 		frame.getContentPane().add(backBtn);
 
 		// '이전'버튼
 		backBtn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// 마이페이지 뷰로
+				new MemberMypageView();
 			}
 		});
 
@@ -123,6 +125,7 @@ public class ReviewListView {
 				gbc_panel_1.insets = new Insets(0, 0, 5, 0);
 				gbc_panel_1.gridx = 0;
 				gbc_panel_1.gridy = i;
+				panel_1.setBackground(new Color(255, 248, 220));
 				panel_1.setBorder(new LineBorder(Color.LIGHT_GRAY, 2));
 				panel.add(panel_1, gbc_panel_1);
 
@@ -147,6 +150,7 @@ public class ReviewListView {
 				gbc_lblNewLabel.insets = new Insets(0, 0, 5, 5);
 				gbc_lblNewLabel.gridx = 0;
 				gbc_lblNewLabel.gridy = 0;
+				lblNewLabel.setFont(new Font("맑은 고딕", Font.BOLD, 18));
 				panel_1.add(lblNewLabel, gbc_lblNewLabel);
 
 				JLabel lblNewLabel_1 = new JLabel("평점 : " + score);
@@ -156,6 +160,7 @@ public class ReviewListView {
 				gbc_lblNewLabel_1.insets = new Insets(0, 0, 5, 5);
 				gbc_lblNewLabel_1.gridx = 1;
 				gbc_lblNewLabel_1.gridy = 0;
+				lblNewLabel_1.setFont(new Font("맑은 고딕", Font.BOLD, 17));
 				panel_1.add(lblNewLabel_1, gbc_lblNewLabel_1);
 
 				// 식당이름
@@ -165,6 +170,7 @@ public class ReviewListView {
 				gbc_lblNewLabel_3.insets = new Insets(0, 0, 5, 5);
 				gbc_lblNewLabel_3.gridx = 0;
 				gbc_lblNewLabel_3.gridy = 1;
+				lblNewLabel_3.setFont(new Font("맑은 고딕", Font.BOLD, 17));
 				panel_1.add(lblNewLabel_3, gbc_lblNewLabel_3);
 
 				
@@ -177,6 +183,7 @@ public class ReviewListView {
 					gbc_lblNewLabel_3_1.insets = new Insets(0, 0, 5, 5);
 					gbc_lblNewLabel_3_1.gridx = 0;
 					gbc_lblNewLabel_3_1.gridy = 2 + k;
+					lblNewLabel_3_1.setFont(new Font("맑은 고딕", Font.PLAIN, 16));
 					panel_1.add(lblNewLabel_3_1, gbc_lblNewLabel_3_1);
 				}
 
@@ -197,7 +204,8 @@ public class ReviewListView {
 //				gbc_lblNewLabel_3_4.gridy = 5;
 				area.setLineWrap(true);
 				area.setBackground(new Color(230, 230, 250));
-				area.setFont(new Font("굴림", Font.PLAIN, 15));
+				area.setFont(new Font("맑은 고딕", Font.PLAIN, 15));
+				area.setEditable(false);
 				panel_1.add(area, gbc_lblNewLabel_3_4);
 
 				JButton btnNewButton = new JButton("리뷰수정");
@@ -213,6 +221,8 @@ public class ReviewListView {
 				}
 				
 //				gbc_btnNewButton2.gridy = 8;
+				btnNewButton.setBorderPainted(false); 
+				btnNewButton.setFocusPainted(false); 
 				btnNewButton.setBackground(Color.orange);
 				btnNewButton.setForeground(Color.white);
 				panel_1.add(btnNewButton, gbc_btnNewButton2);
@@ -230,7 +240,7 @@ public class ReviewListView {
 					@Override
 					public void actionPerformed(ActionEvent e) {
 
-						int result = JOptionPane.showConfirmDialog(null, "리뷰를 수정하시겠습니까?", "리뷰내역 삭제",
+						int result = JOptionPane.showConfirmDialog(panel_1, "리뷰를 수정하시겠습니까?", "리뷰내역 삭제",
 								JOptionPane.YES_NO_OPTION);
 						if (result == JOptionPane.YES_OPTION) {
 							new WriteReview(date1, storeName1, menus1, userID1, contents1, score1);
@@ -253,6 +263,8 @@ public class ReviewListView {
 //				gbc_btnNewButton3.gridy = 8;
 				btnNewButton_2.setBackground(Color.orange);
 				btnNewButton_2.setForeground(Color.white);
+				btnNewButton_2.setBorderPainted(false); 
+				btnNewButton_2.setFocusPainted(false); 
 				panel_1.add(btnNewButton_2, gbc_btnNewButton3);
 
 				btnNewButton_2.addActionListener(new ActionListener() {
@@ -260,15 +272,24 @@ public class ReviewListView {
 					@Override
 					public void actionPerformed(ActionEvent e) {
 
-						int result = JOptionPane.showConfirmDialog(null, "리뷰를 삭제하시겠습니까?", "리뷰내역 삭제",
+						int result = JOptionPane.showConfirmDialog(panel_1, "리뷰를 삭제하시겠습니까?", "리뷰내역 삭제",
 								JOptionPane.YES_NO_OPTION);
 						if (result == JOptionPane.YES_OPTION) {
-							// 리뷰 삭제 & 리뷰파일에 다시 저장
+							
+							String checkPW = JOptionPane.showInputDialog(panel_1, "리뷰삭제를 위해서는 비밀번호가 필요해요!\n비밀번호를 입력해주세요", "비밀번호 확인", JOptionPane.OK_CANCEL_OPTION);
+							
+							if(checkPW.equals(MainFrame.loginPW)) {
+								// 리뷰 삭제 & 리뷰파일에 다시 저장
 //								System.out.println(i);  //1
 //								System.out.println(panelIndex);  //0
 							rlc.deleteReview(panelIndex /* i */);
 							// 화면 다시 만들기(새로 저장한 내역 다시 스크롤판에 나타내기)
 							init();
+							}else {
+								JOptionPane.showConfirmDialog(panel_1, "비밀번호가 틀렸습니다. 다시 확인해주세요", "비밀번호 오류",
+										JOptionPane.YES_NO_OPTION);
+							}
+							
 						}
 
 					}
@@ -279,12 +300,6 @@ public class ReviewListView {
 
 		frame.validate();
 		frame.repaint();
-	}
-
-	public static void main(String[] args) throws FileNotFoundException {
-		// TODO Auto-generated method stub
-
-		new ReviewListView();
 	}
 
 	private void listEmpty() {
