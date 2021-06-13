@@ -12,6 +12,7 @@ public class MainFrame extends JFrame {
  
 	public static JFrame mainFrame;
 	public static String loginUserId;
+	public static String loginPW;
 	public static ImageIcon img = new ImageIcon("images/hankkiGo.png");
 	public static StoreInfoView storeInfoView;
 	public static Basket basket;
@@ -19,7 +20,7 @@ public class MainFrame extends JFrame {
 	
 
 	static {
-		mainFrame = new JFrame();
+		mainFrame = new JFrame("한끼고!");
 		mainFrame.getContentPane().setBackground(Color.WHITE);
 		mainFrame.setSize(550, 800);
 		mainFrame.setLocationRelativeTo(null);

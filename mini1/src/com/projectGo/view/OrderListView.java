@@ -72,7 +72,7 @@ public class OrderListView extends MouseAdapter {
 		System.out.println(userOrderList.size());
 
 		// title(제목, 이전버튼)
-		JLabel headLabel = new JLabel("주 문 내 역");
+		JLabel headLabel = new JLabel("주문내역");
 		headLabel.setHorizontalAlignment(JLabel.CENTER);
 		headLabel.setFont(new Font("굴림", Font.PLAIN, 30));
 		headLabel.setBounds(140, 10, 250, 60);
@@ -83,7 +83,11 @@ public class OrderListView extends MouseAdapter {
 		backBtn.setBounds(15, 20, 80, 40);
 		backBtn.setBackground(Color.orange);
 		backBtn.setForeground(Color.white);
+		backBtn.setFont(new Font("굴림", Font.PLAIN, 15));
+		backBtn.setBorderPainted(false); 
+		backBtn.setFocusPainted(false); 
 		frame.getContentPane().add(backBtn);
+		
 
 		// '이전'버튼 -> '홈으로' 변경
 		backBtn.addActionListener(new ActionListener() {
@@ -134,6 +138,7 @@ public class OrderListView extends MouseAdapter {
 			gbc_panel_1.insets = new Insets(0, 0, 5, 0);
 			gbc_panel_1.gridx = 0;
 			gbc_panel_1.gridy = i;
+			panel_1.setBackground(new Color(255, 248, 220));
 			panel_1.setBorder(new LineBorder(Color.LIGHT_GRAY, 2));
 			panel.add(panel_1, gbc_panel_1);
 
@@ -170,6 +175,7 @@ public class OrderListView extends MouseAdapter {
 				menus[menuIndex] = menu;
 
 				JLabel lblNewLabel_3_1 = new JLabel(menu);
+				lblNewLabel_3_1.setFont(new Font("맑은 고딕", Font.PLAIN, 16));
 				GridBagConstraints gbc_lblNewLabel_3_1 = new GridBagConstraints();
 				gbc_lblNewLabel_3_1.gridwidth = 2;
 				gbc_lblNewLabel_3_1.fill = GridBagConstraints.BOTH;
@@ -184,7 +190,7 @@ public class OrderListView extends MouseAdapter {
 
 			// 주문날짜
 			JLabel lblNewLabel = new JLabel(date);
-			lblNewLabel.setFont(new Font("굴림", Font.PLAIN, 15));
+			lblNewLabel.setFont(new Font("맑은 고딕", Font.BOLD, 18));
 			GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
 			gbc_lblNewLabel.fill = GridBagConstraints.BOTH;
 			gbc_lblNewLabel.insets = new Insets(0, 0, 5, 5);
@@ -199,7 +205,7 @@ public class OrderListView extends MouseAdapter {
 				condition = "배달완료";
 			}
 			JLabel lblNewLabel_1 = new JLabel(condition);
-			lblNewLabel_1.setFont(new Font("굴림", Font.PLAIN, 15));
+			lblNewLabel_1.setFont(new Font("맑은 고딕", Font.BOLD, 18));
 			GridBagConstraints gbc_lblNewLabel_1 = new GridBagConstraints();
 			gbc_lblNewLabel_1.fill = GridBagConstraints.BOTH;
 			gbc_lblNewLabel_1.insets = new Insets(0, 0, 5, 5);
@@ -219,6 +225,7 @@ public class OrderListView extends MouseAdapter {
 
 			// 식당이름
 			JLabel lblNewLabel_3 = new JLabel(storeName);
+			lblNewLabel_3.setFont(new Font("맑은 고딕", Font.BOLD, 17));
 			GridBagConstraints gbc_lblNewLabel_3 = new GridBagConstraints();
 			gbc_lblNewLabel_3.fill = GridBagConstraints.BOTH;
 			gbc_lblNewLabel_3.insets = new Insets(0, 0, 5, 5);
@@ -228,35 +235,44 @@ public class OrderListView extends MouseAdapter {
 
 			// 총 결제금액
 			JLabel label_18 = new JLabel("총 결제금액 : " + totalPay + "원");
+			label_18.setFont(new Font("맑은 고딕", Font.BOLD, 17));
 			GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
 			gbc_btnNewButton.fill = GridBagConstraints.BOTH;
 			gbc_btnNewButton.gridwidth = 2;
 			gbc_btnNewButton.insets = new Insets(0, 0, 5, 5);
 			gbc_btnNewButton.gridx = 3;
-			gbc_btnNewButton.gridy = 4;
-			panel_1.add(label_18, gbc_btnNewButton);
+			
 
 			JButton btnNewButton_1 = new JButton("내역삭제"); // 내역 삭제
 			GridBagConstraints gbc_btnNewButton1 = new GridBagConstraints();
+			gbc_btnNewButton1.gridheight = 2;
 			gbc_btnNewButton1.fill = GridBagConstraints.BOTH;
 			gbc_btnNewButton1.insets = new Insets(0, 0, 5, 5);
 			gbc_btnNewButton1.gridx = 2;
 
 			if (menunames.size() >= 5) { // 메뉴 많아지면 알아서 길이지도록 좌표수정_06.11
-				gbc_btnNewButton1.gridy = menunames.size() + 2;
+				gbc_btnNewButton1.gridy = menunames.size() + 3;
+				gbc_btnNewButton.gridy = menunames.size() + 2;  //나중에 보고 수정하기_06.12
 			} else {
 				gbc_btnNewButton1.gridy = 6;
+				gbc_btnNewButton.gridy = 5;
 			}
 //			gbc_btnNewButton1.gridy = 6;
+			btnNewButton_1.setFont(new Font("굴림", Font.PLAIN, 15));
 			btnNewButton_1.setBackground(Color.orange);
 			btnNewButton_1.setForeground(Color.white);
+			btnNewButton_1.setBorderPainted(false); 
+			btnNewButton_1.setFocusPainted(false);
 			panel_1.add(btnNewButton_1, gbc_btnNewButton1);
+			
+			//총결제금액 붙이기
+			panel_1.add(label_18, gbc_btnNewButton);
 
 			btnNewButton_1.addActionListener(new ActionListener() {
 
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					int result = JOptionPane.showConfirmDialog(btnNewButton_1, "주문내역을 삭제하시겠습니까?", "주문내역 삭제",
+					int result = JOptionPane.showConfirmDialog(panel_1, "주문내역을 삭제하시겠습니까?", "주문내역 삭제",
 							JOptionPane.YES_NO_OPTION);
 					if (lblNewLabel_1.getText().equals("배달완료")) {
 						if (result == JOptionPane.YES_OPTION) {
@@ -271,7 +287,7 @@ public class OrderListView extends MouseAdapter {
 							init();
 						}
 					}else {
-						JOptionPane.showMessageDialog(btnNewButton_1, "배달이 완료되어야만 내역을 삭제 할수있습니다.", "주의",
+						JOptionPane.showMessageDialog(panel_1, "배달이 완료되어야만 내역을 삭제 할수있습니다.", "주의",
 								JOptionPane.WARNING_MESSAGE);
 						btnNewButton_1.setEnabled(false);
 					}
@@ -286,13 +302,15 @@ public class OrderListView extends MouseAdapter {
 			gbc_btnNewButton2.gridx = 3;
 
 			if (menunames.size() >= 5) { // 메뉴 많아지면 알아서 길이지도록 좌표수정_06.11
-				gbc_btnNewButton2.gridy = menunames.size() + 2;
+				gbc_btnNewButton2.gridy = menunames.size() + 3;
 			} else {
 				gbc_btnNewButton2.gridy = 6;
 			}
-//			gbc_btnNewButton2.gridy = 6;
+			btnNewButton.setFont(new Font("굴림", Font.PLAIN, 15));
 			btnNewButton.setBackground(Color.orange);
 			btnNewButton.setForeground(Color.white);
+			btnNewButton.setBorderPainted(false); 
+			btnNewButton.setFocusPainted(false); 
 			panel_1.add(btnNewButton, gbc_btnNewButton2);
 
 			btnNewButton.addActionListener(new ActionListener() {
@@ -300,7 +318,7 @@ public class OrderListView extends MouseAdapter {
 				public void actionPerformed(ActionEvent e) {
 
 					if (lblNewLabel_1.getText().equals("주문완료")) {
-						int result = JOptionPane.showConfirmDialog(btnNewButton_1, "주문을 취소하시겠습니까?", "주문취소",
+						int result = JOptionPane.showConfirmDialog(panel_1, "주문을 취소하시겠습니까?", "주문취소",
 								JOptionPane.YES_NO_OPTION);
 						if (result == JOptionPane.YES_OPTION) {
 							// 화면 삭제
@@ -313,7 +331,7 @@ public class OrderListView extends MouseAdapter {
 							init();
 						}
 					} else {
-						JOptionPane.showMessageDialog(btnNewButton_1, "배달이 완료되어 주문을 취소할 수 없습니다.", "주의",
+						JOptionPane.showMessageDialog(panel_1, "배달이 완료되어 주문을 취소할 수 없습니다.", "주의",
 								JOptionPane.WARNING_MESSAGE);
 						btnNewButton.setEnabled(false);
 					}
@@ -327,13 +345,16 @@ public class OrderListView extends MouseAdapter {
 			gbc_btnNewButton3.gridx = 4;
 
 			if (menunames.size() >= 5) { // 메뉴 많아지면 알아서 길이지도록 좌표수정_06.11
-				gbc_btnNewButton3.gridy = menunames.size() + 2;
+				gbc_btnNewButton3.gridy = menunames.size() + 3;
 			} else {
 				gbc_btnNewButton3.gridy = 6;
 			}
 
+			btnNewButton_2.setFont(new Font("굴림", Font.PLAIN, 15));
 			btnNewButton_2.setBackground(Color.orange);
 			btnNewButton_2.setForeground(Color.white);
+			btnNewButton_2.setBorderPainted(false); 
+			btnNewButton_2.setFocusPainted(false);
 			panel_1.add(btnNewButton_2, gbc_btnNewButton3);
 
 			userID = MainFrame.loginUserId;
@@ -343,22 +364,17 @@ public class OrderListView extends MouseAdapter {
 				public void actionPerformed(ActionEvent e) {
 
 					if (lblNewLabel_1.getText().equals("배달완료")) {
-						int result = JOptionPane.showConfirmDialog(btnNewButton_1, "리뷰를 작성하시겠습니까?", "리뷰작성",
+						int result = JOptionPane.showConfirmDialog(panel_1, "리뷰를 작성하시겠습니까?", "리뷰작성",
 								JOptionPane.YES_NO_OPTION);
 
 						if (result == JOptionPane.YES_OPTION) {
-//							new WriteReview(date, storeName, menus, userID );
-
 							// 리뷰리스트에서 중복확인
 							// ReviewListDao -> search메소드 -> 파일내용중복확인 -> 그 값이 false이면 리뷰창 안 띄움
 							// 같은 리뷰가 있다면 ==> 인덱스 / 같은리뷰없으면 -1
 
 							String date1 = StringFromCalendar(userOrderList.get(panelIndex).getOrderedDate()); // 마지막값으로
-																												// 전역변수
-																												// 바뀌니까
-																												// 이렇게
-																												// 패널인덱스로
-																												// 뽑아주기_06.10
+		
+							// 뽑아주기_06.10
 							String userID1 = userOrderList.get(panelIndex).getBasket().getUserId();
 							String storeName1 = userOrderList.get(panelIndex).getBasket().getStoreName();
 							String[] menus1 = totalmenus[panelIndex];
@@ -366,13 +382,13 @@ public class OrderListView extends MouseAdapter {
 							if (new ReviewListDao().searchReview(date1, userID1, storeName1, menus1) == -1) {
 								new WriteReview(date1, storeName1, menus1, userID1);
 							} else {
-								JOptionPane.showMessageDialog(btnNewButton_1, "이전에 리뷰를 작성하였습니다.\n 리뷰수정은 My리뷰에서 하세요",
+								JOptionPane.showMessageDialog(panel_1, "이전에 리뷰를 작성하였습니다.\n 리뷰수정은 My리뷰에서 하세요",
 										"주의", JOptionPane.WARNING_MESSAGE);
 								btnNewButton_2.setEnabled(false);
 							}
 						}
 					}else {
-						JOptionPane.showMessageDialog(btnNewButton_1, "배달이 완료되어야 리뷰를 작성하실 수 있습니다.", "주의",
+						JOptionPane.showMessageDialog(panel_1, "배달이 완료되어야 리뷰를 작성하실 수 있습니다.", "주의",
 								JOptionPane.WARNING_MESSAGE);
 					}
 				}

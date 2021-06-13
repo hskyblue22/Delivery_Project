@@ -88,7 +88,7 @@ public class WriteReview implements ActionListener {
 		contentPane.setLayout(null);
 		
 		//title(제목, 이전버튼)
-		JLabel lblNewLabel = new JLabel("리 뷰 작 성");
+		JLabel lblNewLabel = new JLabel("리뷰작성");
 		lblNewLabel.setFont(new Font("굴림", Font.PLAIN, 30));
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel.setBounds(140, 10, 250, 60);
@@ -98,19 +98,16 @@ public class WriteReview implements ActionListener {
 		backBtn.setForeground(Color.WHITE);
 		backBtn.setBackground(Color.ORANGE);
 		backBtn.setBounds(15, 20, 80, 40);
+		backBtn.setBorderPainted(false); 
+		backBtn.setFocusPainted(false); 
 		contentPane.add(backBtn);
-//		
-//		backBtn.addActionListener(new ActionListener() {
-//			@Override
-//			public void actionPerformed(ActionEvent e) {
-//				try {
-//					new OrderListView();
-//				} catch (FileNotFoundException e1) {
-//					// TODO Auto-generated catch block
-//					e1.printStackTrace();
-//				}
-//			}
-//		});
+		
+		backBtn.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				new OrderListView();
+			}
+		});
 		image = new ImageIcon("images/user.png").getImage().getScaledInstance(70,70,0);
 		JLabel lblNewLabel_1 = new JLabel(new ImageIcon(image));
 		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
@@ -119,32 +116,32 @@ public class WriteReview implements ActionListener {
 		contentPane.add(lblNewLabel_1);
 		
 		JLabel lblNewLabel_2 = new JLabel(userID);
-		lblNewLabel_2.setFont(new Font("굴림", Font.PLAIN, 17));
+		lblNewLabel_2.setFont(new Font("맑은 고딕", Font.BOLD, 19));
 		lblNewLabel_2.setBackground(Color.LIGHT_GRAY);
 		lblNewLabel_2.setBounds(129, 86, 182, 48);
 		contentPane.add(lblNewLabel_2);
 		
 		JLabel lblNewLabel_3 = new JLabel(storeName);
-		lblNewLabel_3.setFont(new Font("굴림", Font.PLAIN, 16));
+		lblNewLabel_3.setFont(new Font("맑은 고딕", Font.BOLD, 17));
 		lblNewLabel_3.setBounds(25, 152, 213, 34);
 		contentPane.add(lblNewLabel_3);
 				
 		if(menus.length >= 4) {  //메뉴 4개 이상일 경우 3개까지 나오고 외~~건으로 나오게!
 			for(int i=0; i < 3; i++) {
 				JLabel lblNewLabel_3_1 = new JLabel(menus[i]);
-				lblNewLabel_3_1.setFont(new Font("굴림", Font.PLAIN, 16));
+				lblNewLabel_3_1.setFont(new Font("맑은 고딕", Font.BOLD, 15));
 				lblNewLabel_3_1.setBounds(25, 189+i*33 , 213, 34);
 				contentPane.add(lblNewLabel_3_1);
 			}	
 			
 			JLabel extraLabel = new JLabel("외 " + (menus.length-3) + "건");
-			extraLabel.setFont(new Font("굴림", Font.PLAIN, 16));
+			extraLabel.setFont(new Font("맑은 고딕", Font.BOLD, 15));
 			extraLabel.setBounds(200, 255 , 213, 34);
 			contentPane.add(extraLabel);
 		} else {
 			for(int i=0; i < menus.length; i++) {
 				JLabel lblNewLabel_3_1 = new JLabel(menus[i]);
-				lblNewLabel_3_1.setFont(new Font("굴림", Font.PLAIN, 16));
+				lblNewLabel_3_1.setFont(new Font("맑은 고딕", Font.BOLD, 15));
 				lblNewLabel_3_1.setBounds(25, 189+i*33 , 213, 34);
 				contentPane.add(lblNewLabel_3_1);
 			}	
@@ -157,15 +154,15 @@ public class WriteReview implements ActionListener {
 		
 		ButtonGroup bg = new ButtonGroup();
 		jb1 = new JRadioButton("1점");
-		jb1.setFont(new Font("굴림", Font.PLAIN, 16));
+		jb1.setFont(new Font("맑은 고딕", Font.PLAIN, 16));
 		jb2 = new JRadioButton("2점");
-		jb2.setFont(new Font("굴림", Font.PLAIN, 16));
+		jb2.setFont(new Font("맑은 고딕", Font.PLAIN, 16));
 		jb3 = new JRadioButton("3점");
-		jb3.setFont(new Font("굴림", Font.PLAIN, 16));
+		jb3.setFont(new Font("맑은 고딕", Font.PLAIN, 16));
 		jb4 = new JRadioButton("4점");
-		jb4.setFont(new Font("굴림", Font.PLAIN, 16));
+		jb4.setFont(new Font("맑은 고딕", Font.PLAIN, 16));
 		jb5 = new JRadioButton("5점");
-		jb5.setFont(new Font("굴림", Font.PLAIN, 16));
+		jb5.setFont(new Font("맑은 고딕", Font.PLAIN, 16));
 		
 		bg.add(jb1);
 		bg.add(jb2);
@@ -198,7 +195,7 @@ public class WriteReview implements ActionListener {
 		contentPane.add(reviewContArea);
 		
 		JLabel lblNewLabel_4 = new JLabel("10글자이상 100글자 미만으로 작성해주세요");
-		lblNewLabel_4.setFont(new Font("굴림", Font.PLAIN, 15));
+		lblNewLabel_4.setFont(new Font("맑은 고딕", Font.PLAIN, 15));
 		lblNewLabel_4.setBounds(19, 681, 308, 53);
 		contentPane.add(lblNewLabel_4);
 		
@@ -208,6 +205,8 @@ public class WriteReview implements ActionListener {
 		btnNewButton_1.setFont(new Font("굴림", Font.PLAIN, 16));
 		btnNewButton_1.setBackground(Color.ORANGE);
 		btnNewButton_1.setBounds(395, 688, 107, 38);
+		btnNewButton_1.setBorderPainted(false); 
+		btnNewButton_1.setFocusPainted(false); 
 		contentPane.add(btnNewButton_1);
 		
 		btnNewButton_1.addActionListener(new ActionListener() {
@@ -229,7 +228,7 @@ public class WriteReview implements ActionListener {
 					}
 					
 				} else {
-//					new StoreDao().saveAveStar(storeName, reviewScore);  //==> 리뷰평점 업뎃
+					new StoreDao().saveAveStar(storeName, reviewScore);  //==> 리뷰평점 업뎃
 					
 					//같은 리뷰가 있다면 ==> 인덱스/ 같은리뷰없으면 -1 (1은 인덱스로도 나올 수 있으니 안돼!)
 					int index = new ReviewListDao().searchReview(date, userID, storeName, menus);
@@ -278,7 +277,7 @@ public class WriteReview implements ActionListener {
 	}
 	
 	public void warningMessage(String cont) {
-		JOptionPane.showMessageDialog(null,
+		JOptionPane.showMessageDialog(jb3,
 				cont,"주의",JOptionPane.WARNING_MESSAGE);
 	}
 	
