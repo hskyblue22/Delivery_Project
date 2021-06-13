@@ -278,7 +278,7 @@ public class ReviewListView {
 							
 							String checkPW = JOptionPane.showInputDialog(panel_1, "리뷰삭제를 위해서는 비밀번호가 필요해요!\n비밀번호를 입력해주세요", "비밀번호 확인", JOptionPane.OK_CANCEL_OPTION);
 							
-							if(checkPW.equals(MainFrame.loginPW)) {
+							if(checkPW.equals(MainFrame.loginUserPW)) {
 								// 리뷰 삭제 & 리뷰파일에 다시 저장
 //								System.out.println(i);  //1
 //								System.out.println(panelIndex);  //0

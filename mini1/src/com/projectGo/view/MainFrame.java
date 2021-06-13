@@ -12,7 +12,7 @@ public class MainFrame extends JFrame {
  
 	public static JFrame mainFrame;
 	public static String loginUserId;
-	public static String loginPW;
+	public static String loginUserPW;
 	public static ImageIcon img = new ImageIcon("images/hankkiGo.png");
 	public static StoreInfoView storeInfoView;
 	public static Basket basket;
