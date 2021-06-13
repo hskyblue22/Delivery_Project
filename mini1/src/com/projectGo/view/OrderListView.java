@@ -69,7 +69,6 @@ public class OrderListView extends MouseAdapter {
 	public void init() {
 		olc = new OrderListController();
 		userOrderList = olc.displayAllList(); // dao파일가서 loadOrderList로 파일 로드됨 -> userOrderList return받음
-		System.out.println(userOrderList.size());
 
 		// title(제목, 이전버튼)
 		JLabel headLabel = new JLabel("주문내역");
@@ -130,7 +129,7 @@ public class OrderListView extends MouseAdapter {
 		totalmenus = new String[userOrderList.size()][];
 
 		for (i = 0; i < userOrderList.size(); i++) {
-
+			
 			// 각 주문내역 패널
 			JPanel panel_1 = new JPanel();
 			panel_1.setBackground(Color.WHITE);
