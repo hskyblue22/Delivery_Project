@@ -29,7 +29,7 @@ public class HomeView extends MainFrame {
 		frame.validate();
 		frame.repaint();
 
-		Image rogo = new ImageIcon("images/hankkiGo.PNG").getImage().getScaledInstance(200, 200, 0);
+		Image rogo = new ImageIcon("images/hankkiGo.png").getImage().getScaledInstance(200, 200, 0);
 		JLabel label1 = new JLabel(new ImageIcon(rogo));
 		label1.setBounds(167, 122, 200, 200);
 		frame.getContentPane().add(label1);
@@ -135,8 +135,17 @@ public class HomeView extends MainFrame {
 		myPageButton.setBounds(192, 587, 160, 60);
 		myPageButton.setBorderPainted(false);
 		myPageButton.setFocusPainted(false);
+		myPageButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				new MemberMypageView();
+			}
+		});
 		frame.getContentPane().add(myPageButton);
 
+		
+		
 		JButton logoutButton = new JButton("로그아웃");
 		logoutButton.setBackground(Color.WHITE);
 		logoutButton.setBounds(433, 73, 87, 23);

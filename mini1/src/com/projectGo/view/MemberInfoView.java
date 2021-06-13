@@ -24,6 +24,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import com.projectGo.controller.MemberController;
+import com.projectGo.model.dao.MemberDao;
 import com.projectGo.model.vo.Member;
 
 public class MemberInfoView extends MainFrame {
@@ -31,7 +32,10 @@ public class MemberInfoView extends MainFrame {
 	JFrame frame;
 	
 	MemberController mbc = new MemberController();
-	Member m;
+
+	Member member;
+	ArrayList<Member> memList = new ArrayList<Member>();
+	MemberDao md = new MemberDao();
 
 
 	Color orange = new Color(243, 156, 18);//오렌지
@@ -65,10 +69,20 @@ public class MemberInfoView extends MainFrame {
 
 	boolean check, update = true, p1v = true, p2v; // 중복확인 여부, 수정완료 여부, p1 판넬 & p2 판넬 visible 상태
 
-	public MemberInfoView(int idx) {
+	public MemberInfoView() {
 
 		
-		m = mbc.getMem(idx);
+		MainFrame.loginUserId = "pp1";
+		memList = md.fileInput();
+		for(Member m : memList) {
+			
+			if(m.getNick().equals(MainFrame.loginUserId)) {
+				
+				this.member = m;
+				
+			}
+			
+		}
 
 		
 		frame = MainFrame.mainFrame;
@@ -89,7 +103,7 @@ public class MemberInfoView extends MainFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (p1v) {
-					MemberMypageView np = new MemberMypageView(idx);
+					MemberMypageView np = new MemberMypageView();
 				} else { // if(p2v) {
 					if (!update)
 						if (JOptionPane.showConfirmDialog(p, "수정하지 않고 나가시겠습니까?", "", JOptionPane.YES_NO_OPTION) == 1)
@@ -100,11 +114,11 @@ public class MemberInfoView extends MainFrame {
 					t3.setEditable(false);
 					t4.setEditable(false);
 					t5.setEditable(false);
-					t1.setText(m.getNick());
-					t2.setText(m.getEmail());
-					t3.setText(String.valueOf(m.getPwd()));
-					t4.setText(m.getPhone());
-					t5.setText(m.getAddress());
+					t1.setText(member.getNick());
+					t2.setText(member.getEmail());
+					t3.setText(String.valueOf(member.getPwd()));
+					t4.setText(member.getPhone());
+					t5.setText(member.getAddress());
 					p1.setVisible(true);
 					p2.setVisible(false);
 					p1v = true;
@@ -133,7 +147,7 @@ public class MemberInfoView extends MainFrame {
 		setFontDefault(l5, p); // 레이블 주소
 
 		t1.setBounds(170, 180, 270, 35);
-		t1.setText(m.getNick());
+		t1.setText(member.getNick());
 		t1.setEditable(false);
 		t1.setBackground(Color.white);
 		setFontDefault(t1, p); // 텍스트박스 닉네임
@@ -157,7 +171,7 @@ public class MemberInfoView extends MainFrame {
 		});
 
 		t2.setBounds(170, 250, 270, 35);
-		t2.setText(m.getEmail());
+		t2.setText(member.getEmail());
 		t2.setEditable(false);
 		t2.setBackground(Color.white);
 		setFontDefault(t2, p); // 텍스트박스 이메일
@@ -178,7 +192,7 @@ public class MemberInfoView extends MainFrame {
 		});
 
 		t3.setBounds(170, 310, 270, 35);
-		t3.setText(String.valueOf(m.getPwd()));
+		t3.setText(String.valueOf(member.getPwd()));
 		t3.setEditable(false);
 		t3.setBackground(Color.white);
 		setFontDefault(t3, p); // 텍스트박스 비밀번호
@@ -199,7 +213,7 @@ public class MemberInfoView extends MainFrame {
 		});
 
 		t4.setBounds(170, 370, 270, 35);
-		t4.setText(m.getPhone());
+		t4.setText(member.getPhone());
 		t4.setEditable(false);
 		t4.setBackground(Color.white);
 		setFontDefault(t4, p); // 텍스트박스 폰번호
@@ -220,7 +234,7 @@ public class MemberInfoView extends MainFrame {
 		});
 
 		t5.setBounds(170, 430, 270, 95);
-		t5.setText(m.getAddress());
+		t5.setText(member.getAddress());
 		t5.setLineWrap(true);
 		t5.setEditable(false);
 		t5.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new Color(184, 207, 229)));
@@ -302,7 +316,7 @@ public class MemberInfoView extends MainFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if (JOptionPane.showConfirmDialog(p1, "탈퇴 하시겠습니까?", "", JOptionPane.YES_NO_OPTION, 0) == 0) {
-					mbc.deleteMem(idx);
+					mbc.deleteMem(member.getIdx());
 					MemberSignInView np = new MemberSignInView();
 				}
 			}
@@ -343,13 +357,13 @@ public class MemberInfoView extends MainFrame {
 						return;
 					}
 				}
-				if (!check && !mem[0].equals(m.getNick())) {
+				if (!check && !mem[0].equals(member.getNick())) {
 					JOptionPane.showMessageDialog(null, "중복확인을 완료하세요");
 					return;
 				}
-				m = new Member(idx, mem[0], mem[1], mem[2], mem[3], mem[4], m.getType());
-				mbc.updateMem(idx, m);
-				System.out.println(mbc.getMem(idx));
+				member = new Member(member.getIdx(), mem[0], mem[1], mem[2], mem[3], mem[4], member.getType());
+				mbc.updateMem(member.getIdx(), member);
+				System.out.println(mbc.getMem(member.getIdx()));
 				JOptionPane.showMessageDialog(null, "수정이 완료되었습니다");
 				t1.setBounds(170, 180, 270, 35);
 				t5.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new Color(184, 207, 229)));
@@ -378,7 +392,7 @@ public class MemberInfoView extends MainFrame {
 					JOptionPane.showMessageDialog(null, "닉네임을 입력하세요");
 					return;
 				}
-				if (nick.equals(m.getNick()))
+				if (nick.equals(member.getNick()))
 					return;
 				ArrayList<Member> ls = mbc.getMemList();
 				for (Member m : ls) {
@@ -399,7 +413,7 @@ public class MemberInfoView extends MainFrame {
 		b6.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				t1.setText(m.getNick());
+				t1.setText(member.getNick());
 			}
 		});
 		

@@ -25,6 +25,18 @@ public class Member implements Serializable { // 회원 정보
       preSerchNum = new ArrayList<>();
       preSerchList = new ArrayList<>();
    }
+   public Member(String nick, String email, String pwd, String phone, String address, int type) {
+	  
+	      this.nick = nick;
+	      this.email = email;
+	      this.pwd = pwd;
+	      this.phone = phone;
+	      this.address = address;
+	      this.type = type;
+	      point = 0;
+	      preSerchNum = new ArrayList<>();
+	      preSerchList = new ArrayList<>();
+	   }
    
    public Member(int idx, String nick, String email, String pwd, String phone, String address, int type, int point, ArrayList<String> preSerchList, ArrayList<String> preSerchNum) {
       this.idx = idx;
@@ -58,7 +70,7 @@ public class Member implements Serializable { // 회원 정보
    public void setAddress(String address) { this.address = address; }
 
    public int getPoint() { return point; }
-   public void SetPoint(int point) { this.point = point; }
+   public void setPoint(int point) { this.point = point; }
 
    public int getType() { return type; }
    public void setType(int type) { this.type = type; }
