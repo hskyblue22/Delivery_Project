@@ -250,49 +250,6 @@ public class SellerOrderCheckView extends MouseAdapter {
 			btnNewButton_1.setBackground(Color.orange);
 			btnNewButton_1.setForeground(Color.white);
 
-			JButton btnNewButton = new JButton("주문취소");
-			GridBagConstraints gbc_btnNewButton2 = new GridBagConstraints();
-			gbc_btnNewButton2.fill = GridBagConstraints.BOTH;
-			gbc_btnNewButton2.insets = new Insets(0, 0, 5, 5);
-			gbc_btnNewButton2.gridx = 3;
-
-			if (menunames.size() >= 5) { // 메뉴 많아지면 알아서 길이지도록 좌표수정_06.11
-				gbc_btnNewButton2.gridy = menunames.size() + 2;
-			} else {
-				gbc_btnNewButton2.gridy = 6;
-			}
-//				gbc_btnNewButton2.gridy = 6;
-			btnNewButton.setBackground(Color.orange);
-			btnNewButton.setForeground(Color.white);
-			if (condition.equals("주문완료")) {
-
-				panel_1.add(btnNewButton, gbc_btnNewButton2);
-			}
-
-			btnNewButton.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-
-					if (lblNewLabel_1.getText().equals("배달완료")) {
-						int result = JOptionPane.showConfirmDialog(btnNewButton_1, "주문을 취소하시겠습니까?", "주문취소",
-								JOptionPane.YES_NO_OPTION);
-						if (result == JOptionPane.YES_OPTION) {
-							// 화면 삭제
-							remove();
-							// 주문내역 삭제
-							olc.deleteOrder(panelIndex);
-							// 삭제된 주문내역 파일에 저장
-							olc.saveListFile();
-							// 화면 다시 만들기(새로 저장한 내역 다시 스크롤판에 나타내기)
-							orderCheck();
-						}
-					} else {
-						JOptionPane.showMessageDialog(btnNewButton_1, "배달이 완료되어 주문을 취소할 수 없습니다.", "주의",
-								JOptionPane.WARNING_MESSAGE);
-						btnNewButton.setEnabled(false);
-					}
-				}
-			});
 
 			JButton btnNewButton_2 = new JButton("배달완료"); // static 변경
 			GridBagConstraints gbc_btnNewButton3 = new GridBagConstraints();
