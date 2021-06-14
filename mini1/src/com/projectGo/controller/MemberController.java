@@ -17,13 +17,13 @@ public class MemberController {
 //	}
 	
 	//삭제 (회원탈퇴)
-	public void deleteMem(int idx) {
-		dao.deleteMem(idx);
+	public void deleteMem(Member m) {
+		dao.deleteMem(m);
 	}
 	
 	//수정 (회원정보 수정)
-	public void updateMem(int idx, Member m) {
-		dao.updateMem(idx, m);
+	public void updateMem(Member m) {
+		dao.updateMem(m);
 	}
 	
 	//조회 (회원정보 조회)

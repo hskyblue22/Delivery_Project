@@ -29,6 +29,7 @@ import com.projectGo.model.vo.Member;
 
 public class MemberInfoView extends MainFrame {
 
+	private int num;
 	JFrame frame;
 	
 	MemberController mbc = new MemberController();
@@ -38,7 +39,7 @@ public class MemberInfoView extends MainFrame {
 	MemberDao md = new MemberDao();
 
 
-	Color orange = new Color(243, 156, 18);//오렌지
+	Color orange = Color.ORANGE;//오렌지
 	Color lightgray = new Color(230, 230, 230);//라이트그레이
 	
 	
@@ -58,21 +59,18 @@ public class MemberInfoView extends MainFrame {
 	JButton b = new JButton("이전"); // 버튼 - 이전 페이지로 이동
 
 	JPanel p1 = new JPanel(); // read // 판넬 - 조회 ( 수정하기, 로그아웃, 탈퇴하기 버튼 )
-	JButton b1 = new JButton("수정 하기");
-	JLabel b3 = new JLabel("<html><u>로그아웃</u></html>");
-	JLabel b4 = new JLabel("<html><u>탈퇴하기</u></html>");
+	JButton b1 = new JButton("개인정보 수정");
+	JLabel b4 = new JLabel("<html><u><b>회원탈퇴</b></u></html>");
 
 	JPanel p2 = new JPanel(); // update // 판넬 - 수정 ( 수정 완료, 중복 확인, 닉네임 초기화 버튼 )
 	JButton b2 = new JButton("수정 완료");
-	JButton b5 = new JButton("중복");
-	JButton b6 = new JButton("초기화");
 
 	boolean check, update = true, p1v = true, p2v; // 중복확인 여부, 수정완료 여부, p1 판넬 & p2 판넬 visible 상태
 
-	public MemberInfoView() {
+	public MemberInfoView(int num) {
 
+		this.num = num;
 		
-		MainFrame.loginUserId = "pp1";
 		memList = md.fileInput();
 		for(Member m : memList) {
 			
@@ -127,7 +125,46 @@ public class MemberInfoView extends MainFrame {
 				}
 			}
 		});
+		
+		JLabel lineLabel = new JLabel("");
 
+		lineLabel.setOpaque(true);
+
+		lineLabel.setBackground(Color.ORANGE);
+		lineLabel.setBounds(0, 80, 535, 5);
+		frame.getContentPane().add(lineLabel);
+
+		JLabel headLabel = new JLabel("개인정보 조회");
+		headLabel.setHorizontalAlignment(JLabel.CENTER);
+		headLabel.setFont(new Font("굴림", Font.PLAIN, 30));
+		// lblNewLabel_2.setOpaque(true);
+		headLabel.setBounds(150, 10, 250, 60);
+		frame.getContentPane().add(headLabel);
+
+		JButton backBtn = new JButton("이  전");
+
+		backBtn.setFont(new Font("굴림", Font.PLAIN, 15));
+		backBtn.setBounds(15, 20, 80, 40);
+		backBtn.setBackground(Color.ORANGE);
+		backBtn.setForeground(Color.white);
+		backBtn.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				if(num == 1) {
+
+					new MemberMypageView();
+				}else {
+
+					new SellerMain();
+				}
+				
+
+			}
+		});
+		frame.getContentPane().add(backBtn);
+		
 		l.setBounds(210, 100, 150, 30);
 		setFontTitle(l, p); // 레이블 마이페이지
 
@@ -151,24 +188,7 @@ public class MemberInfoView extends MainFrame {
 		t1.setEditable(false);
 		t1.setBackground(Color.white);
 		setFontDefault(t1, p); // 텍스트박스 닉네임
-		t1.addKeyListener(new KeyListener() {
-			@Override
-			public void keyTyped(KeyEvent e) {
-			}
-
-			@Override
-			public void keyPressed(KeyEvent e) {
-				b2.setEnabled(true);
-				b5.setEnabled(true);
-				b6.setEnabled(true);
-				check = false;
-				update = false;
-			}
-
-			@Override
-			public void keyReleased(KeyEvent e) {
-			}
-		});
+		
 
 		t2.setBounds(170, 250, 270, 35);
 		t2.setText(member.getEmail());
@@ -263,14 +283,12 @@ public class MemberInfoView extends MainFrame {
 				// System.out.println(mc.getMemList());
 				t1.setBounds(170, 180, 130, 35);
 				t5.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.gray));
-				t1.setEditable(true);
+				
 				t2.setEditable(true);
 				t3.setEditable(true);
 				t4.setEditable(true);
 				t5.setEditable(true);
 				b2.setEnabled(false);
-				b5.setEnabled(false);
-				b6.setEnabled(false);
 				p1.setVisible(false);
 				p2.setVisible(true);
 				p1v = false;
@@ -279,34 +297,7 @@ public class MemberInfoView extends MainFrame {
 			}
 		});
 
-		b3.setBounds(280, 550, 85, 35);
-		b3.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		setFontDefault(b3, p1); // 버튼 로그아웃
-		b3.addMouseListener(new MouseListener() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				if (JOptionPane.showConfirmDialog(p1, "로그아웃 하시겠습니까?", "", JOptionPane.YES_NO_OPTION) == 0) {
-					
-					MemberSignInView np = new MemberSignInView();
-				}
-			}
-
-			@Override
-			public void mousePressed(MouseEvent e) {
-			}
-
-			@Override
-			public void mouseReleased(MouseEvent e) {
-			}
-
-			@Override
-			public void mouseEntered(MouseEvent e) {
-			}
-
-			@Override
-			public void mouseExited(MouseEvent e) {
-			}
-		});
+		
 
 		b4.setBounds(370, 550, 85, 35);
 		b4.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -315,8 +306,8 @@ public class MemberInfoView extends MainFrame {
 		b4.addMouseListener(new MouseListener() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				if (JOptionPane.showConfirmDialog(p1, "탈퇴 하시겠습니까?", "", JOptionPane.YES_NO_OPTION, 0) == 0) {
-					mbc.deleteMem(member.getIdx());
+				if (JOptionPane.showConfirmDialog(p1, "정말 탈퇴 하시겠습니까?", "", JOptionPane.YES_NO_OPTION, 0) == 0) {
+					mbc.deleteMem(member);
 					MemberSignInView np = new MemberSignInView();
 				}
 			}
@@ -353,18 +344,18 @@ public class MemberInfoView extends MainFrame {
 				mem[4] = t5.getText().trim();
 				for (int i = 0; i < s; i++) {
 					if (mem[i].equals("")) {
-						JOptionPane.showMessageDialog(null, "내용을 모두 입력하세요");
+						JOptionPane.showMessageDialog(p1, "내용을 모두 입력하세요");
 						return;
 					}
 				}
 				if (!check && !mem[0].equals(member.getNick())) {
-					JOptionPane.showMessageDialog(null, "중복확인을 완료하세요");
+					JOptionPane.showMessageDialog(p1, "중복확인을 완료하세요");
 					return;
 				}
 				member = new Member(member.getIdx(), mem[0], mem[1], mem[2], mem[3], mem[4], member.getType());
-				mbc.updateMem(member.getIdx(), member);
-				System.out.println(mbc.getMem(member.getIdx()));
-				JOptionPane.showMessageDialog(null, "수정이 완료되었습니다");
+				System.out.println(member.getAddress());
+				mbc.updateMem(member);
+				JOptionPane.showMessageDialog(p1, "수정이 완료되었습니다");
 				t1.setBounds(170, 180, 270, 35);
 				t5.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new Color(184, 207, 229)));
 				t1.setEditable(false);
@@ -378,44 +369,17 @@ public class MemberInfoView extends MainFrame {
 				p2v = false;
 				update = true;
 				check = false;
+				if(num == 1) {
+
+					new MemberInfoView(1);
+				}else {
+
+					new MemberInfoView(2);
+				}
 			}
 		});
 
-		b5.setBounds(310, 180, 52, 35);
-		b5.setEnabled(false);
-		setButton(b5, p2); // 버튼 중복 확인
-		b5.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				String nick = t1.getText();
-				if (nick.equals("")) {
-					JOptionPane.showMessageDialog(null, "닉네임을 입력하세요");
-					return;
-				}
-				if (nick.equals(member.getNick()))
-					return;
-				ArrayList<Member> ls = mbc.getMemList();
-				for (Member m : ls) {
-					if (nick.equals(m.getNick())) {
-						t1.setText("");
-						JOptionPane.showMessageDialog(null, "이미 등록된 닉네임 입니다");
-						return;
-					}
-				}
-				JOptionPane.showMessageDialog(null, "사용할 수 있는 닉네임 입니다");
-				check = true;
-			}
-		});
-
-		b6.setBounds(375, 180, 65, 35);
-		b6.setEnabled(false);
-		setButton(b6, p2); // 버튼 초기화
-		b6.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				t1.setText(member.getNick());
-			}
-		});
+		
 		
 		frame.validate();
 		frame.repaint();
