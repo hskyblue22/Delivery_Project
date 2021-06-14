@@ -140,7 +140,7 @@ public class MemberMypageView extends MainFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				//closePanel(p);
-				MemberInfoView np = new MemberInfoView();
+				MemberInfoView np = new MemberInfoView(1);
 				return;
 			}
 		});

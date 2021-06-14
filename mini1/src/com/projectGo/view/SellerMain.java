@@ -162,7 +162,7 @@ public class SellerMain extends MainFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				//new MemberInfoFrame();
+				new MemberInfoView(2);
 
 			}
 		});
