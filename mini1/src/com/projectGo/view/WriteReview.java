@@ -244,11 +244,11 @@ public class WriteReview implements ActionListener {
 //							System.out.println(rlc.totalAllList().size());
 //						}
 						rlc.writeReview(review);
-						JOptionPane.showMessageDialog(null,"리뷰가 등록되었습니다!\n홈으로 돌아갑니다");
+						JOptionPane.showMessageDialog(jb3,"리뷰가 등록되었습니다!\n홈으로 돌아갑니다");
 						new HomeView();	
 					} else {  //2. 리뷰 수정
 						rlc.modifyReview(review, index);
-						JOptionPane.showMessageDialog(null,"리뷰가 수정되었습니다!\n홈으로 돌아갑니다");
+						JOptionPane.showMessageDialog(jb3,"리뷰가 수정되었습니다!\n홈으로 돌아갑니다");
 						new HomeView();
 					}
 				}

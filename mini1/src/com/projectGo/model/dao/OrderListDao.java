@@ -26,16 +26,13 @@ public class OrderListDao {
 	
 	public void loadOrderList() {
 		
-		totalorderList = new ArrayList<Order>();  //위에 해놓으면 부를때마다 생성하기때문에 불러올때 생성해주자
+		totalorderList = new ArrayList<Order>();  
 		userOrderList = new ArrayList<Order>();
 		otherOrderList = new ArrayList<Order>();
 		
 		try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("order_list.txt"))) {
 
 			userID = MainFrame.loginUserId;
-//			userID = "temp1";
-//			userID = "06.11_수정해봄";
-//			totalorderList.addAll((ArrayList<Order>)ois.readObject());  //주문내역담긴 파일 전체 orderlist에 담기
 
 			while (true) {
 
@@ -50,6 +47,7 @@ public class OrderListDao {
 				}
 
 			}
+//			totalorderList.addAll((ArrayList<Order>)ois.readObject());  //주문내역담긴 파일 전체 orderlist에 담기
 			
 //			for(Order ol : totalorderList) {  //이렇게 포문돌리면 계속 들어가는 거니까 다음에는 잘 생각하자_06.10
 //				if(ol.getBasket().getUserId().equals(userID)) {
@@ -73,18 +71,7 @@ public class OrderListDao {
 			return;
 		}
 	}
-	
-	
-//	public ArrayList<Order> getOrderList() {
-//		return userOrderList;
-//	}
 
-
-	public void writeOrder(Order order) {
-		//전달받은 게시글을 list 에 추가
-		userOrderList.add(order);
-		System.out.println("dao_writeOrder메소드(load없음)" + userOrderList.size());
-	}
 	
 	public ArrayList<Order> displayAllList(){
 		//주문내역 list 를 전체 리턴
@@ -92,7 +79,7 @@ public class OrderListDao {
 		return userOrderList;
 	}
 	
-	public ArrayList<Order> orderTotalList(){  //서형씨한테 이렇게 반환하면 되는지 물어보기_06.11
+	public ArrayList<Order> orderTotalList(){ 
 		loadOrderList();
 		return totalorderList;
 	}
@@ -100,7 +87,6 @@ public class OrderListDao {
 	public void deleteList(int no) {
 		//주문내역 삭제
 		userOrderList.remove(no);
-		System.out.println("dao_deleteList메소드(load없음)" + userOrderList.size());
 	}
 	
 	public void saveListFile() {
@@ -125,23 +111,6 @@ public class OrderListDao {
 		}
 	}
 
-
-	public ArrayList<Order> totalOrderList() {
-		
-		try(ObjectInputStream ois = new ObjectInputStream(new FileInputStream("order_list.txt"))){
-		totalorderList.addAll((ArrayList<Order>)ois.readObject()); 
-		}catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		 
-		return totalorderList;
-	}
 	
 	public void saveOrderState(ArrayList<Order> list) {
 		//"order_list.txt" 저장하기
