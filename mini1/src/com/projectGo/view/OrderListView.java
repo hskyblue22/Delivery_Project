@@ -28,7 +28,6 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
 import com.projectGo.controller.OrderListController;
-import com.projectGo.model.dao.OrderListDao;
 import com.projectGo.model.dao.ReviewListDao;
 import com.projectGo.model.vo.Menu;
 import com.projectGo.model.vo.Order;
@@ -176,7 +175,7 @@ public class OrderListView extends MouseAdapter {
 				JLabel lblNewLabel_3_1 = new JLabel(menu);
 				lblNewLabel_3_1.setFont(new Font("맑은 고딕", Font.PLAIN, 16));
 				GridBagConstraints gbc_lblNewLabel_3_1 = new GridBagConstraints();
-				gbc_lblNewLabel_3_1.gridwidth = 2;
+				gbc_lblNewLabel_3_1.gridwidth = 3;
 				gbc_lblNewLabel_3_1.fill = GridBagConstraints.BOTH;
 				gbc_lblNewLabel_3_1.insets = new Insets(0, 0, 5, 5);
 				gbc_lblNewLabel_3_1.gridx = 1;
@@ -192,6 +191,7 @@ public class OrderListView extends MouseAdapter {
 			lblNewLabel.setFont(new Font("맑은 고딕", Font.BOLD, 18));
 			GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
 			gbc_lblNewLabel.fill = GridBagConstraints.BOTH;
+			gbc_lblNewLabel.gridwidth = 2;  //추가
 			gbc_lblNewLabel.insets = new Insets(0, 0, 5, 5);
 			gbc_lblNewLabel.gridx = 0;
 			gbc_lblNewLabel.gridy = 0;
@@ -227,6 +227,7 @@ public class OrderListView extends MouseAdapter {
 			lblNewLabel_3.setFont(new Font("맑은 고딕", Font.BOLD, 17));
 			GridBagConstraints gbc_lblNewLabel_3 = new GridBagConstraints();
 			gbc_lblNewLabel_3.fill = GridBagConstraints.BOTH;
+			gbc_lblNewLabel_3.gridwidth = 3;  //추가
 			gbc_lblNewLabel_3.insets = new Insets(0, 0, 5, 5);
 			gbc_lblNewLabel_3.gridx = 1;
 			gbc_lblNewLabel_3.gridy = 1;
@@ -237,9 +238,9 @@ public class OrderListView extends MouseAdapter {
 			label_18.setFont(new Font("맑은 고딕", Font.BOLD, 17));
 			GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
 			gbc_btnNewButton.fill = GridBagConstraints.BOTH;
-			gbc_btnNewButton.gridwidth = 2;
+			gbc_btnNewButton.gridwidth = 3;
 			gbc_btnNewButton.insets = new Insets(0, 0, 5, 5);
-			gbc_btnNewButton.gridx = 3;
+			gbc_btnNewButton.gridx = 2;
 			
 
 			JButton btnNewButton_1 = new JButton("내역삭제"); // 내역 삭제
@@ -249,7 +250,7 @@ public class OrderListView extends MouseAdapter {
 			gbc_btnNewButton1.insets = new Insets(0, 0, 5, 5);
 			gbc_btnNewButton1.gridx = 2;
 
-			if (menunames.size() >= 5) { // 메뉴 많아지면 알아서 길이지도록 좌표수정_06.11
+			if (menunames.size() >= 4) { // 메뉴 많아지면 알아서 길이지도록 좌표수정_06.11
 				gbc_btnNewButton1.gridy = menunames.size() + 3;
 				gbc_btnNewButton.gridy = menunames.size() + 2;  //나중에 보고 수정하기_06.12
 			} else {
@@ -275,12 +276,11 @@ public class OrderListView extends MouseAdapter {
 							JOptionPane.YES_NO_OPTION);
 					if (lblNewLabel_1.getText().equals("배달완료")) {
 						if (result == JOptionPane.YES_OPTION) {
-
 							// 화면 삭제
 							remove();
 							// 주문내역 삭제
 							olc.deleteOrder(panelIndex);
-							// 삭제된 주문내역 파일에 저장 --> (나중에)변수추가해서 해야할듯... ==> 리뷰는 다른 파일에 저장하기때문에 괜찮음
+							// 삭제된 주문내역 파일에 저장 
 							olc.saveListFile();
 							// 화면 다시 만들기(새로 저장한 내역 다시 스크롤판에 나타내기)
 							init();
@@ -300,7 +300,7 @@ public class OrderListView extends MouseAdapter {
 			gbc_btnNewButton2.insets = new Insets(0, 0, 5, 5);
 			gbc_btnNewButton2.gridx = 3;
 
-			if (menunames.size() >= 5) { // 메뉴 많아지면 알아서 길이지도록 좌표수정_06.11
+			if (menunames.size() >= 4) { // 메뉴 많아지면 알아서 길이지도록 좌표수정_06.11
 				gbc_btnNewButton2.gridy = menunames.size() + 3;
 			} else {
 				gbc_btnNewButton2.gridy = 6;
@@ -343,7 +343,7 @@ public class OrderListView extends MouseAdapter {
 			gbc_btnNewButton3.insets = new Insets(0, 0, 5, 0);
 			gbc_btnNewButton3.gridx = 4;
 
-			if (menunames.size() >= 5) { // 메뉴 많아지면 알아서 길이지도록 좌표수정_06.11
+			if (menunames.size() >= 4) { // 메뉴 많아지면 알아서 길이지도록 좌표수정_06.11
 				gbc_btnNewButton3.gridy = menunames.size() + 3;
 			} else {
 				gbc_btnNewButton3.gridy = 6;
@@ -371,9 +371,8 @@ public class OrderListView extends MouseAdapter {
 							// ReviewListDao -> search메소드 -> 파일내용중복확인 -> 그 값이 false이면 리뷰창 안 띄움
 							// 같은 리뷰가 있다면 ==> 인덱스 / 같은리뷰없으면 -1
 
+							// 해당 인덱스 뽑아주기_06.10
 							String date1 = StringFromCalendar(userOrderList.get(panelIndex).getOrderedDate()); // 마지막값으로
-		
-							// 뽑아주기_06.10
 							String userID1 = userOrderList.get(panelIndex).getBasket().getUserId();
 							String storeName1 = userOrderList.get(panelIndex).getBasket().getStoreName();
 							String[] menus1 = totalmenus[panelIndex];

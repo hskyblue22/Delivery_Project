@@ -40,8 +40,6 @@ public class ReviewListDao {
 			
 //			totalReview.addAll((ArrayList<Review>)ois.readObject());  //주문내역담긴 파일 전체 orderlist에 담기
 			userID = MainFrame.loginUserId;
-//			userID = "temp1";
-//			userID = "06.11_수정해봄";
 			
 			Review r;
 			while((r = (Review)ois.readObject()) != null) {
@@ -73,7 +71,7 @@ public class ReviewListDao {
 			return;
 		}
 	}
- 	
+	
 	public void writeReview(Review review) {
 		//전달받은 게시글을 list 에 추가 --> 후 파일에 저장되도록
 
@@ -114,8 +112,9 @@ public class ReviewListDao {
 		loadReviewList();
 		if(userReview.size() != 0) {
 			for(int i=0; i<userReview.size(); i++) {
-				if(userReview.get(i).getDate().equals(date) && userReview.get(i).getUserID().equals(userID) &&
-						userReview.get(i).getStoreName().equals(storeName) && Arrays.equals(userReview.get(i).getMenus(), menus) ) {
+				if(userReview.get(i).getDate().equals(date) && userReview.get(i).getUserID().equals(userID) 
+						&& userReview.get(i).getStoreName().equals(storeName) && 
+						Arrays.equals(userReview.get(i).getMenus(), menus) ) {
 					return i;  //작성된 리뷰 있는 경우 인덱스 반환
 				}
 			}
@@ -137,23 +136,6 @@ public class ReviewListDao {
 //			return 1;
 //		}
 	}
-
-//	public boolean searchReview(String date, String userID, String storeName, String[] menus){
-//		
-//		if(userReview != null) {  //이전에 작성된 userReview가 있는경우 같은 내용있는지 확인
-//			for(Review r : userReview) {
-//				if( r.getDate().equals(date) && r.getUserID().equals(userID) && 
-//						r.getStoreName().equals(storeName) && Arrays.equals(r.getMenus(), menus)) {
-//					return false;  //같은 거 발견하면 바로 false
-//				}
-//			}
-//			return true;  //같은 리뷰 없었으므로 true(리뷰작성가능)
-//				
-//		} else {  //이전에 작성된 userReview 없는 경우
-//			return true;
-//		}
-//	}
-	
 	
 	
 	public void deleteList(int no) {
@@ -170,8 +152,6 @@ public class ReviewListDao {
 				oos.writeObject(userReview.get(i));
 			}
 			for(int i=0; i<otherReview.size(); i++) {
-				System.out.println(otherReview.size());  //왜 size가 1인거지?
-				System.out.println(otherReview == null);
 				oos.writeObject(otherReview.get(i));
 			}
 			
