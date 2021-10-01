@@ -178,7 +178,7 @@ public class ReviewListView {
 				for (int k = 0; k < menus.length; k++) {
 					JLabel lblNewLabel_3_1 = new JLabel(menus[k]);
 					GridBagConstraints gbc_lblNewLabel_3_1 = new GridBagConstraints();
-					gbc_lblNewLabel_3_1.gridwidth = 2;
+					gbc_lblNewLabel_3_1.gridwidth = 3;
 					gbc_lblNewLabel_3_1.fill = GridBagConstraints.BOTH;
 					gbc_lblNewLabel_3_1.insets = new Insets(0, 0, 5, 5);
 					gbc_lblNewLabel_3_1.gridx = 0;
@@ -240,7 +240,7 @@ public class ReviewListView {
 					@Override
 					public void actionPerformed(ActionEvent e) {
 
-						int result = JOptionPane.showConfirmDialog(panel_1, "리뷰를 수정하시겠습니까?", "리뷰내역 삭제",
+						int result = JOptionPane.showConfirmDialog(panel_1, "리뷰를 수정하시겠습니까?", "리뷰내역 수정",
 								JOptionPane.YES_NO_OPTION);
 						if (result == JOptionPane.YES_OPTION) {
 							new WriteReview(date1, storeName1, menus1, userID1, contents1, score1);
