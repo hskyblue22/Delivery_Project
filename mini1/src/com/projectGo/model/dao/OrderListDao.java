@@ -34,19 +34,16 @@ public class OrderListDao {
 
 			userID = MainFrame.loginUserId;
 
-			while (true) {
-
-				Order o;
-				while ((o = (Order) ois.readObject()) != null) {
-					totalorderList.add(o);
-					if (o.getBasket().getUserId().equals(userID)) {  //여기서 for문 안된다!!
-						userOrderList.add(o);
-						
-					} else
-						otherOrderList.add(o);
-				}
-
+			Order o;
+			while ((o = (Order) ois.readObject()) != null) {
+				totalorderList.add(o);
+				if (o.getBasket().getUserId().equals(userID)) {  //여기서 for문 안된다!!
+					userOrderList.add(o);
+					
+				} else
+					otherOrderList.add(o);
 			}
+			
 //			totalorderList.addAll((ArrayList<Order>)ois.readObject());  //주문내역담긴 파일 전체 orderlist에 담기
 			
 //			for(Order ol : totalorderList) {  //이렇게 포문돌리면 계속 들어가는 거니까 다음에는 잘 생각하자_06.10
